@@ -10,9 +10,4 @@ add_executable(foogame
 target_link_libraries(foogame
   gf::gf0
 )
-:diffget RE
-<<<<<<< HEAD
-## coucou
-=======
-#COUCOU
->>>>>>> 3e49œe727ac12ad5f4b85932e6099694b7a62a647
+#Coucou
