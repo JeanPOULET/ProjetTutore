@@ -80,7 +80,7 @@ int main() {
 
 		if(leftAction.isActive()){
 			velocity.x -= Vitesse;
-		}else if(rightAction.isActive(){
+		}else if(rightAction.isActive()){
 			velocity.x += Vitesse;
 		}
 
@@ -91,7 +91,7 @@ int main() {
 		}
 
 		// 2. update
-		entity.setVelocity(velocity)
+		carrinou.setVelocity(velocity);
 		float dt = clock.restart().asSeconds();
 
 		// 3. draw
