@@ -5,7 +5,7 @@
 #include <gf/Window.h>
 #include <gf/Action.h>
 #include <gf/EntityContainer.h>
-#include <local/Square.h>
+#include 'local/Square.h'
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
@@ -80,7 +80,7 @@ int main() {
 
 		if(leftAction.isActive()){
 			velocity.x -= Vitesse;
-		}else if(rightAction.isActive(){
+		}else if(rightAction.isActive()){
 			velocity.x += Vitesse;
 		}
 
@@ -91,11 +91,13 @@ int main() {
 		}
 
 		// 2. update
-		entity.setVelocity(velocity)
+		carrinou.setVelocity(velocity);
 		float dt = clock.restart().asSeconds();
+		carrinou.update(dt);
 
 		// 3. draw
 		renderer.clear();
+		carrinou.render(renderer);
 		// draw everything
 		renderer.display();
 	}
