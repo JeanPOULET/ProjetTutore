@@ -9,6 +9,7 @@ find_package(gf REQUIRED)
 add_executable(game
   code/game.cc
   code/local/Square.cc
+  code/local/Singletons.cc
 
 )
 

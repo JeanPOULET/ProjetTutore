@@ -1,13 +1,24 @@
+
+#include <gf/Action.h>
 #include <gf/Clock.h>
 #include <gf/Color.h>
+
+#include <gf/EntityContainer.h>
 #include <gf/Event.h>
 #include <gf/RenderWindow.h>
-#include <gf/Window.h>
-#include <gf/Action.h>
-#include <gf/EntityContainer.h>
-#include "local/Square.h"
+#include <gf/Gamepad.h>
+#include <gf/Text.h>
 #include <gf/ViewContainer.h>
 #include <gf/Views.h>
+#include <gf/Unused.h>
+#include <gf/Window.h>
+
+#include <iostream>
+#include <cassert>
+
+#include "local/Square.h"
+#include "local/Messages.h"
+#include "local/Singletons.h"
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
@@ -15,6 +26,7 @@ int main() {
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
+	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(80);
 	gf::RenderWindow renderer(window);
 
@@ -23,9 +35,19 @@ int main() {
 	gf::ViewContainer views;
 	gf::ExtendView mainView(ViewCenter, ViewSize);
 	views.addView(mainView);
+
 	gf::ScreenView hudView;
 	views.addView(hudView);
+
 	views.setInitialScreenSize(ScreenSize);
+
+	KGB::gMessageManager().registerHandler<KGB::SquareState>([&mainView](gf::Id type, gf::Message *msg){
+		assert(type == KGB::SquareState::type);
+		gf::unused(type);
+		auto state = static_cast<KGB::SquareState*>(msg);
+		mainView.setCenter(state->position);
+		return gf::MessageStatus::Keep;
+	});
 
 
 	// entity
@@ -34,6 +56,16 @@ int main() {
 	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
+<<<<<<< HEAD
+=======
+	// game loop
+	gf::Clock clock;
+	renderer.clear(gf::Color::White);
+
+	static constexpr float Vitesse = 10.0f;
+	gf::Vector2d velocity(0,0);
+
+>>>>>>> 76752da0653708d3cf1185d2ce87f7726578511e
 	// controls
 
 	gf::ActionContainer actions;
