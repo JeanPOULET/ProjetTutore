@@ -51,14 +51,9 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
-<<<<<<< HEAD
 	//entities
 
 
-||||||| merged common ancestors
-
-=======
->>>>>>> a7353d6303aa895b26ddfa6160d30c43e13e4e4b
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
