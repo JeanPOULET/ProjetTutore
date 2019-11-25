@@ -4,7 +4,6 @@
 #include <gf/RenderWindow.h>
 #include <gf/Window.h>
 #include <gf/Action.h>
-
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	// initialization
