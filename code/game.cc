@@ -6,12 +6,26 @@
 #include <gf/Action.h>
 #include <gf/EntityContainer.h>
 #include "local/Square.h"
+#include <gf/ViewContainer.h>
+#include <gf/Views.h>
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
+	static constexpr gf::Vector2f ViewSize(100.0f, 100.0f); 
+  	static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	gf::RenderWindow renderer(window);
+
+
+	  // views
+	gf::ViewContainer views;
+	gf::ExtendView mainView(ViewCenter, ViewSize);
+	views.addView(mainView);
+	gf::ScreenView hudView;
+	views.addView(hudView);
+	views.setInitialScreenSize(ScreenSize);
+
 
 	// entity
 	gf::EntityContainer mainEntities;
@@ -98,7 +112,10 @@ int main() {
 
 		// 3. draw
 		renderer.clear();
+		renderer.setView(mainView);
 		carrinou.render(renderer);
+
+		renderer.setView(hudView);
 		// draw everything
 		renderer.display();
 		actions.reset();
