@@ -15,6 +15,7 @@ int main() {
   	static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
+	window.setFramerateLimit(80);
 	gf::RenderWindow renderer(window);
 
 
