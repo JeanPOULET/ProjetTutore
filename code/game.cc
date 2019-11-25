@@ -64,7 +64,14 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+<<<<<<< HEAD
 
+||||||| merged common ancestors
+	//entities
+
+
+=======
+>>>>>>> dd9c9c3ba9441472537cf62a718fe78f57e9bf90
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
@@ -80,12 +87,16 @@ int main() {
 			velocity.x -= Vitesse;
 		}else if(rightAction.isActive()){
 			velocity.x += Vitesse;
+		}else{
+			velocity.x = 0;
 		}
 
 		if(downAction.isActive()){
 			velocity.y += Vitesse;
 		}else if(upAction.isActive()){
 			velocity.y -= Vitesse;
+		}else{
+			velocity.y = 0;
 		}
 
 		// 2. update
@@ -98,6 +109,7 @@ int main() {
 		carrinou.render(renderer);
 		// draw everything
 		renderer.display();
+		actions.reset();
 	}
 	return 0;
 }
