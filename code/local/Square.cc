@@ -17,4 +17,8 @@ namespace KGB{
         target.draw(shape);
     }
 
+     gf::Vector2f Square::getPosition(){
+         return m_position;
+     }
+
 }

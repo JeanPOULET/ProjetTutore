@@ -11,8 +11,8 @@
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(1024, 768); 
-  	static constexpr gf::Vector2f ViewCenter(512.0f, 384.0f); 
+	static constexpr gf::Vector2f ViewSize(800.0f, 800.0f); 
+  	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setFramerateLimit(80);
@@ -33,13 +33,6 @@ int main() {
 
 	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
-
-	// game loop
-	gf::Clock clock;
-	renderer.clear(gf::Color::White);
-
-	static constexpr float Vitesse = 10.0f;
-	gf::Vector2d velocity(0,0);
 
 	// controls
 
@@ -73,17 +66,31 @@ int main() {
 	actions.addAction(upAction);
 
 	gf::Action downAction("Down");
-	downAction.addScancodeKeyControl(gf::Scancode::W);
+	downAction.addScancodeKeyControl(gf::Scancode::S);
 	downAction.addScancodeKeyControl(gf::Scancode::Down);
 	downAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	// game loop
+	gf::Clock clock;
+	renderer.clear(gf::Color::White);
+
+	static constexpr float Vitesse = 10.0f;
+	gf::Vector2d velocity(0,0);
+
+	home::gMessageManager().registerHandler<home::HeroPosition>([&mainView](gf::Id type, gf::Message *msg) {
+		assert(type == home::HeroPosition::type);
+		auto hero = static_cast<home::HeroPosition*>(msg);
+		mainView.setCenter(hero->position);
+		return gf::MessageStatus::Keep;
+	});
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
 		while (window.pollEvent(event)) {
 			actions.processEvent(event);
+			views.processEvent(event);
 		}
 
 		if(closeWindowAction.isActive()){

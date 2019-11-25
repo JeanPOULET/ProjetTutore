@@ -19,7 +19,7 @@ namespace KGB{
                 {
             }
             void setVelocity(gf::Vector2f velocity);
-
+            gf::Vector2f getPosition();
             void update(float dt);
             void render(gf::RenderTarget& target);
         private:
