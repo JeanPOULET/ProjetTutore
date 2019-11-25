@@ -3,6 +3,8 @@
 #include <gf/Event.h>
 #include <gf/RenderWindow.h>
 #include <gf/Window.h>
+#include <gf/Action.h>
+
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	// initialization
@@ -23,7 +25,7 @@ int main() {
 	actions.addAction(closeWindowAction);
 
 	gf::Action leftAction("Left");
-	leftAction.addScancodeKeyControl(gf::Scancode::A);
+	leftAction.addScancodeKeyControl(gf::Scancode::Q);
 	leftAction.addScancodeKeyControl(gf::Scancode::Left);
 	leftAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::RightX, gf::GamepadAxisDirection::Negative);
 	leftAction.setContinuous();
@@ -37,7 +39,7 @@ int main() {
 	actions.addAction(rightAction);
 
 	gf::Action upAction("Up");
-	upAction.addScancodeKeyControl(gf::Scancode::W);
+	upAction.addScancodeKeyControl(gf::Scancode::Z);
 	upAction.addScancodeKeyControl(gf::Scancode::Up);
 	upAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
 	upAction.setContinuous();
@@ -49,16 +51,6 @@ int main() {
 	downAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
 	downAction.setContinuous();
 	actions.addAction(downAction);
-
-	gf::Action swapAction("Swap");
-	swapAction.addScancodeKeyControl(gf::Scancode::Tab);
-	swapAction.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::X);
-	actions.addAction(swapAction);
-
-	gf::Action mergeAction("Merge");
-	mergeAction.addScancodeKeyControl(gf::Scancode::Space);
-	mergeAction.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::LeftBumper);
-	actions.addAction(mergeAction);
 
 	while (window.isOpen()) {
 		// 1. input
