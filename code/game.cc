@@ -5,7 +5,7 @@
 #include <gf/Window.h>
 #include <gf/Action.h>
 #include <gf/EntityContainer.h>
-#include <local/Square.h>
+#include "local/Square.h"
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
