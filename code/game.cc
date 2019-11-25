@@ -64,6 +64,9 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	//entities
+
+
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
