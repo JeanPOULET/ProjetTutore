@@ -14,3 +14,8 @@ add_executable(game
 )
 
 target_link_libraries(game gf::gf0)
+
+install(
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data/Image"
+  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games"
+)
