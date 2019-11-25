@@ -60,7 +60,6 @@ int main() {
 	mainEntities.addEntity(carrinou);
 
 	// game loop
-	gf::Clock clock;
 	renderer.clear(gf::Color::White);
 
 	static constexpr float Vitesse = 10.0f;
@@ -104,11 +103,14 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	gf::Clock clock;
+
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
 		while (window.pollEvent(event)) {
 			actions.processEvent(event);
+			views.processEvent(event);
 		}
 
 		if(closeWindowAction.isActive()){
@@ -130,9 +132,10 @@ int main() {
 		}else{
 			velocity.y = 0;
 		}
-
-		// 2. update
 		carrinou.setVelocity(velocity);
+		// 2. update
+
+		
 		float dt = clock.restart().asSeconds();
 		carrinou.update(dt);
 
