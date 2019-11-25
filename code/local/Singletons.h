@@ -1,5 +1,5 @@
-#ifndef KBG_SINGLETONS_H
-#define KBG_SINGLETONS_H
+#ifndef KGB_SINGLETONS_H
+#define KGB_SINGLETONS_H
 
 
 #include <gf/MessageManager.h>
