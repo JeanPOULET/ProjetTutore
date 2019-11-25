@@ -13,7 +13,7 @@ int main() {
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
 
-	// controls
+	// actions
 
 	gf::ActionContainer actions;
 
@@ -50,6 +50,8 @@ int main() {
 	downAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
 	downAction.setContinuous();
 	actions.addAction(downAction);
+
+	//entities
 
 
 	while (window.isOpen()) {
