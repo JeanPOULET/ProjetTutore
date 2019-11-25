@@ -11,8 +11,8 @@
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(100.0f, 100.0f); 
-  	static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f); 
+	static constexpr gf::Vector2f ViewSize(1024, 768); 
+  	static constexpr gf::Vector2f ViewCenter(512.0f, 384.0f); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setFramerateLimit(80);
@@ -52,7 +52,7 @@ int main() {
 	actions.addAction(closeWindowAction);
 
 	gf::Action leftAction("Left");
-	leftAction.addScancodeKeyControl(gf::Scancode::Q);
+	leftAction.addScancodeKeyControl(gf::Scancode::A);
 	leftAction.addScancodeKeyControl(gf::Scancode::Left);
 	leftAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::RightX, gf::GamepadAxisDirection::Negative);
 	leftAction.setContinuous();
@@ -66,7 +66,7 @@ int main() {
 	actions.addAction(rightAction);
 
 	gf::Action upAction("Up");
-	upAction.addScancodeKeyControl(gf::Scancode::Z);
+	upAction.addScancodeKeyControl(gf::Scancode::W);
 	upAction.addScancodeKeyControl(gf::Scancode::Up);
 	upAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
 	upAction.setContinuous();
