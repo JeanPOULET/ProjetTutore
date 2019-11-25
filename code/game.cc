@@ -12,6 +12,7 @@
 #include <gf/Views.h>
 #include <gf/Unused.h>
 #include <gf/Window.h>
+#include <gf/Sprite.h>
 
 #include <iostream>
 #include <cassert>
@@ -65,14 +66,21 @@ int main() {
 	// music 
 	/*
 	sf::Music music;
-	if (!music.openFromFile("../../data/Music/theme.ogg")){
+	if (!music.openFromFile("../data/Music/theme.ogg")){
     	return -1;
 	}
 	music.play();*/
 
 	// background
 
-	gf::Texture texture("../data/Image/to/maternel.png");
+	/*
+	gf::Texture texture("../data/Image/maternel.png");
+	gf::Sprite coca;
+	coca.setTexture(texture);
+	coca.setTextureRect(gf::RectF::fromPositionSize({0.1f,0.1f},{0.5f,0.3f}));
+	coca.setColor({ 1.0f, 1.0f, 1.0f, 0.8f});
+	coca.setPosition({100.0f,25.0f});
+	renderer.draw(coca);*/
 	// controls
 
 	gf::ActionContainer actions;
