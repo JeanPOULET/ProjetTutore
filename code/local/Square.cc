@@ -34,4 +34,8 @@ namespace KGB{
     }
     
 
+     gf::Vector2f Square::getPosition(){
+         return m_position;
+     }
+
 }

@@ -16,6 +16,9 @@
 #include <iostream>
 #include <cassert>
 
+//#include <SFML/Audio.hpp>
+
+
 #include "local/Square.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
@@ -23,7 +26,7 @@
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(1024, 768); 
-  	static constexpr gf::Vector2f ViewCenter(512.0f, 384.0f); 
+  	static constexpr gf::Vector2f ViewCenter(512, 384); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setVerticalSyncEnabled(true);
@@ -33,7 +36,7 @@ int main() {
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
 
 
-	  // views
+	// views
 	gf::ViewContainer views;
 
 	gf::ExtendView mainView(ViewCenter, ViewSize);
@@ -59,12 +62,17 @@ int main() {
 	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
-	// game loop
-	renderer.clear(gf::Color::White);
+	// music 
+	/*
+	sf::Music music;
+	if (!music.openFromFile("../../data/Music/theme.ogg")){
+    	return -1;
+	}
+	music.play();*/
 
-	static constexpr float Vitesse = 10.0f;
-	gf::Vector2d velocity(0,0);
+	// background
 
+	//gf::Texture texture("maternel.png");
 	// controls
 
 	gf::ActionContainer actions;
@@ -103,7 +111,12 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	// game loop
 	gf::Clock clock;
+	renderer.clear(gf::Color::White);
+
+	static constexpr float Vitesse = 10.0f;
+	gf::Vector2d velocity(0,0);
 
 	while (window.isOpen()) {
 		// 1. input
