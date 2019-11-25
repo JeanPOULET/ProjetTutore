@@ -25,8 +25,8 @@
 
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(800.0f, 800.0f); 
-  	static constexpr gf::Vector2f ViewCenter(0, 0); 
+	static constexpr gf::Vector2f ViewSize(1024, 768); 
+  	static constexpr gf::Vector2f ViewCenter(512, 384); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setVerticalSyncEnabled(true);
@@ -70,6 +70,9 @@ int main() {
 	}
 	music.play();*/
 
+	// background
+
+	//gf::Texture texture("maternel.png");
 	// controls
 
 	gf::ActionContainer actions;
