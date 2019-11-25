@@ -153,9 +153,10 @@ int main() {
 		}else{
 			velocity.y = 0;
 		}
-
-		// 2. update
 		carrinou.setVelocity(velocity);
+		// 2. update
+
+		
 		float dt = clock.restart().asSeconds();
 		carrinou.update(dt);
 

@@ -1,5 +1,5 @@
 
-#ifndef KBG_MESSAGES_H
+#ifndef KGB_MESSAGES_H
 #define KGB_MESSAGES_H
 
 #include <gf/Message.h>
@@ -9,7 +9,7 @@ using namespace gf::literals;
 
 namespace KGB{
 
-    struct SquareState: public gf::Message{
+    struct SquareState : public gf::Message{
         static constexpr gf::Id type ="Square"_id;
 
         gf::Vector2f position;
@@ -20,4 +20,4 @@ namespace KGB{
 
 }
 
-#endif //KBG_MESSAGES_H
+#endif //KGB_MESSAGES_H
