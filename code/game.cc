@@ -4,16 +4,29 @@
 #include <gf/RenderWindow.h>
 #include <gf/Window.h>
 #include <gf/Action.h>
+#include <gf/EntityContainer.h>
+#include <local/Square.h>
+
 int main() {
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	gf::RenderWindow renderer(window);
+
+	// entity
+	gf::EntityContainer mainEntities;
+
+	KGB::Square carrinou(ScreenSize / 2, 80.0f, gf::Color::Black);
+	mainEntities.addEntity(carrinou);
+
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
 
-	// actions
+	static constexpr float Vitesse = 160.0f;
+	gf::Vector2d velocity(0,0);
+
+	// controls
 
 	gf::ActionContainer actions;
 
@@ -58,18 +71,29 @@ int main() {
 		// 1. input
 		gf::Event event;
 		while (window.pollEvent(event)) {
-			switch (event.type) {
-				case gf::EventType::Closed:
-				window.close();
-				break;
-			case gf::EventType::KeyPressed:
-				break;
-			default:
-				break;
-			}
+			actions.processEvent(event);
 		}
+
+		if(closeWindowAction.isActive()){
+			window.close();
+		}
+
+		if(leftAction.isActive()){
+			velocity.x -= Vitesse;
+		}else if(rightAction.isActive(){
+			velocity.x += Vitesse;
+		}
+
+		if(downAction.isActive()){
+			velocity.y += Vitesse;
+		}else if(upAction.isActive()){
+			velocity.y -= Vitesse;
+		}
+
 		// 2. update
+		entity.setVelocity(velocity)
 		float dt = clock.restart().asSeconds();
+
 		// 3. draw
 		renderer.clear();
 		// draw everything
