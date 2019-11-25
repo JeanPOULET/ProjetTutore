@@ -56,8 +56,9 @@ int main() {
 	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
-<<<<<<< HEAD
-=======
+	// music 
+	KGB::Music music;
+
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
@@ -65,7 +66,6 @@ int main() {
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 
->>>>>>> 76752da0653708d3cf1185d2ce87f7726578511e
 	// controls
 
 	gf::ActionContainer actions;
