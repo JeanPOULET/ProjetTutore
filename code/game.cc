@@ -15,8 +15,7 @@ int main() {
   	static constexpr gf::Vector2f ViewCenter(512.0f, 384.0f); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
-	window.setVerticalSyncEnabled(false);
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(80);
 	gf::RenderWindow renderer(window);
 
 
@@ -67,7 +66,7 @@ int main() {
 	actions.addAction(rightAction);
 
 	gf::Action upAction("Up");
-	upAction.addScancodeKeyControl(gf::Scancode::S);
+	upAction.addScancodeKeyControl(gf::Scancode::W);
 	upAction.addScancodeKeyControl(gf::Scancode::Up);
 	upAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Negative);
 	upAction.setContinuous();
