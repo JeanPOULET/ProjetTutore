@@ -16,6 +16,9 @@
 #include <iostream>
 #include <cassert>
 
+#include <SFML/Audio.hpp>
+
+
 #include "local/Square.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
@@ -60,14 +63,12 @@ int main() {
 	mainEntities.addEntity(carrinou);
 
 	// music 
-	KGB::Music music;
-
-	// game loop
-	gf::Clock clock;
-	renderer.clear(gf::Color::White);
-
-	static constexpr float Vitesse = 10.0f;
-	gf::Vector2d velocity(0,0);
+	/*
+	sf::Music music;
+	if (!music.openFromFile("../../data/Music/theme.ogg")){
+    	return -1;
+	}
+	music.play();*/
 
 	// controls
 
@@ -114,12 +115,6 @@ int main() {
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 
-	home::gMessageManager().registerHandler<home::HeroPosition>([&mainView](gf::Id type, gf::Message *msg) {
-		assert(type == home::HeroPosition::type);
-		auto hero = static_cast<home::HeroPosition*>(msg);
-		mainView.setCenter(hero->position);
-		return gf::MessageStatus::Keep;
-	});
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
