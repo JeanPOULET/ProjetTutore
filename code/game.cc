@@ -16,14 +16,14 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::Square carrinou(ScreenSize / 2, 80.0f, gf::Color::Black);
+	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
 
-	static constexpr float Vitesse = 160.0f;
+	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 
 	// controls
