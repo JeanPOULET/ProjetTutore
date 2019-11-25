@@ -16,7 +16,7 @@
 #include <iostream>
 #include <cassert>
 
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 
 
 #include "local/Square.h"
@@ -72,7 +72,7 @@ int main() {
 
 	// background
 
-	//gf::Texture texture("maternel.png");
+	gf::Texture texture("../data/Image/to/maternel.png");
 	// controls
 
 	gf::ActionContainer actions;
