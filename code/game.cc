@@ -30,9 +30,12 @@ int main() {
 	window.setFramerateLimit(80);
 	gf::RenderWindow renderer(window);
 
+	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
+
 
 	  // views
 	gf::ViewContainer views;
+
 	gf::ExtendView mainView(ViewCenter, ViewSize);
 	views.addView(mainView);
 
