@@ -24,7 +24,10 @@
 #include "local/Messages.h"
 #include "local/Singletons.h"
 
+#include <Box2D/Box2D.h>
+
 int main() {
+
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(1024, 768); 
   	static constexpr gf::Vector2f ViewCenter(512, 384); 
