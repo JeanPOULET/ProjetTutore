@@ -38,4 +38,10 @@ namespace KGB{
          return m_position;
      }
 
+     void Square::setPosition(gf::Vector2f position){
+
+	m_position = position;
+
+     }
+
 }

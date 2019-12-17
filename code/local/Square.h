@@ -25,6 +25,7 @@ namespace KGB{
             void update(float dt);
             void render(gf::RenderTarget& target);
             gf::Vector2f getPosition();
+	    void setPosition(gf::Vector2f position);
 
         private:
             gf::Vector2f m_position; // center of the square
