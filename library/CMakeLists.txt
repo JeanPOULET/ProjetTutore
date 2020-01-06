@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 14)
+
 add_library(Box2D
 	Box2D/Collision/Shapes/b2ChainShape.cpp
 	Box2D/Collision/Shapes/b2CircleShape.cpp

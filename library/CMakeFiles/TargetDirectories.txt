@@ -1,3 +1,0 @@
-/home/administrateur/gf/games/ProjetTutore/library/CMakeFiles/rebuild_cache.dir
-/home/administrateur/gf/games/ProjetTutore/library/CMakeFiles/Box2D.dir
-/home/administrateur/gf/games/ProjetTutore/library/CMakeFiles/edit_cache.dir
