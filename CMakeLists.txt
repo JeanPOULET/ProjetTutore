@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-#${CMAKE_CURRENT_LIST_DIR}/./cmake
+${CMAKE_CURRENT_LIST_DIR}/./cmake
 )
 
 project(game
@@ -10,7 +10,7 @@ project(game
 )
 
 find_package(gf REQUIRED)
-#find_package(Box2D)
+find_package(Box2D)
 
 add_executable(game
   code/game.cc
@@ -27,8 +27,8 @@ target_include_directories(game
 )
 
 target_link_libraries(game gf::gf0
-	#${BOX2D_LIBRARIES}
-	${CMAKE_CURRENT_SOURCE_DIR}/library/libBox2D.a
+	${BOX2D_LIBRARIES}
+	#${CMAKE_CURRENT_SOURCE_DIR}/library/libBox2D.a
 )
 
 
