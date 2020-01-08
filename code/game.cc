@@ -240,8 +240,11 @@ int main() {
 		carrinou.setPosition(toVec(m_body->GetPosition()));
 		
 		// 3. draw
+
+		mainView.setCenter(carrinou.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
+		
 		carrinou.render(renderer);
 		carrini.render(renderer);
 
