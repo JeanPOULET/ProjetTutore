@@ -27,7 +27,7 @@
 #include <Box2D/Box2D.h>
 
 #define PHYSICSCALE 0.02f
-#define FRAME 80
+#define FRAME 80.0
 
 b2Vec2 fromVec(gf::Vector2f vec) {
       return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
@@ -38,6 +38,9 @@ gf::Vector2f toVec(b2Vec2 vec) {
 }
 
 int main() {
+	
+	//Mettre le b2body dans la classe square
+	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(1024, 768); 
@@ -141,17 +144,13 @@ int main() {
 	//================TEST Box2D================
 	
 	//World Setting
-	b2Vec2 gravity(0, 0);
+	b2Vec2 gravity(0.0f, 0.0f);
 	
 	b2World* m_world = new b2World(gravity);
 	
 	float32 timeStep = 1/FRAME;      //the length of time passed to simulate (seconds)
   	int32 velocityIterations = 8;   //how strongly to correct velocity
   	int32 positionIterations = 3;   //how strongly to correct position
-	
-	m_world->Step(timeStep, velocityIterations, positionIterations);
-
-	
 	
 	//KGB Setting
     static constexpr gf::Vector2f initialPosition(1024 / 2, 768 / 2);
@@ -175,10 +174,12 @@ int main() {
 	
 	//New Cube
 	
-	KGB::Square carrini(ScreenSize / 4, 50.0f, gf::Color::Black);
+	static constexpr gf::Vector2u zero(0, 0);
+
+	KGB::Square carrini(zero, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrini);
 	
-	static constexpr gf::Vector2f initialPositionCarrini(1024 / 4, 768 / 4);
+	static constexpr gf::Vector2f initialPositionCarrini(0, 0);
 
     b2BodyDef bodyDefCarrini;
     bodyDefCarrini.type = b2_staticBody;
@@ -189,7 +190,6 @@ int main() {
     shapeCarrini.SetAsBox(50.0f*PHYSICSCALE, 50.0f*PHYSICSCALE);
 
     carrini_body->CreateFixture(&fixtureDef);
-	
 	
 	//================END of TEST Box2D================
 
@@ -225,6 +225,7 @@ int main() {
 			velocity.y = 0;
 		}
 		carrinou.setVelocity(velocity);
+
 		// 2. update
 
 		
@@ -235,7 +236,7 @@ int main() {
 		m_body->SetLinearVelocity(fromVec(velocity));
 		
 		m_world->Step(timeStep, velocityIterations, positionIterations);
-		
+
 		carrinou.setPosition(toVec(m_body->GetPosition()));
 		
 		// 3. draw
