@@ -161,7 +161,7 @@ int main() {
     auto m_body = m_world->CreateBody(&bodyDef);
 
     b2PolygonShape shape;
-    shape.SetAsBox(50.0f*PHYSICSCALE, 50.0f*PHYSICSCALE);
+    shape.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
     b2FixtureDef fixtureDef;
     fixtureDef.density = 1.0f;
@@ -187,9 +187,15 @@ int main() {
     auto carrini_body = m_world->CreateBody(&bodyDefCarrini);
 
     b2PolygonShape shapeCarrini;
-    shapeCarrini.SetAsBox(50.0f*PHYSICSCALE, 50.0f*PHYSICSCALE);
+    shapeCarrini.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
-    carrini_body->CreateFixture(&fixtureDef);
+    b2FixtureDef fixtureCarrini;
+    fixtureCarrini.density = 1.0f;
+    fixtureCarrini.friction = 0.0f;
+    fixtureCarrini.restitution = 0.0f;
+    fixtureCarrini.shape = &shapeCarrini;
+
+    carrini_body->CreateFixture(&fixtureCarrini);
 	
 	//================END of TEST Box2D================
 
