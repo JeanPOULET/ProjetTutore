@@ -13,6 +13,8 @@
 #include <gf/Unused.h>
 #include <gf/Window.h>
 #include <gf/Sprite.h>
+#include <stdio.h>
+
 
 #include <iostream>
 #include <cassert>
@@ -215,30 +217,40 @@ int main() {
 		}
 
 		if(leftAction.isActive()){
-			velocity.x -= Vitesse;
+			if(velocity.x > -100){
+				velocity.x -= Vitesse;
+			}
 			carrinou.updateOrientation(3);
 		}else if(rightAction.isActive()){
-			velocity.x += Vitesse;
+			if(velocity.x < 100){
+				velocity.x += Vitesse;
+			}
 			carrinou.updateOrientation(2);
 		}else{
 			velocity.x = 0;
 		}
 
 		if(downAction.isActive()){
-			velocity.y += Vitesse;
+			if(velocity.y < 100){
+				velocity.y += Vitesse;
+			}
 			carrinou.updateOrientation(0);
 		}else if(upAction.isActive()){
-			velocity.y -= Vitesse;
+			if(velocity.y > -100){
+				velocity.y -= Vitesse;
+			}
 			carrinou.updateOrientation(1);
 		}else{
 			velocity.y = 0;
+			
 		}
+		
 		carrinou.setVelocity(velocity);
 
 		// 2. update
 
 		
-		 gf::Time time = clock.restart();
+		gf::Time time = clock.restart();
 		carrinou.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
