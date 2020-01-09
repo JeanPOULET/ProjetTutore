@@ -21,6 +21,7 @@
 
 
 #include "local/Square.h"
+#include "local/BabyHero.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
 
@@ -77,7 +78,7 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
+	KGB::BabyHero carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
 	//texture
@@ -85,6 +86,7 @@ int main() {
 	gf::Texture texture("../data/Image/maternel.png");
 	gf::Sprite sprite(texture);
 	sprite.setPosition({ 0, 0 });
+
 
 	// music 
 	/*
@@ -173,26 +175,26 @@ int main() {
 	
 	static constexpr gf::Vector2u zero(0, 0);
 
-	KGB::Square carrini(zero, 50.0f, gf::Color::Black);
-	mainEntities.addEntity(carrini);
+	KGB::Square Vilain(zero, 50.0f, gf::Color::Red);
+	mainEntities.addEntity(Vilain);
 	
-	static constexpr gf::Vector2f initialPositionCarrini(0, 0);
+	static constexpr gf::Vector2f initialPositionVilain(0, 0);
 
-    b2BodyDef bodyDefCarrini;
-    bodyDefCarrini.type = b2_staticBody;
-    bodyDefCarrini.position = fromVec(initialPositionCarrini);
-    auto carrini_body = m_world->CreateBody(&bodyDefCarrini);
+    b2BodyDef bodyDefVilain;
+    bodyDefVilain.type = b2_staticBody;
+    bodyDefVilain.position = fromVec(initialPositionVilain);
+    auto Vilain_body = m_world->CreateBody(&bodyDefVilain);
 
-    b2PolygonShape shapeCarrini;
-    shapeCarrini.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+    b2PolygonShape shapeVilain;
+    shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
-    b2FixtureDef fixtureCarrini;
-    fixtureCarrini.density = 1.0f;
-    fixtureCarrini.friction = 0.0f;
-    fixtureCarrini.restitution = 0.0f;
-    fixtureCarrini.shape = &shapeCarrini;
+    b2FixtureDef fixtureVilain;
+    fixtureVilain.density = 1.0f;
+    fixtureVilain.friction = 0.0f;
+    fixtureVilain.restitution = 0.0f;
+    fixtureVilain.shape = &shapeVilain;
 
-    carrini_body->CreateFixture(&fixtureCarrini);
+    Vilain_body->CreateFixture(&fixtureVilain);
 	
 	//================END of TEST Box2D================
 
@@ -232,8 +234,8 @@ int main() {
 		// 2. update
 
 		
-		float dt = clock.restart().asSeconds();
-		carrinou.update(dt);
+		 gf::Time time = clock.restart();
+		carrinou.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
 		m_body->SetLinearVelocity(fromVec(velocity));
@@ -250,7 +252,7 @@ int main() {
 		renderer.draw(sprite);
 
 		carrinou.render(renderer);
-		carrini.render(renderer);
+		Vilain.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything
