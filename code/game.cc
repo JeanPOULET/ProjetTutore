@@ -80,6 +80,12 @@ int main() {
 	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
 	mainEntities.addEntity(carrinou);
 
+	//texture
+
+	gf::Texture texture("../data/Image/maternel.png");
+	gf::Sprite sprite(texture);
+	sprite.setPosition({ 0, 0 });
+
 	// music 
 	/*
 	sf::Music music;
@@ -88,16 +94,7 @@ int main() {
 	}
 	music.play();*/
 
-	// background
 
-	/*
-	gf::Texture texture("../data/Image/maternel.png");
-	gf::Sprite coca;
-	coca.setTexture(texture);
-	coca.setTextureRect(gf::RectF::fromPositionSize({0.1f,0.1f},{0.5f,0.3f}));
-	coca.setColor({ 1.0f, 1.0f, 1.0f, 0.8f});
-	coca.setPosition({100.0f,25.0f});
-	renderer.draw(coca);*/
 	// controls
 
 	gf::ActionContainer actions;
@@ -250,7 +247,8 @@ int main() {
 		mainView.setCenter(carrinou.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
-		
+		renderer.draw(sprite);
+
 		carrinou.render(renderer);
 		carrini.render(renderer);
 

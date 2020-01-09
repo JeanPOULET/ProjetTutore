@@ -22,13 +22,12 @@ target_include_directories(game
 	PRIVATE 
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 	${CMAKE_CURRENT_SOURCE_DIR}/code
-	#${BOX2D_INCLUDE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(game gf::gf0
 	${BOX2D_LIBRARIES}
-	#${CMAKE_CURRENT_SOURCE_DIR}/library/libBox2D.a
+
 )
 
 
