@@ -216,16 +216,20 @@ int main() {
 
 		if(leftAction.isActive()){
 			velocity.x -= Vitesse;
+			carrinou.updateOrientation(3);
 		}else if(rightAction.isActive()){
 			velocity.x += Vitesse;
+			carrinou.updateOrientation(2);
 		}else{
 			velocity.x = 0;
 		}
 
 		if(downAction.isActive()){
 			velocity.y += Vitesse;
+			carrinou.updateOrientation(0);
 		}else if(upAction.isActive()){
 			velocity.y -= Vitesse;
+			carrinou.updateOrientation(1);
 		}else{
 			velocity.y = 0;
 		}
