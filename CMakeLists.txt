@@ -17,6 +17,7 @@ add_executable(game
   code/local/Square.cc
   code/local/Singletons.cc
   code/local/BabyHero.cc
+  code/local/Enemy.cc
 )
 
 target_include_directories(game 

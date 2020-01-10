@@ -13,7 +13,6 @@
 #include <gf/Unused.h>
 #include <gf/Window.h>
 #include <gf/Sprite.h>
-#include <stdio.h>
 
 
 #include <iostream>
@@ -26,6 +25,7 @@
 #include "local/BabyHero.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
+#include "local/Enemy.h"
 
 #include <Box2D/Box2D.h>
 
@@ -80,7 +80,7 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::BabyHero carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
+	KGB::BabyHero carrinou(ScreenSize / 2);
 	mainEntities.addEntity(carrinou);
 
 	//texture
@@ -177,7 +177,7 @@ int main() {
 	
 	static constexpr gf::Vector2u zero(0, 0);
 
-	KGB::Square Vilain(zero, 50.0f, gf::Color::Red);
+	KGB::Enemy Vilain(zero);
 	mainEntities.addEntity(Vilain);
 	
 	static constexpr gf::Vector2f initialPositionVilain(0, 0);
@@ -252,6 +252,7 @@ int main() {
 		
 		gf::Time time = clock.restart();
 		carrinou.update(time);
+		Vilain.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
 		m_body->SetLinearVelocity(fromVec(velocity));
