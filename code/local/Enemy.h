@@ -15,6 +15,7 @@
 #include <gf/Animation.h>
 #include <gf/Orientation.h>
 #include <gf/AnimatedSprite.h>
+#include <stdio.h>
 
 namespace KGB{
 
@@ -31,6 +32,7 @@ namespace KGB{
             void updateOrientation(int orientation);
 
         private:
+            gf::Vector2f m_spawn;
             gf::Vector2f m_position; // center of the Enemy
             gf::Vector2f m_velocity;
             gf::Texture m_texture;

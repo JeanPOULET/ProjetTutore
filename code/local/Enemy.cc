@@ -6,9 +6,9 @@ namespace KGB{
   
     Enemy::Enemy(gf::Vector2f position)
         : m_position(position)
-        , m_velocity(0, 0)
-        //, m_status(Status::Waiting)
-        , m_texture("../data/Image/enemy_animation.png")
+		, m_spawn(position)
+        , m_velocity(0, 50.0)
+        , m_texture("../data/Image/Polizei_animation.png")
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
         {
@@ -16,17 +16,11 @@ namespace KGB{
         loadAnimation(m_moveEast, 1);
         loadAnimation(m_moveWest, 2);
         loadAnimation(m_moveNorth, 3);
-        /*loadAnimation(m_waitSouth, 4);
-        loadAnimation(m_waitEast, 5);
-        loadAnimation(m_waitWest, 6);
-        loadAnimation(m_waitNorth, 7);*/
     }
 
 
     void Enemy::setVelocity(gf::Vector2f velocity) {
-      
         m_velocity = velocity;
-      
     }
 /*
     void Enemy::updateOrientation(int orientation){
@@ -49,52 +43,44 @@ namespace KGB{
     }*/
 
     void Enemy::update(gf::Time time) {
-        m_position += time.asSeconds() * m_velocity;
+        gf::Vector2f dep = time.asSeconds() * m_velocity;
+		m_position += dep;
+		if(m_position.x <= m_spawn.x && m_position.y >= m_spawn.y + 200.0f){
+			m_orientation = gf::Orientation::East;
+			printf("east");
+			m_velocity = gf::Vector2f(50.0,0);
+		}else if(m_position.x >= m_spawn.x + 200.0f && m_position.y >= m_spawn.y + 200.0f){
+			m_orientation = gf::Orientation::North;
+			printf("north");
+			m_velocity = gf::Vector2f(0,-50.0);
+		}else if(m_position.x >= m_spawn.x + 200.0f && m_position.y <= m_spawn.y){
+			m_orientation = gf::Orientation::West;
+			printf("west");
+			m_velocity = gf::Vector2f(-50.0,0);
+		}else if(m_position.x <= m_spawn.x && m_position.y <= m_spawn.y){
+			m_orientation = gf::Orientation::South;
+			printf("south");
+			m_velocity = gf::Vector2f(0,50.0);
+		}
         
-       /* if(m_velocity.x == 0 && m_velocity.y == 0){
-          m_status = Status::Waiting;
-        }else{
-          m_status = Status::Walking;
-        }
-
-        if(m_status == Status::Walking){*/
-          switch (m_orientation) {
-            case gf::Orientation::South:
-              m_currentAnimation = &m_moveSouth;
-              break;
-            case gf::Orientation::North:
-              m_currentAnimation = &m_moveNorth;
-              break;
-            case gf::Orientation::East:
-              m_currentAnimation = &m_moveEast;
-              break;
-            case gf::Orientation::West:
-              m_currentAnimation = &m_moveWest;
-              break;
-            default:
-            // assert(false);
-            break;
-          }
-        /*}else{
-          switch (m_orientation) {
-            case gf::Orientation::South:
-              m_currentAnimation = &m_waitSouth;
-              break;
-            case gf::Orientation::North:
-              m_currentAnimation = &m_waitNorth;
-              break;
-            case gf::Orientation::East:
-              m_currentAnimation = &m_waitEast;
-              break;
-            case gf::Orientation::West:
-              m_currentAnimation = &m_waitWest;
-              break;
-            default:
-            // assert(false);
-            break;
-          }
-        }*/
-
+		switch (m_orientation) {
+		case gf::Orientation::South:
+			m_currentAnimation = &m_moveSouth;
+			break;
+		case gf::Orientation::North:
+			m_currentAnimation = &m_moveNorth;
+			break;
+		case gf::Orientation::East:
+			m_currentAnimation = &m_moveEast;
+			break;
+		case gf::Orientation::West:
+			m_currentAnimation = &m_moveWest;
+			break;
+		default:
+		// assert(false);
+		break;
+		}
+        
         assert(m_currentAnimation);
         m_currentAnimation->update(time);
     }
@@ -103,6 +89,7 @@ namespace KGB{
         gf::AnimatedSprite animated;
         assert(m_currentAnimation);
         animated.setAnimation(*m_currentAnimation);
+		animated.setPosition(m_position);
         animated.setScale(0.75f);
         animated.setAnchor(gf::Anchor::Center);
         target.draw(animated);
@@ -118,8 +105,8 @@ namespace KGB{
     }
 
     void Enemy::loadAnimation(gf::Animation &animation, int line) {
-        static constexpr gf::Vector2f TextureSize = { 292.0f, 584.0f };
-        static constexpr gf::Vector2f FrameSize = { 100.0f, 160.0f };
+        static constexpr gf::Vector2f TextureSize = { 512.0f, 1024.0f };
+        static constexpr gf::Vector2f FrameSize = { 170.0f, 256.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
         for (int i = 0; i < 3; ++i) {
