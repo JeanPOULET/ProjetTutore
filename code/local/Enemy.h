@@ -62,14 +62,13 @@ namespace KGB{
             gf::Animation m_waitNorth;
             gf::Animation m_waitSouth;
             
-            /*enum class Status {
+            enum class Status {
                 Walking,
                 Waiting,
             };
 
-            Status m_status;*/
+            Status m_status;
             
-
             PathType m_path;
                 
     };
