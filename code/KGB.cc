@@ -100,7 +100,7 @@ int main() {
 
 	/*gf::TmxLayers layers;
 	layers.loadFromFile("../data/map/map.tmx");
-  	/*if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/map.tmx"))) {
+  	if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/map.tmx"))) {
     	gf::Log::error("Impossible de charger la carte !\n");
     	return EXIT_FAILURE;
   	}
@@ -199,15 +199,18 @@ int main() {
 	//New Cube
 	
 	static constexpr gf::Vector2u zero(0, 0);
+	static constexpr gf::Vector2u cinquante(50, 50);
 	static constexpr gf::Vector2u troisCent(300, 300);
 	static constexpr gf::Vector2u cinqCent(500, 500);
 
-	KGB::Enemy Vilain(zero);
+	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
 	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
 	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
+	KGB::Enemy Vilain4(cinquante);
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);
+	mainEntities.addEntity(Vilain4);
 	
 	static constexpr gf::Vector2f initialPositionVilain(0, 0);
 
@@ -284,6 +287,7 @@ int main() {
 		Vilain.update(time);
 		Vilain2.update(time);
 		Vilain3.update(time);
+		Vilain4.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
 		m_body->SetLinearVelocity(fromVec(velocity));
@@ -303,6 +307,7 @@ int main() {
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
+		Vilain4.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything

@@ -25,6 +25,7 @@ namespace KGB{
                 VerticalLine,
                 HorizontalLine,
                 Round,
+                Static,
             };
 
             Enemy(gf::Vector2f position);

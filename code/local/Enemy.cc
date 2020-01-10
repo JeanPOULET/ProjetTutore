@@ -7,11 +7,11 @@ namespace KGB{
     Enemy::Enemy(gf::Vector2f position)
         : m_position(position)
 		, m_spawn(position)
-        , m_velocity(0, 50.0)
+        , m_velocity(0, 0)
         , m_texture("../data/Image/Polizei_animation.png")
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
-		, m_path(PathType::Round)
+		, m_path(PathType::Static)
 		, m_status(Status::Waiting)
         {
         loadAnimation(m_moveSouth, 0);
@@ -158,7 +158,7 @@ namespace KGB{
 
     void Enemy::loadAnimation(gf::Animation &animation, int line) {
         static constexpr gf::Vector2f TextureSize = { 512.0f, 2048.0f };
-        static constexpr gf::Vector2f FrameSize = { 170.0f, 100.0f };
+        static constexpr gf::Vector2f FrameSize = { 170.0f, 256.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
         for (int i = 0; i < 3; ++i) {
