@@ -11,6 +11,7 @@ namespace KGB{
         , m_texture("../data/Image/Polizei_animation.png")
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
+		, m_path(PathType::Round)
         {
         loadAnimation(m_moveSouth, 0);
         loadAnimation(m_moveEast, 1);
@@ -18,6 +19,20 @@ namespace KGB{
         loadAnimation(m_moveNorth, 3);
     }
 
+	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori)
+        : m_position(position)
+		, m_spawn(position)
+        , m_velocity(0, 50.0)
+        , m_texture("../data/Image/Polizei_animation.png")
+        , m_orientation(ori)
+        , m_currentAnimation(nullptr)
+		, m_path(path)
+        {
+        loadAnimation(m_moveSouth, 0);
+        loadAnimation(m_moveEast, 1);
+        loadAnimation(m_moveWest, 2);
+        loadAnimation(m_moveNorth, 3);
+    }
 
     void Enemy::setVelocity(gf::Vector2f velocity) {
         m_velocity = velocity;
@@ -42,27 +57,54 @@ namespace KGB{
       }
     }*/
 
-    void Enemy::update(gf::Time time) {
-        gf::Vector2f dep = time.asSeconds() * m_velocity;
-		m_position += dep;
+	void Enemy::round(){
 		if(m_position.x <= m_spawn.x && m_position.y >= m_spawn.y + 200.0f){
 			m_orientation = gf::Orientation::East;
-			printf("east");
 			m_velocity = gf::Vector2f(50.0,0);
 		}else if(m_position.x >= m_spawn.x + 200.0f && m_position.y >= m_spawn.y + 200.0f){
 			m_orientation = gf::Orientation::North;
-			printf("north");
 			m_velocity = gf::Vector2f(0,-50.0);
 		}else if(m_position.x >= m_spawn.x + 200.0f && m_position.y <= m_spawn.y){
 			m_orientation = gf::Orientation::West;
-			printf("west");
 			m_velocity = gf::Vector2f(-50.0,0);
 		}else if(m_position.x <= m_spawn.x && m_position.y <= m_spawn.y){
 			m_orientation = gf::Orientation::South;
-			printf("south");
 			m_velocity = gf::Vector2f(0,50.0);
 		}
+	}
+
+	void Enemy::lineV(){
+		if(m_position.x <= m_spawn.x){
+			m_orientation = gf::Orientation::East;
+			m_velocity = gf::Vector2f(50.0,0);
+		}else if(m_position.x >= m_spawn.x + 200.0f){
+			m_orientation = gf::Orientation::West;
+			m_velocity = gf::Vector2f(-50.0,0);
+		}
+	}
+
+	void Enemy::lineH(){
+		if(m_position.y >= m_spawn.y + 200.0f){
+			m_orientation = gf::Orientation::North;
+			m_velocity = gf::Vector2f(0,-50.0);
+		}else if(m_position.y <= m_spawn.y){
+			m_orientation = gf::Orientation::South;
+			m_velocity = gf::Vector2f(0,50.0);
+		}
+	}
+
+    void Enemy::update(gf::Time time) {
         
+		m_position += time.asSeconds() * m_velocity;
+		
+        if(m_path == PathType::Round){
+			round();
+		}else if(m_path == PathType::VerticalLine){
+			lineV();
+		}else if(m_path == PathType::HorizontalLine){
+			lineH();
+		}
+
 		switch (m_orientation) {
 		case gf::Orientation::South:
 			m_currentAnimation = &m_moveSouth;

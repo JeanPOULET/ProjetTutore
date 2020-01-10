@@ -21,7 +21,14 @@ namespace KGB{
 
     class Enemy : public gf::Entity{
         public:
+            enum class PathType{
+                VerticalLine,
+                HorizontalLine,
+                Round,
+            };
+
             Enemy(gf::Vector2f position);
+            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori);
 
             void setVelocity(gf::Vector2f velocity);
             void update(gf::Time time);
@@ -30,6 +37,10 @@ namespace KGB{
             void setPosition(gf::Vector2f position);
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
+            void round();
+            void lineH();
+            void lineV();
+            
 
         private:
             gf::Vector2f m_spawn;
@@ -57,6 +68,10 @@ namespace KGB{
             };
 
             Status m_status;*/
+            
+
+            PathType m_path;
+                
     };
 }
 

@@ -176,9 +176,15 @@ int main() {
 	//New Cube
 	
 	static constexpr gf::Vector2u zero(0, 0);
+	static constexpr gf::Vector2u troisCent(300, 300);
+	static constexpr gf::Vector2u cinqCent(500, 500);
 
 	KGB::Enemy Vilain(zero);
+	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
+	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
 	mainEntities.addEntity(Vilain);
+	mainEntities.addEntity(Vilain2);
+	mainEntities.addEntity(Vilain3);
 	
 	static constexpr gf::Vector2f initialPositionVilain(0, 0);
 
@@ -253,6 +259,8 @@ int main() {
 		gf::Time time = clock.restart();
 		carrinou.update(time);
 		Vilain.update(time);
+		Vilain2.update(time);
+		Vilain3.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
 		m_body->SetLinearVelocity(fromVec(velocity));
@@ -270,6 +278,8 @@ int main() {
 
 		carrinou.render(renderer);
 		Vilain.render(renderer);
+		Vilain2.render(renderer);
+		Vilain3.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything
