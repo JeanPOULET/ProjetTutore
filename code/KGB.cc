@@ -5,7 +5,9 @@
 
 #include <gf/EntityContainer.h>
 #include <gf/Event.h>
+#include <gf/Log.h>
 #include <gf/RenderWindow.h>
+#include <gf/RenderTarget.h>
 #include <gf/Gamepad.h>
 #include <gf/Text.h>
 #include <gf/ViewContainer.h>
@@ -13,9 +15,11 @@
 #include <gf/Unused.h>
 #include <gf/Window.h>
 #include <gf/Sprite.h>
+#include <gf/Tmx.h>
 
 #include <iostream>
 #include <cassert>
+#include <vector>
 
 //#include <SFML/Audio.hpp>
 
@@ -23,11 +27,13 @@
 #include "local/Square.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
+#include "local/Map.h"
 
 #include <Box2D/Box2D.h>
 
 #define PHYSICSCALE 0.02f
 #define FRAME 80.0
+#define KGB_DATA "@KGB_DATA@"
 
 b2Vec2 fromVec(gf::Vector2f vec) {
       return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
@@ -52,7 +58,8 @@ int main() {
 	gf::RenderWindow renderer(window);
 
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
-
+	gf::SingletonStorage<gf::ResourceManager> storageForResourceManager(KGB::gResourceManager);
+	KGB::gResourceManager().addSearchDir(KGB_DATA);
 
 	// views
 	gf::ViewContainer views;
@@ -65,13 +72,13 @@ int main() {
 
 	views.setInitialScreenSize(ScreenSize);
 
-	KGB::gMessageManager().registerHandler<KGB::SquareState>([&mainView](gf::Id type, gf::Message *msg){
+	/*KGB::gMessageManager().registerHandler<KGB::SquareState>([&mainView](gf::Id type, gf::Message *msg){
 		assert(type == KGB::SquareState::type);
 		gf::unused(type);
 		auto state = static_cast<KGB::SquareState*>(msg);
 		mainView.setCenter(state->position);
 		return gf::MessageStatus::Keep;
-	});
+	});*/
 
 
 	// entity
@@ -86,6 +93,23 @@ int main() {
 	gf::Sprite sprite(texture);
 	sprite.setPosition({ 0, 0 });
 
+	//map
+
+	/*gf::TmxLayers layers;
+	layers.loadFromFile("../data/map/map.tmx");
+  	/*if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/map.tmx"))) {
+    	gf::Log::error("Impossible de charger la carte !\n");
+    	return EXIT_FAILURE;
+  	}
+	KGB::MapGraphicsData data(layers);
+  	KGB::Map map(KGB::Map::Above, data);
+
+
+
+	
+	mainEntities.addEntity(map);*/
+
+	//mainEntities.addEntity(mapAbove);
 	// music 
 	/*
 	sf::Music music;
@@ -251,6 +275,7 @@ int main() {
 
 		carrinou.render(renderer);
 		carrini.render(renderer);
+		mainEntities.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything
