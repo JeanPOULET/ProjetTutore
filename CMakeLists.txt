@@ -19,6 +19,8 @@ add_executable(KGB
   code/local/ResourceManager.cc
   code/local/Singletons.cc
   #code/local/Map.cc
+  code/local/BabyHero.cc
+  code/local/Enemy.cc
 )
 
 target_include_directories(KGB 

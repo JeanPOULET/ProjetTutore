@@ -17,6 +17,7 @@
 #include <gf/Sprite.h>
 #include <gf/Tmx.h>
 
+
 #include <iostream>
 #include <cassert>
 #include <vector>
@@ -25,9 +26,11 @@
 
 
 #include "local/Square.h"
+#include "local/BabyHero.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
 #include "local/Map.h"
+#include "local/Enemy.h"
 
 #include <Box2D/Box2D.h>
 
@@ -84,7 +87,7 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::Square carrinou(ScreenSize / 2, 50.0f, gf::Color::Black);
+	KGB::BabyHero carrinou(ScreenSize / 2);
 	mainEntities.addEntity(carrinou);
 
 	//texture
@@ -196,27 +199,33 @@ int main() {
 	//New Cube
 	
 	static constexpr gf::Vector2u zero(0, 0);
+	static constexpr gf::Vector2u troisCent(300, 300);
+	static constexpr gf::Vector2u cinqCent(500, 500);
 
-	KGB::Square carrini(zero, 50.0f, gf::Color::Black);
-	mainEntities.addEntity(carrini);
+	KGB::Enemy Vilain(zero);
+	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
+	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
+	mainEntities.addEntity(Vilain);
+	mainEntities.addEntity(Vilain2);
+	mainEntities.addEntity(Vilain3);
 	
-	static constexpr gf::Vector2f initialPositionCarrini(0, 0);
+	static constexpr gf::Vector2f initialPositionVilain(0, 0);
 
-    b2BodyDef bodyDefCarrini;
-    bodyDefCarrini.type = b2_staticBody;
-    bodyDefCarrini.position = fromVec(initialPositionCarrini);
-    auto carrini_body = m_world->CreateBody(&bodyDefCarrini);
+    b2BodyDef bodyDefVilain;
+    bodyDefVilain.type = b2_staticBody;
+    bodyDefVilain.position = fromVec(initialPositionVilain);
+    auto Vilain_body = m_world->CreateBody(&bodyDefVilain);
 
-    b2PolygonShape shapeCarrini;
-    shapeCarrini.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+    b2PolygonShape shapeVilain;
+    shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
-    b2FixtureDef fixtureCarrini;
-    fixtureCarrini.density = 1.0f;
-    fixtureCarrini.friction = 0.0f;
-    fixtureCarrini.restitution = 0.0f;
-    fixtureCarrini.shape = &shapeCarrini;
+    b2FixtureDef fixtureVilain;
+    fixtureVilain.density = 1.0f;
+    fixtureVilain.friction = 0.0f;
+    fixtureVilain.restitution = 0.0f;
+    fixtureVilain.shape = &shapeVilain;
 
-    carrini_body->CreateFixture(&fixtureCarrini);
+    Vilain_body->CreateFixture(&fixtureVilain);
 	
 	//================END of TEST Box2D================
 
@@ -237,27 +246,44 @@ int main() {
 		}
 
 		if(leftAction.isActive()){
-			velocity.x -= Vitesse;
+			if(velocity.x > -100){
+				velocity.x -= Vitesse;
+			}
+			carrinou.updateOrientation(3);
 		}else if(rightAction.isActive()){
-			velocity.x += Vitesse;
+			if(velocity.x < 100){
+				velocity.x += Vitesse;
+			}
+			carrinou.updateOrientation(2);
 		}else{
 			velocity.x = 0;
 		}
 
 		if(downAction.isActive()){
-			velocity.y += Vitesse;
+			if(velocity.y < 100){
+				velocity.y += Vitesse;
+			}
+			carrinou.updateOrientation(0);
 		}else if(upAction.isActive()){
-			velocity.y -= Vitesse;
+			if(velocity.y > -100){
+				velocity.y -= Vitesse;
+			}
+			carrinou.updateOrientation(1);
 		}else{
 			velocity.y = 0;
+			
 		}
+		
 		carrinou.setVelocity(velocity);
 
 		// 2. update
 
 		
-		float dt = clock.restart().asSeconds();
-		carrinou.update(dt);
+		gf::Time time = clock.restart();
+		carrinou.update(time);
+		Vilain.update(time);
+		Vilain2.update(time);
+		Vilain3.update(time);
 		
 		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
 		m_body->SetLinearVelocity(fromVec(velocity));
@@ -274,8 +300,9 @@ int main() {
 		renderer.draw(sprite);
 
 		carrinou.render(renderer);
-		carrini.render(renderer);
-		mainEntities.render(renderer);
+		Vilain.render(renderer);
+		Vilain2.render(renderer);
+		Vilain3.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything
