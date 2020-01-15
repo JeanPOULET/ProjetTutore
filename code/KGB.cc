@@ -31,7 +31,7 @@
 #include "local/Singletons.h"
 #include "local/Map.h"
 #include "local/Enemy.h"
-
+#include "local/Debug.h"
 #include <Box2D/Box2D.h>
 
 #define PHYSICSCALE 0.02f
@@ -87,9 +87,24 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::BabyHero carrinou(ScreenSize / 2);
-	mainEntities.addEntity(carrinou);
+	static constexpr gf::Vector2u center(ScreenSize/2);
+	KGB::BabyHero bebeHero(center);
+	mainEntities.addEntity(bebeHero);
 
+
+	static constexpr gf::Vector2u zero(0, 0);
+	static constexpr gf::Vector2u cinquante(50, 50);
+	static constexpr gf::Vector2u troisCent(300, 300);
+	static constexpr gf::Vector2u cinqCent(500, 500);
+
+	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
+	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
+	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
+	KGB::Enemy Vilain4(cinquante);
+	mainEntities.addEntity(Vilain);
+	mainEntities.addEntity(Vilain2);
+	mainEntities.addEntity(Vilain3);
+	mainEntities.addEntity(Vilain4);
 	//texture
 
 	gf::Texture texture("../data/Image/maternel.png");
@@ -176,6 +191,10 @@ int main() {
   	int32 velocityIterations = 8;   //how strongly to correct velocity
   	int32 positionIterations = 3;   //how strongly to correct position
 	
+	/*KGB::Debug debug;
+  	m_world->SetDebugDraw(&debug);
+	debug.SetFlags( b2Draw::e_shapeBit );*/
+
 	//KGB Setting
     static constexpr gf::Vector2f initialPosition(1024 / 2, 768 / 2);
 
@@ -193,30 +212,13 @@ int main() {
     fixtureDef.restitution = 0.0f;
     fixtureDef.shape = &shape;
 
-    m_body->CreateFixture(&fixtureDef);
-	
-	
-	//New Cube
-	
-	static constexpr gf::Vector2u zero(0, 0);
-	static constexpr gf::Vector2u cinquante(50, 50);
-	static constexpr gf::Vector2u troisCent(300, 300);
-	static constexpr gf::Vector2u cinqCent(500, 500);
-
-	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
-	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
-	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
-	KGB::Enemy Vilain4(cinquante);
-	mainEntities.addEntity(Vilain);
-	mainEntities.addEntity(Vilain2);
-	mainEntities.addEntity(Vilain3);
-	mainEntities.addEntity(Vilain4);
+    m_body->CreateFixture(&fixtureDef);	
 	
 	static constexpr gf::Vector2f initialPositionVilain(0, 0);
 
     b2BodyDef bodyDefVilain;
     bodyDefVilain.type = b2_staticBody;
-    bodyDefVilain.position = fromVec(initialPositionVilain);
+    bodyDefVilain.position = fromVec(Vilain.getPosition());
     auto Vilain_body = m_world->CreateBody(&bodyDefVilain);
 
     b2PolygonShape shapeVilain;
@@ -227,6 +229,7 @@ int main() {
     fixtureVilain.friction = 0.0f;
     fixtureVilain.restitution = 0.0f;
     fixtureVilain.shape = &shapeVilain;
+	
 
     Vilain_body->CreateFixture(&fixtureVilain);
 	
@@ -252,12 +255,12 @@ int main() {
 			if(velocity.x > -100){
 				velocity.x -= Vitesse;
 			}
-			carrinou.updateOrientation(3);
+			bebeHero.updateOrientation(3);
 		}else if(rightAction.isActive()){
 			if(velocity.x < 100){
 				velocity.x += Vitesse;
 			}
-			carrinou.updateOrientation(2);
+			bebeHero.updateOrientation(2);
 		}else{
 			velocity.x = 0;
 		}
@@ -266,44 +269,45 @@ int main() {
 			if(velocity.y < 100){
 				velocity.y += Vitesse;
 			}
-			carrinou.updateOrientation(0);
+			bebeHero.updateOrientation(0);
 		}else if(upAction.isActive()){
 			if(velocity.y > -100){
 				velocity.y -= Vitesse;
 			}
-			carrinou.updateOrientation(1);
+			bebeHero.updateOrientation(1);
 		}else{
 			velocity.y = 0;
 			
 		}
 		
-		carrinou.setVelocity(velocity);
+		bebeHero.setVelocity(velocity);
 
 		// 2. update
-
 		
 		gf::Time time = clock.restart();
-		carrinou.update(time);
+		bebeHero.update(time);
 		Vilain.update(time);
 		Vilain2.update(time);
 		Vilain3.update(time);
 		Vilain4.update(time);
+
 		
-		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
+		m_body->SetTransform(fromVec(bebeHero.getPosition()), 0.0f);
+		Vilain_body->SetTransform(fromVec(Vilain.getPosition()), 0.0f);
+
 		m_body->SetLinearVelocity(fromVec(velocity));
-		
+
 		m_world->Step(timeStep, velocityIterations, positionIterations);
 
-		carrinou.setPosition(toVec(m_body->GetPosition()));
-		
+		bebeHero.setPosition(toVec(m_body->GetPosition()));
 		// 3. draw
 
-		mainView.setCenter(carrinou.getPosition());
+		mainView.setCenter(bebeHero.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
 		renderer.draw(sprite);
 
-		carrinou.render(renderer);
+		bebeHero.render(renderer);
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);

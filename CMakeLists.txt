@@ -21,6 +21,7 @@ add_executable(KGB
   #code/local/Map.cc
   code/local/BabyHero.cc
   code/local/Enemy.cc
+  #code/local/Debug.cc
 )
 
 target_include_directories(KGB 

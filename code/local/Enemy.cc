@@ -44,6 +44,10 @@ namespace KGB{
         loadAnimation(m_waitNorth, 7);
     }
 
+	gf::Vector2f Enemy::getVelocity(){
+		return m_velocity;
+	}
+	
     void Enemy::setVelocity(gf::Vector2f velocity) {
         m_velocity = velocity;
     }

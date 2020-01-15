@@ -36,6 +36,7 @@ namespace KGB{
             void render(gf::RenderTarget& target);
             gf::Vector2f getPosition();
             void setPosition(gf::Vector2f position);
+            gf::Vector2f getVelocity();
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
             void round();
