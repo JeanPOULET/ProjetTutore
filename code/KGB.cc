@@ -33,19 +33,10 @@
 #include "local/Enemy.h"
 #include "local/Debug.h"
 #include "local/Physics.h"
-#include <Box2D/Box2D.h>
 
-#define PHYSICSCALE 0.02f
 #define FRAME 80.0
 #define KGB_DATA "@KGB_DATA@"
 
-b2Vec2 fromVec(gf::Vector2f vec) {
-      return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
-}
-
-gf::Vector2f toVec(b2Vec2 vec) {
-      return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
-}
 
 int main() {
 	
@@ -178,7 +169,7 @@ int main() {
 
 	//Physics
 	KGB::Physics physics(bebeHero, Vilain);
-	
+
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
