@@ -32,6 +32,7 @@
 #include "local/Map.h"
 #include "local/Enemy.h"
 #include "local/Debug.h"
+#include "local/Physics.h"
 #include <Box2D/Box2D.h>
 
 #define PHYSICSCALE 0.02f
@@ -175,65 +176,12 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	//Physics
+	KGB::Physics physics(bebeHero, Vilain);
+	
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
-	
-	
-	//================TEST Box2D================
-	
-	//World Setting
-	b2Vec2 gravity(0.0f, 0.0f);
-	
-	b2World* m_world = new b2World(gravity);
-	
-	float32 timeStep = 1/FRAME;      //the length of time passed to simulate (seconds)
-  	int32 velocityIterations = 8;   //how strongly to correct velocity
-  	int32 positionIterations = 3;   //how strongly to correct position
-	
-	/*KGB::Debug debug;
-  	m_world->SetDebugDraw(&debug);
-	debug.SetFlags( b2Draw::e_shapeBit );*/
-
-	//KGB Setting
-    static constexpr gf::Vector2f initialPosition(1024 / 2, 768 / 2);
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position = fromVec(initialPosition);
-    auto m_body = m_world->CreateBody(&bodyDef);
-
-    b2PolygonShape shape;
-    shape.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.0f;
-    fixtureDef.shape = &shape;
-
-    m_body->CreateFixture(&fixtureDef);	
-	
-	static constexpr gf::Vector2f initialPositionVilain(0, 0);
-
-    b2BodyDef bodyDefVilain;
-    bodyDefVilain.type = b2_staticBody;
-    bodyDefVilain.position = fromVec(Vilain.getPosition());
-    auto Vilain_body = m_world->CreateBody(&bodyDefVilain);
-
-    b2PolygonShape shapeVilain;
-    shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
-
-    b2FixtureDef fixtureVilain;
-    fixtureVilain.density = 1.0f;
-    fixtureVilain.friction = 0.0f;
-    fixtureVilain.restitution = 0.0f;
-    fixtureVilain.shape = &shapeVilain;
-	
-
-    Vilain_body->CreateFixture(&fixtureVilain);
-	
-	//================END of TEST Box2D================
 
 	
 	static constexpr float Vitesse = 10.0f;
@@ -290,16 +238,8 @@ int main() {
 		Vilain2.update(time);
 		Vilain3.update(time);
 		Vilain4.update(time);
+		physics.update();
 
-		
-		m_body->SetTransform(fromVec(bebeHero.getPosition()), 0.0f);
-		Vilain_body->SetTransform(fromVec(Vilain.getPosition()), 0.0f);
-
-		m_body->SetLinearVelocity(fromVec(velocity));
-
-		m_world->Step(timeStep, velocityIterations, positionIterations);
-
-		bebeHero.setPosition(toVec(m_body->GetPosition()));
 		// 3. draw
 
 		mainView.setCenter(bebeHero.getPosition());

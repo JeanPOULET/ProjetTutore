@@ -22,6 +22,7 @@ add_executable(KGB
   code/local/BabyHero.cc
   code/local/Enemy.cc
   #code/local/Debug.cc
+  code/local/Physics.cc
 )
 
 target_include_directories(KGB 

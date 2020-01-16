@@ -24,10 +24,13 @@ namespace KGB{
 
 
     void BabyHero::setVelocity(gf::Vector2f velocity) {
-      
-        m_velocity = velocity;
-      
+        m_velocity = velocity;  
     }
+
+	gf::Vector2f BabyHero::getVelocity(){
+		return m_velocity;
+	}
+
 
     void BabyHero::updateOrientation(int orientation){
       switch(orientation){

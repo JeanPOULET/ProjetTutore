@@ -23,6 +23,7 @@ namespace KGB{
             BabyHero(gf::Vector2f position);
 
             void setVelocity(gf::Vector2f velocity);
+			gf::Vector2f getVelocity();
             void update(gf::Time time);
             void render(gf::RenderTarget& target);
             gf::Vector2f getPosition();
