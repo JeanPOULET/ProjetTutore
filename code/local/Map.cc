@@ -27,7 +27,7 @@ namespace KGB {
 
         //assert(map.orientation == gf::TmxOrientation::Staggered);
 
-        gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Staggered);
+        gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Orthogonal);
 
         gf::Log::info("Parsing layer '%s'\n", layer.name.c_str());
 
@@ -41,6 +41,7 @@ namespace KGB {
           assert(j < map.mapSize.height);
 
           int gid = cell.gid;
+          gf::Log::info("cell.gid %d\n", gid);
 
           if (gid != 0) {
             auto tileset = map.getTileSetFromGID(gid);
