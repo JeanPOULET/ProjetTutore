@@ -43,8 +43,7 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(32
-	, 200); 
+	static constexpr gf::Vector2f ViewSize(400, 400); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -88,11 +87,6 @@ int main() {
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);
 	mainEntities.addEntity(Vilain4);
-	//texture
-
-	gf::Texture texture("../data/Image/maternel.png");
-	gf::Sprite sprite(texture);
-	sprite.setPosition({ 0, 0 });
 
 	//map
 
@@ -213,8 +207,7 @@ int main() {
 		mainView.setCenter(bebeHero.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
-		renderer.draw(sprite);
-		mainEntities.render(renderer);
+		map.render(renderer);
 
 		bebeHero.render(renderer);
 		Vilain.render(renderer);
