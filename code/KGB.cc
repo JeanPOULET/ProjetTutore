@@ -31,19 +31,11 @@
 #include "local/Singletons.h"
 #include "local/Map.h"
 #include "local/Enemy.h"
+#include "local/Debug.h"
+#include "local/Physics.h"
 
-#include <Box2D/Box2D.h>
-
-#define PHYSICSCALE 0.02f
 #define FRAME 80.0
 
-b2Vec2 fromVec(gf::Vector2f vec) {
-      return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
-}
-
-gf::Vector2f toVec(b2Vec2 vec) {
-      return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
-}
 
 int main() {
 	
@@ -78,8 +70,29 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
-	KGB::BabyHero carrinou(ScreenSize / 2);
-	mainEntities.addEntity(carrinou);
+	static constexpr gf::Vector2u center(ScreenSize/2);
+	KGB::BabyHero bebeHero(center);
+	mainEntities.addEntity(bebeHero);
+
+
+	static constexpr gf::Vector2u zero(0, 0);
+	static constexpr gf::Vector2u cinquante(50, 50);
+	static constexpr gf::Vector2u troisCent(300, 300);
+	static constexpr gf::Vector2u cinqCent(500, 500);
+
+	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
+	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
+	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
+	KGB::Enemy Vilain4(cinquante);
+	mainEntities.addEntity(Vilain);
+	mainEntities.addEntity(Vilain2);
+	mainEntities.addEntity(Vilain3);
+	mainEntities.addEntity(Vilain4);
+	//texture
+
+	gf::Texture texture("../data/Image/maternel.png");
+	gf::Sprite sprite(texture);
+	sprite.setPosition({ 0, 0 });
 
 	//map
 
@@ -131,74 +144,12 @@ int main() {
 	downAction.setContinuous();
 	actions.addAction(downAction);
 
+	//Physics
+	KGB::Physics physics(bebeHero, Vilain);
+
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
-	
-	
-	//================TEST Box2D================
-	
-	//World Setting
-	b2Vec2 gravity(0.0f, 0.0f);
-	
-	b2World* m_world = new b2World(gravity);
-	
-	float32 timeStep = 1/FRAME;      //the length of time passed to simulate (seconds)
-  	int32 velocityIterations = 8;   //how strongly to correct velocity
-  	int32 positionIterations = 3;   //how strongly to correct position
-	
-	//KGB Setting
-    static constexpr gf::Vector2f initialPosition(1024 / 2, 768 / 2);
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position = fromVec(initialPosition);
-    auto m_body = m_world->CreateBody(&bodyDef);
-
-    b2PolygonShape shape;
-    shape.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.0f;
-    fixtureDef.shape = &shape;
-
-    m_body->CreateFixture(&fixtureDef);
-	
-	
-	//New Cube
-	
-	static constexpr gf::Vector2u zero(0, 0);
-	static constexpr gf::Vector2u troisCent(300, 300);
-	static constexpr gf::Vector2u cinqCent(500, 500);
-
-	KGB::Enemy Vilain(zero);
-	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
-	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
-	mainEntities.addEntity(Vilain);
-	mainEntities.addEntity(Vilain2);
-	mainEntities.addEntity(Vilain3);
-	
-	static constexpr gf::Vector2f initialPositionVilain(0, 0);
-
-    b2BodyDef bodyDefVilain;
-    bodyDefVilain.type = b2_staticBody;
-    bodyDefVilain.position = fromVec(initialPositionVilain);
-    auto Vilain_body = m_world->CreateBody(&bodyDefVilain);
-
-    b2PolygonShape shapeVilain;
-    shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
-
-    b2FixtureDef fixtureVilain;
-    fixtureVilain.density = 1.0f;
-    fixtureVilain.friction = 0.0f;
-    fixtureVilain.restitution = 0.0f;
-    fixtureVilain.shape = &shapeVilain;
-
-    Vilain_body->CreateFixture(&fixtureVilain);
-	
-	//================END of TEST Box2D================
 
 	
 	static constexpr float Vitesse = 10.0f;
@@ -220,12 +171,12 @@ int main() {
 			if(velocity.x > -100){
 				velocity.x -= Vitesse;
 			}
-			carrinou.updateOrientation(3);
+			bebeHero.updateOrientation(3);
 		}else if(rightAction.isActive()){
 			if(velocity.x < 100){
 				velocity.x += Vitesse;
 			}
-			carrinou.updateOrientation(2);
+			bebeHero.updateOrientation(2);
 		}else{
 			velocity.x = 0;
 		}
@@ -234,47 +185,43 @@ int main() {
 			if(velocity.y < 100){
 				velocity.y += Vitesse;
 			}
-			carrinou.updateOrientation(0);
+			bebeHero.updateOrientation(0);
 		}else if(upAction.isActive()){
 			if(velocity.y > -100){
 				velocity.y -= Vitesse;
 			}
-			carrinou.updateOrientation(1);
+			bebeHero.updateOrientation(1);
 		}else{
 			velocity.y = 0;
 			
 		}
 		
-		carrinou.setVelocity(velocity);
+		bebeHero.setVelocity(velocity);
 
 		// 2. update
-
 		
 		gf::Time time = clock.restart();
-		carrinou.update(time);
+		bebeHero.update(time);
 		Vilain.update(time);
 		Vilain2.update(time);
 		Vilain3.update(time);
-		
-		m_body->SetTransform(fromVec(carrinou.getPosition()), 0.0f);
-		m_body->SetLinearVelocity(fromVec(velocity));
-		
-		m_world->Step(timeStep, velocityIterations, positionIterations);
+		Vilain4.update(time);
+		physics.update();
 
-		carrinou.setPosition(toVec(m_body->GetPosition()));
-		
 		// 3. draw
 
-		mainView.setCenter(carrinou.getPosition());
+		mainView.setCenter(bebeHero.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
+		renderer.draw(sprite);
 		mainEntities.render(renderer);
-		
-		carrinou.render(renderer);
+
+		bebeHero.render(renderer);
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
-		
+		Vilain4.render(renderer);
+
 		renderer.setView(hudView);
 		// draw everything
 		renderer.display();

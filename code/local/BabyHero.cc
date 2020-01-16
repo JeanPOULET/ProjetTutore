@@ -23,24 +23,27 @@ namespace KGB{
 
 
     void BabyHero::setVelocity(gf::Vector2f velocity) {
-      
-        m_velocity = velocity;
-      
+        m_velocity = velocity;  
     }
+
+	gf::Vector2f BabyHero::getVelocity(){
+		return m_velocity;
+	}
+
 
     void BabyHero::updateOrientation(int orientation){
       switch(orientation){
         case 0:
-          m_orientation =  gf::Orientation::South;
-          break;
+          	m_orientation =  gf::Orientation::South;
+        break;
         case 1:
-          m_orientation =  gf::Orientation::North;
-          break;
+          	m_orientation =  gf::Orientation::North;
+        break;
         case 2:
-          m_orientation =  gf::Orientation::East;
-          break;
+         	m_orientation =  gf::Orientation::East;
+        break;
         case 3:
-          m_orientation =  gf::Orientation::West;
+          	m_orientation =  gf::Orientation::West;
           break;
         default:
         break;
@@ -51,47 +54,47 @@ namespace KGB{
         m_position += time.asSeconds() * m_velocity;
         
         if(m_velocity.x == 0 && m_velocity.y == 0){
-          m_status = Status::Waiting;
+          	m_status = Status::Waiting;
         }else{
-          m_status = Status::Walking;
+          	m_status = Status::Walking;
         }
 
         if(m_status == Status::Walking){
-          switch (m_orientation) {
-            case gf::Orientation::South:
-              m_currentAnimation = &m_moveSouth;
-              break;
-            case gf::Orientation::North:
-              m_currentAnimation = &m_moveNorth;
-              break;
-            case gf::Orientation::East:
-              m_currentAnimation = &m_moveEast;
-              break;
-            case gf::Orientation::West:
-              m_currentAnimation = &m_moveWest;
-              break;
-            default:
-            // assert(false);
+			switch (m_orientation) {
+				case gf::Orientation::South:
+					m_currentAnimation = &m_moveSouth;
+				break;
+				case gf::Orientation::North:
+					m_currentAnimation = &m_moveNorth;
+				break;
+				case gf::Orientation::East:
+					m_currentAnimation = &m_moveEast;
+				break;
+				case gf::Orientation::West:
+					m_currentAnimation = &m_moveWest;
+				break;
+				default:
+				// assert(false);
             break;
           }
         }else{
-          switch (m_orientation) {
-            case gf::Orientation::South:
-              m_currentAnimation = &m_waitSouth;
-              break;
-            case gf::Orientation::North:
-              m_currentAnimation = &m_waitNorth;
-              break;
-            case gf::Orientation::East:
-              m_currentAnimation = &m_waitEast;
-              break;
-            case gf::Orientation::West:
-              m_currentAnimation = &m_waitWest;
-              break;
-            default:
-            // assert(false);
-            break;
-          }
+			switch (m_orientation) {
+				case gf::Orientation::South:
+					m_currentAnimation = &m_waitSouth;
+				break;
+				case gf::Orientation::North:
+					m_currentAnimation = &m_waitNorth;
+				break;
+				case gf::Orientation::East:
+					m_currentAnimation = &m_waitEast;
+				break;
+				case gf::Orientation::West:
+					m_currentAnimation = &m_waitWest;
+				break;
+				default:
+				// assert(false);
+				break;
+         	}
         }
 
         assert(m_currentAnimation);
