@@ -16,6 +16,9 @@
 #include <gf/Orientation.h>
 #include <gf/AnimatedSprite.h>
 
+#include "Messages.h"
+#include "Singletons.h"
+
 namespace KGB{
 
     class BabyHero : public gf::Entity{
@@ -33,7 +36,7 @@ namespace KGB{
         private:
             gf::Vector2f m_position; // center of the BabyHero
             gf::Vector2f m_velocity;
-            gf::Texture m_texture;
+            gf::Texture &m_texture;
             gf::Orientation m_orientation;
 
             //Animation

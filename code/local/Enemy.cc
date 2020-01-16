@@ -1,6 +1,5 @@
 #include "Enemy.h"
-#include "Messages.h"
-#include "Singletons.h"
+
 
 namespace KGB{
   
@@ -8,7 +7,7 @@ namespace KGB{
         : m_position(position)
 		, m_spawn(position)
         , m_velocity(0, 50.0)
-        , m_texture("../data/Image/Polizei_animation.png")
+        , m_texture(gResourceManager().getTexture("Image/Polizei_animation.png"))
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
 		, m_path(PathType::Round)
@@ -23,7 +22,7 @@ namespace KGB{
         : m_position(position)
 		, m_spawn(position)
         , m_velocity(0, 50.0)
-        , m_texture("../data/Image/Polizei_animation.png")
+        , m_texture(gResourceManager().getTexture("Image/Polizei_animation.png"))
         , m_orientation(ori)
         , m_currentAnimation(nullptr)
 		, m_path(path)

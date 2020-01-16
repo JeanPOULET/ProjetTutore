@@ -25,7 +25,7 @@ namespace KGB {
           return;
         }
 
-        assert(map.orientation == gf::TmxOrientation::Staggered);
+        //assert(map.orientation == gf::TmxOrientation::Staggered);
 
         gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Staggered);
 
@@ -70,7 +70,6 @@ namespace KGB {
       virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
         gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
 
-        bool isResources = (layer.name == "Resources");
 
         for (auto& object : layer.objects) {
           if (object->kind != gf::TmxObject::Tile) {
@@ -83,32 +82,20 @@ namespace KGB {
           assert(tileset);
           assert(tileset->image);
 
-          // compute texture rect
+
           auto lid = tile->gid - tileset->firstGid;
           auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
+          
+          const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+          gf::RectF textureRect = texture.computeTextureCoords(subTexture);
 
-          if (isResources) {
-            gf::Vector2f position = tile->position;
-            position.x += subTexture.getWidth() / 2;
-            position.y -= subTexture.getHeight() / 2;
+          gf::Sprite sprite(texture, textureRect);
+          sprite.setPosition(tile->position);
+          sprite.setRotation(gf::degreesToRadians(tile->rotation));
+          sprite.setAnchor(gf::Anchor::BottomLeft); 
 
-            switch (lid) {
-
-              default:
-                assert(false);
-                break;
-            }
-          } else {
-            const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-            gf::RectF textureRect = texture.computeTextureCoords(subTexture);
-
-            gf::Sprite sprite(texture, textureRect);
-            sprite.setPosition(tile->position);
-            sprite.setRotation(gf::degreesToRadians(tile->rotation));
-            sprite.setAnchor(gf::Anchor::BottomLeft); 
-
-            m_sprites.push_back(std::move(sprite));
-          }
+          m_sprites.push_back(std::move(sprite));
+          
         }
       }
 
@@ -124,9 +111,8 @@ namespace KGB {
     layers.visitLayers(maker);
   }
 
-  Map::Map(Type type, MapGraphicsData& data)
-  : gf::Entity(type == Below ? 0 : 200)
-  , m_type(type)
+  Map::Map(MapGraphicsData& data)
+  : gf::Entity(0)
   , m_data(data)
   {
      //gMessageManager().registerHandler<HeroPosition>(&Map::onHeroPosition, this);

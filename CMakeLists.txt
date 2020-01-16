@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.1)
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "-g -Wextra -pedantic ")
-set(KGB_DATA "${CMAKE_INSTALL_PREFIX}/share/games/KGB")
+set(CMAKE_CXX_FLAGS "-g -Wextra ")
+set(KGB_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/games/KGB")
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/code/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 ${CMAKE_CURRENT_LIST_DIR}/./cmake
 )
@@ -11,14 +13,14 @@ project(KGB
 )
 
 find_package(gf REQUIRED)
-find_package(Box2D)
+find_package(Box2D REQUIRED)
 
 add_executable(KGB
   code/KGB.cc
   code/local/Square.cc
   code/local/ResourceManager.cc
   code/local/Singletons.cc
-  #code/local/Map.cc
+  code/local/Map.cc
   code/local/BabyHero.cc
   code/local/Enemy.cc
 )
@@ -44,5 +46,5 @@ install(
 
 install(
   DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data/KGB"
-  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games"
+  DESTINATION "/usr/local/share/games"
 )

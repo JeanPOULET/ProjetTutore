@@ -23,19 +23,14 @@ namespace KGB {
 
   class Map : public gf::Entity {
   public :
-    enum Type {
-      Below,
-      Above,
-    };
 
-    Map(Type type, MapGraphicsData& data);
+
+    Map(MapGraphicsData& data);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
 
-  private:
-    Type m_type;
     MapGraphicsData& m_data;
     gf::Vector2f m_hero;
   };

@@ -24,7 +24,7 @@
 
 //#include <SFML/Audio.hpp>
 
-
+#include "config.h"
 #include "local/Square.h"
 #include "local/BabyHero.h"
 #include "local/Messages.h"
@@ -36,7 +36,6 @@
 
 #define PHYSICSCALE 0.02f
 #define FRAME 80.0
-#define KGB_DATA "@KGB_DATA@"
 
 b2Vec2 fromVec(gf::Vector2f vec) {
       return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
@@ -52,8 +51,9 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(1024, 768); 
-  	static constexpr gf::Vector2f ViewCenter(512, 384); 
+	static constexpr gf::Vector2f ViewSize(32
+	, 200); 
+  	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setVerticalSyncEnabled(true);
@@ -62,7 +62,7 @@ int main() {
 
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
 	gf::SingletonStorage<gf::ResourceManager> storageForResourceManager(KGB::gResourceManager);
-	KGB::gResourceManager().addSearchDir(KGB_DATA);
+	KGB::gResourceManager().addSearchDir(KGB_DATA_DIR);
 
 	// views
 	gf::ViewContainer views;
@@ -75,52 +75,23 @@ int main() {
 
 	views.setInitialScreenSize(ScreenSize);
 
-	/*KGB::gMessageManager().registerHandler<KGB::SquareState>([&mainView](gf::Id type, gf::Message *msg){
-		assert(type == KGB::SquareState::type);
-		gf::unused(type);
-		auto state = static_cast<KGB::SquareState*>(msg);
-		mainView.setCenter(state->position);
-		return gf::MessageStatus::Keep;
-	});*/
-
-
 	// entity
 	gf::EntityContainer mainEntities;
 
 	KGB::BabyHero carrinou(ScreenSize / 2);
 	mainEntities.addEntity(carrinou);
 
-	//texture
-
-	gf::Texture texture("../data/Image/maternel.png");
-	gf::Sprite sprite(texture);
-	sprite.setPosition({ 0, 0 });
-
 	//map
 
-	/*gf::TmxLayers layers;
-	layers.loadFromFile("../data/map/map.tmx");
-  	/*if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/map.tmx"))) {
+	gf::TmxLayers layers;
+  	if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/garderie.tmx"))) {
     	gf::Log::error("Impossible de charger la carte !\n");
     	return EXIT_FAILURE;
   	}
 	KGB::MapGraphicsData data(layers);
-  	KGB::Map map(KGB::Map::Above, data);
+  	KGB::Map map( data);
 
-
-
-	
-	mainEntities.addEntity(map);*/
-
-	//mainEntities.addEntity(mapAbove);
-	// music 
-	/*
-	sf::Music music;
-	if (!music.openFromFile("../data/Music/theme.ogg")){
-    	return -1;
-	}
-	music.play();*/
-
+	mainEntities.addEntity(map);
 
 	// controls
 
@@ -297,13 +268,13 @@ int main() {
 		mainView.setCenter(carrinou.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
-		renderer.draw(sprite);
-
+		mainEntities.render(renderer);
+		
 		carrinou.render(renderer);
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
-
+		
 		renderer.setView(hudView);
 		// draw everything
 		renderer.display();

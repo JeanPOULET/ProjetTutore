@@ -1,6 +1,5 @@
 #include "BabyHero.h"
-#include "Messages.h"
-#include "Singletons.h"
+
 
 namespace KGB{
   
@@ -8,7 +7,7 @@ namespace KGB{
         : m_position(position)
         , m_velocity(0, 0)
         , m_status(Status::Waiting)
-        , m_texture("../data/Image/KGBaby_animation.png")
+        , m_texture(gResourceManager().getTexture("Image/KGBaby_animation.png"))
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
         {
