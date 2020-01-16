@@ -27,7 +27,7 @@ namespace KGB {
 
     Map(MapGraphicsData& data);
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+    virtual void render(gf::RenderTarget& target) ;
 
   private:
 
