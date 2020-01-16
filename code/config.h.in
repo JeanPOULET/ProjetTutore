@@ -1,0 +1,6 @@
+#ifndef KGB_CONFIG_H
+#define KGB_CONFIG_H
+
+#define KGB_DATA_DIR "@KGB_DATA_DIR@"
+
+#endif // KGB_CONFIG_H
