@@ -88,6 +88,9 @@ int main() {
 	mainEntities.addEntity(Vilain3);
 	mainEntities.addEntity(Vilain4);
 
+	std::vector<KGB::Enemy> vilains;
+	vilains.push_back(Vilain);
+	vilains.push_back(Vilain2);
 	//map
 
 	gf::TmxLayers layers;
@@ -139,7 +142,7 @@ int main() {
 	actions.addAction(downAction);
 
 	//Physics
-	KGB::Physics physics(bebeHero, Vilain);
+	KGB::Physics physics(bebeHero, Vilain, Vilain2, Vilain3, Vilain4);
 
 	// game loop
 	gf::Clock clock;
