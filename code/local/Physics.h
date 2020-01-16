@@ -17,7 +17,7 @@
 namespace KGB {
   class Physics : public gf::Model {
   public:
-    Physics(BabyHero& player, Enemy& policier);
+    Physics(BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
 
     void update();
 
@@ -25,8 +25,14 @@ namespace KGB {
     b2World m_world;
     b2Body *m_body;
     BabyHero& m_baby;
-    Enemy& m_vilain;
-    b2Body *m_vilainBody;
+    Enemy& m_vilain1;
+    b2Body *m_vilainBody1;
+    Enemy& m_vilain2;
+    b2Body *m_vilainBody2;
+    Enemy& m_vilain3;
+    b2Body *m_vilainBody3;
+    Enemy& m_vilain4;
+    b2Body *m_vilainBody4;
   };
 
 }
