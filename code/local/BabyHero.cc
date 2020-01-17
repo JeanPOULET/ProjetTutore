@@ -120,8 +120,8 @@ namespace KGB{
     }
 
     void BabyHero::loadAnimation(gf::Animation &animation, int line) {
-        static constexpr gf::Vector2f TextureSize = { 768.0f, 2048.0f };
-        static constexpr gf::Vector2f FrameSize = { 256.0f, 256.0f };
+        static constexpr gf::Vector2f TextureSize = { 256.0f, 512.0f };
+        static constexpr gf::Vector2f FrameSize = { 64.0f, 64.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
         for (int i = 0; i < 3; ++i) {

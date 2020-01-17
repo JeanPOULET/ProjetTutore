@@ -160,8 +160,8 @@ namespace KGB{
     }
 
     void Enemy::loadAnimation(gf::Animation &animation, int line) {
-        static constexpr gf::Vector2f TextureSize = { 512.0f, 1024.0f };
-        static constexpr gf::Vector2f FrameSize = { 170.0f, 256.0f };
+        static constexpr gf::Vector2f TextureSize = { 256.0f, 768.0f };
+        static constexpr gf::Vector2f FrameSize = { 64.0f, 100.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
         for (int i = 0; i < 3; ++i) {
