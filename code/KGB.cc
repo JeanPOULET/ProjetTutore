@@ -165,12 +165,12 @@ int main() {
 		}
 
 		if(leftAction.isActive()){
-			if(velocity.x > -100){
+			if(velocity.x > -50){
 				velocity.x -= Vitesse;
 			}
 			bebeHero.updateOrientation(3);
 		}else if(rightAction.isActive()){
-			if(velocity.x < 100){
+			if(velocity.x < 50){
 				velocity.x += Vitesse;
 			}
 			bebeHero.updateOrientation(2);
@@ -179,12 +179,12 @@ int main() {
 		}
 
 		if(downAction.isActive()){
-			if(velocity.y < 100){
+			if(velocity.y < 50){
 				velocity.y += Vitesse;
 			}
 			bebeHero.updateOrientation(0);
 		}else if(upAction.isActive()){
-			if(velocity.y > -100){
+			if(velocity.y > -50){
 				velocity.y -= Vitesse;
 			}
 			bebeHero.updateOrientation(1);
@@ -216,7 +216,7 @@ int main() {
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
-		Vilain4.render(renderer);
+		Vilain4.render(renderer); 
 
 		renderer.setView(hudView);
 		// draw everything

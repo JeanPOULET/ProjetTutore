@@ -73,21 +73,26 @@ namespace KGB{
 
 
         //Shape & Fixture
-        b2PolygonShape shape;
-        shape.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+        b2PolygonShape shapeVilain;
+        shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+
+        b2PolygonShape shapeBaby;
+        shapeBaby.SetAsBox(10.0f*PHYSICSCALE, 15.0f*PHYSICSCALE);
 
         b2FixtureDef fixtureDef;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = 0.0f;
-        fixtureDef.shape = &shape;
-
-        m_body->CreateFixture(&fixtureDef);
+        fixtureDef.shape = &shapeVilain;
 
         m_vilainBody1->CreateFixture(&fixtureDef);
         m_vilainBody2->CreateFixture(&fixtureDef);
         m_vilainBody3->CreateFixture(&fixtureDef);
         m_vilainBody4->CreateFixture(&fixtureDef);
+
+        fixtureDef.shape = &shapeBaby;
+
+        m_body->CreateFixture(&fixtureDef);
 
     }
 

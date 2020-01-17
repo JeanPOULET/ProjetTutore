@@ -13,6 +13,8 @@
 
 #include "BabyHero.h"
 #include "Enemy.h"
+#include "Debug.h"
+
 
 namespace KGB {
   class Physics : public gf::Model {
