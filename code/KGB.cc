@@ -217,6 +217,11 @@ int main() {
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
 		Vilain4.render(renderer); 
+		physics.hitboxBaby.render(renderer);
+		physics.hitboxVilain1.render(renderer);
+		physics.hitboxVilain2.render(renderer);
+		physics.hitboxVilain3.render(renderer);
+		physics.hitboxVilain4.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything

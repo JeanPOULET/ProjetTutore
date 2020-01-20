@@ -10,32 +10,39 @@
 #include <gf/Model.h>
 #include <gf/Polygon.h>
 #include <gf/Tmx.h>
+#include <stdio.h>
 
 #include "BabyHero.h"
 #include "Enemy.h"
 #include "Debug.h"
+#include "Square.h"
 
 
 namespace KGB {
-  class Physics : public gf::Model {
-  public:
-    Physics(BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
+	class Physics : public gf::Model, public b2ContactListener {
+	public:
+		Physics(BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
+		void update();
+		Square hitboxBaby;
+		Square hitboxVilain1;
+		Square hitboxVilain2;
+		Square hitboxVilain3;
+		Square hitboxVilain4;
 
-    void update();
-
-  private:
-    b2World m_world;
-    b2Body *m_body;
-    BabyHero& m_baby;
-    Enemy& m_vilain1;
-    b2Body *m_vilainBody1;
-    Enemy& m_vilain2;
-    b2Body *m_vilainBody2;
-    Enemy& m_vilain3;
-    b2Body *m_vilainBody3;
-    Enemy& m_vilain4;
-    b2Body *m_vilainBody4;
-  };
+	private:
+		b2World m_world;
+		b2Body *m_body;
+		BabyHero& m_baby;
+		
+		Enemy& m_vilain1;
+		b2Body *m_vilainBody1;
+		Enemy& m_vilain2;
+		b2Body *m_vilainBody2;
+		Enemy& m_vilain3;
+		b2Body *m_vilainBody3;
+		Enemy& m_vilain4;
+		b2Body *m_vilainBody4;
+	};
 
 }
 

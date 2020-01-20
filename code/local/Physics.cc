@@ -4,6 +4,7 @@ namespace KGB{
 
     namespace{
         constexpr float PHYSICSCALE = 0.02f;
+        static constexpr gf::Vector2u cinquante(200, 200);
 
         b2Vec2 fromVec(gf::Vector2f vec) {
             return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
@@ -12,6 +13,7 @@ namespace KGB{
         gf::Vector2f toVec(b2Vec2 vec) {
             return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
         }
+
     }
 
     Physics::Physics(BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4)
@@ -26,11 +28,17 @@ namespace KGB{
         , m_vilainBody3(nullptr)
         , m_vilain4(policier4)
         , m_vilainBody4(nullptr)
+        , hitboxBaby(cinquante, 15.0f*PHYSICSCALE, gf::Color::Red)
+        , hitboxVilain1(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
+        , hitboxVilain2(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
+        , hitboxVilain3(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
+        , hitboxVilain4(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
         {
-
+        
         //BABY
         gf::Vector2f initialPosition = m_baby.getPosition();
-
+        
+        
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position = fromVec(initialPosition);
@@ -74,10 +82,10 @@ namespace KGB{
 
         //Shape & Fixture
         b2PolygonShape shapeVilain;
-        shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+        shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
         b2PolygonShape shapeBaby;
-        shapeBaby.SetAsBox(10.0f*PHYSICSCALE, 15.0f*PHYSICSCALE);
+        shapeBaby.SetAsBox(15.0f*PHYSICSCALE, 15.0f*PHYSICSCALE);
 
         b2FixtureDef fixtureDef;
         fixtureDef.density = 1.0f;
@@ -98,6 +106,11 @@ namespace KGB{
 
     void Physics::update() {
         m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
+        hitboxBaby.setPosition(m_baby.getPosition());
+        hitboxVilain1.setPosition(m_vilain1.getPosition());
+        hitboxVilain2.setPosition(m_vilain2.getPosition());
+        hitboxVilain3.setPosition(m_vilain3.getPosition());
+        hitboxVilain4.setPosition(m_vilain4.getPosition());
         m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
         m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
