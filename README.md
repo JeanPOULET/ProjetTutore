@@ -11,3 +11,13 @@ git commit -m "message"
 git diff 
 git config --global credential.helper store //Garder les id
 ###
+
+###     Compilation ###
+
+mkdir build
+cd build/
+cmake ..
+make
+sudo make install
+./KGB
+###

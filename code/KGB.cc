@@ -69,6 +69,20 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
+	//map
+
+	gf::TmxLayers layers;
+  	if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/garderie.tmx"))) {
+    	gf::Log::error("Impossible de charger la carte !\n");
+    	return EXIT_FAILURE;
+  	}
+	KGB::MapGraphicsData data(layers);
+  	KGB::Map map( data);
+
+	mainEntities.addEntity(map);
+
+
+
 	static constexpr gf::Vector2u center(ScreenSize/2);
 	KGB::BabyHero bebeHero(center);
 	mainEntities.addEntity(bebeHero);
@@ -91,17 +105,7 @@ int main() {
 	std::vector<KGB::Enemy> vilains;
 	vilains.push_back(Vilain);
 	vilains.push_back(Vilain2);
-	//map
 
-	gf::TmxLayers layers;
-  	if (!layers.loadFromFile(KGB::gResourceManager().getAbsolutePath("map/garderie.tmx"))) {
-    	gf::Log::error("Impossible de charger la carte !\n");
-    	return EXIT_FAILURE;
-  	}
-	KGB::MapGraphicsData data(layers);
-  	KGB::Map map( data);
-
-	mainEntities.addEntity(map);
 
 	// controls
 
@@ -198,11 +202,12 @@ int main() {
 		// 2. update
 		
 		gf::Time time = clock.restart();
-		bebeHero.update(time);
-		Vilain.update(time);
+		mainEntities.update(time);
+		//bebeHero.update(time);
+		/*Vilain.update(time);
 		Vilain2.update(time);
 		Vilain3.update(time);
-		Vilain4.update(time);
+		Vilain4.update(time);*/
 		physics.update();
 
 		// 3. draw
@@ -210,8 +215,8 @@ int main() {
 		mainView.setCenter(bebeHero.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);
-		map.render(renderer);
 
+		mainEntities.render(renderer);
 		bebeHero.render(renderer);
 		Vilain.render(renderer);
 		Vilain2.render(renderer);

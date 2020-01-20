@@ -25,7 +25,7 @@ namespace KGB {
           return;
         }
 
-        //assert(map.orientation == gf::TmxOrientation::Staggered);
+        assert(map.orientation == gf::TmxOrientation::Orthogonal);
 
         gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Orthogonal);
 
@@ -41,7 +41,7 @@ namespace KGB {
           assert(j < map.mapSize.height);
 
           int gid = cell.gid;
-          gf::Log::info("cell.gid %d\n", gid);
+
 
           if (gid != 0) {
             auto tileset = map.getTileSetFromGID(gid);
@@ -119,19 +119,15 @@ namespace KGB {
      //gMessageManager().registerHandler<HeroPosition>(&Map::onHeroPosition, this);
   }
 
-  void Map::render(gf::RenderTarget& target) {
-      //, const gf::RenderStates& states
+  void Map::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+
       for (auto& layer : m_data.tiles) {
-        target.draw(layer);
+        target.draw(layer,states);
       }
-
+      
       for (auto& sprite : m_data.sprites) {
-        target.draw(sprite);
+        target.draw(sprite,states);
 
-      }
-
-      for (auto& sprite : m_data.sprites) {
-          target.draw(sprite);
       }
     
   }
