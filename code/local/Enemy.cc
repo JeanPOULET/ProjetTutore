@@ -164,7 +164,7 @@ namespace KGB{
         static constexpr gf::Vector2f FrameSize = { 64.0f, 100.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 4; ++i) {
           gf::RectF frame = gf::RectF::fromPositionSize(gf::Vector2i(i, line) *  FrameSize / TextureSize, FrameSize / TextureSize);
           animation.addFrame(m_texture, frame, FrameDuration);
         }

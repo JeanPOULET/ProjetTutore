@@ -1,37 +1,57 @@
-#include "BabyHero.h"
+#include "Item.h"
 
 
 namespace KGB{
   
-    BabyHero::BabyHero(gf::Vector2f position)
+    Item::Item(gf::Vector2f position, Item::Status stat, Item::ItemType type)
         : m_position(position)
         , m_velocity(0, 0)
-        , m_status(Status::Waiting)
-        , m_texture(gResourceManager().getTexture("Image/KGBaby_animation.png"))
+        , m_status(stat)
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
         {
-        loadAnimation(m_moveSouth, 0);
-        loadAnimation(m_moveEast, 1);
-        loadAnimation(m_moveWest, 2);
-        loadAnimation(m_moveNorth, 3);
-        loadAnimation(m_waitSouth, 4);
-        loadAnimation(m_waitEast, 5);
-        loadAnimation(m_waitWest, 6);
-        loadAnimation(m_waitNorth, 7);
+	
+	switch (type){
+
+		case Item::ItemType::Munition : m_texture(gResourceManager().getTexture("Image/KGBaby_animation.png"))
+				break;
+		case Item::ItemType::Vie :	m_texture(gResourceManager().getTexture("Image/KGBaby_animation.png"))
+				break;
+		default :	break;
+	}
+	
+	if (stat == Status::Moving){
+
+		loadAnimation(m_moveSouth, 0);
+		loadAnimation(m_moveEast, 1);
+		loadAnimation(m_moveWest, 2);
+		loadAnimation(m_moveNorth, 3);
+		loadAnimation(m_waitSouth, 4);
+		loadAnimation(m_waitEast, 5);
+		loadAnimation(m_waitWest, 6);
+		loadAnimation(m_waitNorth, 7);
+
+	}else{
+
+		loadAnimation(m_waitSouth, 1);
+
+	}
+
     }
 
 
-    void BabyHero::setVelocity(gf::Vector2f velocity) {
-        m_velocity = velocity;  
+    void Item::setVelocity(gf::Vector2f velocity) {
+
+	m_velocity = velocity; 
+ 
     }
 
-	gf::Vector2f BabyHero::getVelocity(){
+	gf::Vector2f Item::getVelocity(){
 		return m_velocity;
 	}
 
 
-    void BabyHero::updateOrientation(int orientation){
+    void Item::updateOrientation(int orientation){
       switch(orientation){
         case 0:
           	m_orientation =  gf::Orientation::South;
@@ -50,7 +70,7 @@ namespace KGB{
       }
     }
 
-    void BabyHero::update(gf::Time time) {
+    void Item::update(gf::Time time) {
         m_position += time.asSeconds() * m_velocity;
         
         if(m_velocity.x == 0 && m_velocity.y == 0){
@@ -101,7 +121,7 @@ namespace KGB{
         m_currentAnimation->update(time);
     }
 
-    void BabyHero::render(gf::RenderTarget& target){
+    void Item::render(gf::RenderTarget& target){
         gf::AnimatedSprite animated;
         animated.setAnimation(*m_currentAnimation);
         animated.setScale(0.75f);
@@ -111,20 +131,20 @@ namespace KGB{
     }
     
 
-    gf::Vector2f BabyHero::getPosition(){
+    gf::Vector2f Item::getPosition(){
         return m_position;
     }
 
-    void BabyHero::setPosition(gf::Vector2f position){
+    void Item::setPosition(gf::Vector2f position){
         m_position = position;
     }
 
-    void BabyHero::loadAnimation(gf::Animation &animation, int line) {
+    void Item::loadAnimation(gf::Animation &animation, int line) {
         static constexpr gf::Vector2f TextureSize = { 256.0f, 512.0f };
         static constexpr gf::Vector2f FrameSize = { 64.0f, 64.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 3; ++i) {
           gf::RectF frame = gf::RectF::fromPositionSize(gf::Vector2i(i, line) *  FrameSize / TextureSize, FrameSize / TextureSize);
           animation.addFrame(m_texture, frame, FrameDuration);
         }
