@@ -168,12 +168,12 @@ int main() {
 			window.close();
 		}
 
-		if(leftAction.isActive()){
+		if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
 			if(velocity.x > -50){
 				velocity.x -= Vitesse;
 			}
 			bebeHero.updateOrientation(3);
-		}else if(rightAction.isActive()){
+		}else if(rightAction.isActive()&& !downAction.isActive() && !upAction.isActive()){
 			if(velocity.x < 50){
 				velocity.x += Vitesse;
 			}
