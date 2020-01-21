@@ -48,7 +48,8 @@ namespace KGB {
             assert(tileset);
             tileLayer.setTilesetTileSize(tileset->tileSize);
             tileLayer.setOffset(tileset->offset);
-
+            tileLayer.setMargin(tileset->margin);
+            tileLayer.setSpacing(tileset->spacing);
             gid = gid - tileset->firstGid;
             tileLayer.setTile({ i, j }, gid, cell.flip);
 

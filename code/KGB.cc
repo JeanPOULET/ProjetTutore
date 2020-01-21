@@ -43,12 +43,13 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(200, 200); 
+	static constexpr gf::Vector2f ViewSize(240, 240); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(FRAME);
+
 	gf::RenderWindow renderer(window);
 
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
@@ -82,16 +83,15 @@ int main() {
 	mainEntities.addEntity(map);
 
 
-
-	static constexpr gf::Vector2u center(ScreenSize/2);
-	KGB::BabyHero bebeHero(center);
+	static constexpr gf::Vector2u initialPosition(32*51,120);
+	KGB::BabyHero bebeHero(initialPosition);
 	mainEntities.addEntity(bebeHero);
 
 
-	static constexpr gf::Vector2u zero(0, 0);
-	static constexpr gf::Vector2u cinquante(50, 50);
-	static constexpr gf::Vector2u troisCent(300, 300);
-	static constexpr gf::Vector2u cinqCent(500, 500);
+	static constexpr gf::Vector2u zero(32*54, 240);
+	static constexpr gf::Vector2u cinquante(32*54, 340);
+	static constexpr gf::Vector2u troisCent(32*59, 500);
+	static constexpr gf::Vector2u cinqCent(32*68, 750);
 
 	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
 	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
