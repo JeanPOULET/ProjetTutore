@@ -8,6 +8,7 @@ namespace KGB{
 		, m_path(path)
 		, m_status(Status::Walking)
         {
+			
 		dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/Polizei_animation.png");
