@@ -43,7 +43,7 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(2048, 1024); 
+	static constexpr gf::Vector2f ViewSize(240, 240); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);

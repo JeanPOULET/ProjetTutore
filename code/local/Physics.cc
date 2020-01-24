@@ -209,6 +209,7 @@ namespace KGB{
         shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
         b2PolygonShape shapeBaby;
+
         shapeBaby.SetAsBox(15.0f*PHYSICSCALE, 15.0f*PHYSICSCALE);
 
         b2FixtureDef fixtureDef;
