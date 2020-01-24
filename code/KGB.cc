@@ -93,10 +93,10 @@ int main() {
 	static constexpr gf::Vector2u troisCent(32*59, 500);
 	static constexpr gf::Vector2u cinqCent(32*68, 750);
 
-	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
-	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
-	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
-	KGB::Enemy Vilain4(cinquante, KGB::Enemy::PathType::Static, gf::Orientation::South);
+	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking);
+	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
+	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
+	KGB::Enemy Vilain4(cinquante, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting);
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);

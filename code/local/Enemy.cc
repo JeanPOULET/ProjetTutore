@@ -3,16 +3,16 @@
 
 namespace KGB{
   
-	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori)
+	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status)
         : m_spawn(position)
 		, m_path(path)
-		, m_status(Status::Walking)
+		, m_status(status)
         {
-			
+
 		dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/Polizei_animation.png");
-        graphics.m_orientation = gf::Orientation::South;
+        graphics.m_orientation = ori;
         graphics.m_currentAnimation = nullptr;
         loadAnimation(graphics.m_moveSouth, 0);
         loadAnimation(graphics.m_moveEast, 1);

@@ -31,7 +31,12 @@ namespace KGB{
                 Static,
             };
 
-            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori);
+            enum class Status {
+                Walking,
+                Waiting,
+            };
+
+            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status);
 
             void setVelocity(gf::Vector2f velocity);
             void update(gf::Time time);
@@ -52,10 +57,7 @@ namespace KGB{
             Graphics graphics;
             
             
-            enum class Status {
-                Walking,
-                Waiting,
-            };
+            
 
             Status m_status;
             
