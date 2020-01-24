@@ -18,11 +18,14 @@
 
 #include "Messages.h"
 #include "Singletons.h"
+#include "Dynamics.h"
+#include "Graphics.h"
 
 namespace KGB{
 
     class BabyHero : public gf::Entity{
         public:
+
             BabyHero(gf::Vector2f position);
 
             void setVelocity(gf::Vector2f velocity);
@@ -35,23 +38,8 @@ namespace KGB{
             void updateOrientation(int orientation);
 
         private:
-            gf::Vector2f m_position; // center of the BabyHero
-            gf::Vector2f m_velocity;
-            gf::Texture &m_texture;
-            gf::Orientation m_orientation;
-
-            //Animation
-            gf::Animation *m_currentAnimation;
-            
-            gf::Animation m_moveWest;
-            gf::Animation m_moveEast;
-            gf::Animation m_moveNorth;
-            gf::Animation m_moveSouth;
-
-            gf::Animation m_waitWest;
-            gf::Animation m_waitEast;
-            gf::Animation m_waitNorth;
-            gf::Animation m_waitSouth;
+            Dynamics dynamics;
+            Graphics graphics;
             
             enum class Status {
                 Walking,

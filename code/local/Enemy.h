@@ -12,12 +12,11 @@
 #include <gf/Vector.h>
 #include <gf/Window.h>
 #include <gf/Sprite.h>
-#include <gf/Animation.h>
-#include <gf/Orientation.h>
-#include <gf/AnimatedSprite.h>
-#include <stdio.h>
+
 #include "Messages.h"
 #include "Singletons.h"
+#include "Dynamics.h"
+#include "Graphics.h"
 
 #include <Box2D/Box2D.h>
 
@@ -32,7 +31,6 @@ namespace KGB{
                 Static,
             };
 
-            Enemy(gf::Vector2f position);
             Enemy(gf::Vector2f position, PathType path, gf::Orientation ori);
 
             void setVelocity(gf::Vector2f velocity);
@@ -50,23 +48,9 @@ namespace KGB{
 
         private:
             gf::Vector2f m_spawn;
-            gf::Vector2f m_position; // center of the Enemy
-            gf::Vector2f m_velocity;
-            gf::Texture *m_texture;
-            gf::Orientation m_orientation;
-
-            //Animation
-            gf::Animation *m_currentAnimation;
+            Dynamics dynamics;
+            Graphics graphics;
             
-            gf::Animation m_moveWest;
-            gf::Animation m_moveEast;
-            gf::Animation m_moveNorth;
-            gf::Animation m_moveSouth;
-
-            gf::Animation m_waitWest;
-            gf::Animation m_waitEast;
-            gf::Animation m_waitNorth;
-            gf::Animation m_waitSouth;
             
             enum class Status {
                 Walking,

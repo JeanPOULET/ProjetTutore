@@ -43,7 +43,7 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(240, 240); 
+	static constexpr gf::Vector2f ViewSize(2048, 1024); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -96,7 +96,7 @@ int main() {
 	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South);
 	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South);
 	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South);
-	KGB::Enemy Vilain4(cinquante);
+	KGB::Enemy Vilain4(cinquante, KGB::Enemy::PathType::Static, gf::Orientation::South);
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);
