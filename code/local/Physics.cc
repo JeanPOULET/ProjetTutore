@@ -21,13 +21,6 @@ namespace KGB{
     void Physics::update() {
         m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
 
-                m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
-        m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
-        m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
-        m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
-        m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
-
-        m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
         m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
         m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
