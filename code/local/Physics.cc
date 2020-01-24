@@ -16,7 +16,137 @@ namespace KGB{
 
     }
 
-    Physics::Physics(BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4)
+
+
+    void Physics::update() {
+        m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
+        hitboxBaby.setPosition(m_baby.getPosition());
+
+        hitboxVilain1.setPosition(m_vilain1.getPosition());
+        hitboxVilain2.setPosition(m_vilain2.getPosition());
+        hitboxVilain3.setPosition(m_vilain3.getPosition());
+        hitboxVilain4.setPosition(m_vilain4.getPosition());
+        
+        m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
+        m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
+        m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
+        m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
+
+        m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
+
+        m_world.Step(1/80.0, 8, 3);
+
+        m_baby.setPosition(toVec(m_body->GetPosition()));
+    }
+
+     /*
+
+                    TENTATIVE POUR LES MURS -> MAP
+
+     */   
+
+    class PhysicsMaker : public gf::TmxVisitor {
+        static constexpr int Sol = 0;
+        static constexpr int Walls = 1;
+
+        public:
+            PhysicsMaker(b2World& world)
+            : m_world(world)
+            {
+
+            }
+
+      virtual void visitTileLayer(const gf::TmxLayers& map, const gf::TmxTileLayer& layer) override {
+        if (!layer.visible) {
+          return;
+        }
+
+        assert(map.orientation == gf::TmxOrientation::Orthogonal);
+        gf::Log::info("Parsing layer '%s'\n", layer.name.c_str());
+
+        gf::Vector2i tileSize = map.tileSize;
+        gf::Vector2i tilesetTileSize = tileSize;
+        gf::Array2D<int, int> biomes(map.mapSize, Sol);
+
+        int k = 0;
+        for (auto& cell : layer.cells) {
+
+
+            auto tile = cell;
+            auto gid = cell.gid;
+        
+            if (layer.name == "Murs") {
+                if(gid!=0){
+                    int i = k % map.mapSize.width;
+                    int j = k / map.mapSize.width;
+                     gf::Log::info("i=%d\tj=%d\n",(i*32),j);
+                    gf::Vector2f position = gf::Vector2f((i*32)+16,(j*32)+16);
+
+                    b2BodyDef bodyDef;
+                    bodyDef.type = b2_staticBody;
+                    bodyDef.position = fromVec(position);
+                    auto body = m_world.CreateBody(&bodyDef);
+
+                    b2PolygonShape shape;
+                    shape.SetAsBox(16.0f * PHYSICSCALE,16.0f*PHYSICSCALE);
+
+                    b2FixtureDef fixtureDef;
+                    fixtureDef.density = 1.0f;
+                    fixtureDef.friction = 0.0f;
+                    fixtureDef.restitution = 0.0f;
+                    fixtureDef.shape = &shape;
+
+                    body->CreateFixture(&fixtureDef);
+                    
+                }
+                k++;
+            }
+        }
+
+      }
+
+    virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
+        gf::unused(map);
+
+        gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
+
+        for (auto& object : layer.objects) {
+            if (object->kind != gf::TmxObject::Tile) {
+                continue;
+            }
+
+            auto tile = static_cast<gf::TmxTileObject *>(object.get());
+
+            if (layer.name == "Murs") {
+                gf::Vector2f position = tile->position + gf::Vector2f(384 / 2, -70);
+
+                b2BodyDef bodyDef;
+                bodyDef.type = b2_staticBody;
+                bodyDef.position = fromVec(position);
+                auto body = m_world.CreateBody(&bodyDef);
+
+                b2PolygonShape shape;
+                shape.m_radius = 10.0f * PHYSICSCALE;
+
+                b2FixtureDef fixtureDef;
+                fixtureDef.density = 1.0f;
+                fixtureDef.friction = 0.0f;
+                fixtureDef.restitution = 0.0f;
+                fixtureDef.shape = &shape;
+
+                body->CreateFixture(&fixtureDef);
+            }
+        }
+    }
+
+    private:
+      b2World& m_world;
+    };
+
+    constexpr int PhysicsMaker::Sol;
+    constexpr int PhysicsMaker::Walls;
+
+    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4)
         : m_world({ 0.0f, 0.0f })
         , m_body(nullptr)
         , m_baby(baby)
@@ -35,6 +165,15 @@ namespace KGB{
         , hitboxVilain4(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
         {
         
+        //MAP
+        PhysicsMaker maker(m_world);
+        layers.visitLayers(maker);
+
+        b2CircleShape shape;
+        shape.m_radius = 20.0f * PHYSICSCALE; 
+
+
+
         //BABY
         gf::Vector2f initialPosition = m_baby.getPosition();
         
@@ -104,23 +243,6 @@ namespace KGB{
 
     }
 
-    void Physics::update() {
-        m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
-        hitboxBaby.setPosition(m_baby.getPosition());
-        hitboxVilain1.setPosition(m_vilain1.getPosition());
-        hitboxVilain2.setPosition(m_vilain2.getPosition());
-        hitboxVilain3.setPosition(m_vilain3.getPosition());
-        hitboxVilain4.setPosition(m_vilain4.getPosition());
-        m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
-        m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
-        m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
-        m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
 
-        m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
-
-        m_world.Step(1/80.0, 8, 3);
-
-        m_baby.setPosition(toVec(m_body->GetPosition()));
-    }
 
 }

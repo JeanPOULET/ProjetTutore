@@ -16,7 +16,7 @@
 #include <gf/Window.h>
 #include <gf/Sprite.h>
 #include <gf/Tmx.h>
-
+#include <gf/Log.h>
 
 #include <iostream>
 #include <cassert>
@@ -146,7 +146,7 @@ int main() {
 	actions.addAction(downAction);
 
 	//Physics
-	KGB::Physics physics(bebeHero, Vilain, Vilain2, Vilain3, Vilain4);
+	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4);
 
 	// game loop
 	gf::Clock clock;
@@ -211,7 +211,7 @@ int main() {
 		physics.update();
 
 		// 3. draw
-
+		gf::Log::info("Position x : %lf\t Position y :%lf\n",bebeHero.getPosition().u,bebeHero.getPosition().v);
 		mainView.setCenter(bebeHero.getPosition());
 		renderer.clear();
 		renderer.setView(mainView);

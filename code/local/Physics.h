@@ -12,16 +12,31 @@
 #include <gf/Tmx.h>
 #include <stdio.h>
 
+#include <set>
+
+
+#include <gf/Array2D.h>
+#include <gf/Color.h>
+#include <gf/Curves.h>
+#include <gf/Log.h>
+#include <gf/Polyline.h>
+#include <gf/RenderTarget.h>
+#include <gf/Shapes.h>
+#include <gf/Unused.h>
+#include <gf/VectorOps.h>
+
 #include "BabyHero.h"
 #include "Enemy.h"
 #include "Debug.h"
 #include "Square.h"
 
 
+
 namespace KGB {
 	class Physics : public gf::Model, public b2ContactListener {
 	public:
-		Physics(BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
+		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
+
 		void update();
 		Square hitboxBaby;
 		Square hitboxVilain1;
