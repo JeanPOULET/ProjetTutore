@@ -23,11 +23,6 @@ namespace KGB {
 	public:
 		Physics(BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
 		void update();
-		Square hitboxBaby;
-		Square hitboxVilain1;
-		Square hitboxVilain2;
-		Square hitboxVilain3;
-		Square hitboxVilain4;
 
 	private:
 		b2World m_world;

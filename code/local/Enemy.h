@@ -18,6 +18,9 @@
 #include <stdio.h>
 #include "Messages.h"
 #include "Singletons.h"
+
+#include <Box2D/Box2D.h>
+
 namespace KGB{
 
     class Enemy : public gf::Entity{
@@ -49,7 +52,7 @@ namespace KGB{
             gf::Vector2f m_spawn;
             gf::Vector2f m_position; // center of the Enemy
             gf::Vector2f m_velocity;
-            gf::Texture &m_texture;
+            gf::Texture *m_texture;
             gf::Orientation m_orientation;
 
             //Animation

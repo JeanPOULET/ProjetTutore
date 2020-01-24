@@ -43,7 +43,7 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(240, 240); 
+	static constexpr gf::Vector2f ViewSize(2048, 1024); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -117,6 +117,11 @@ int main() {
 	closeWindowAction.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::Back);
 	actions.addAction(closeWindowAction);
 
+	gf::Action debugPhysicsAction("Debug Physics");
+	debugPhysicsAction.addScancodeKeyControl(gf::Scancode::F10);
+	debugPhysicsAction.setContinuous();
+	actions.addAction(debugPhysicsAction);
+
 	gf::Action leftAction("Left");
 	leftAction.addScancodeKeyControl(gf::Scancode::A);
 	leftAction.addScancodeKeyControl(gf::Scancode::Left);
@@ -156,6 +161,9 @@ int main() {
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 	
+	/*KGB::Debug debug();
+  	mainEntities.addEntity(debug);*/
+
 	while (window.isOpen()) {
 		// 1. input
 		gf::Event event;
@@ -203,11 +211,6 @@ int main() {
 		
 		gf::Time time = clock.restart();
 		mainEntities.update(time);
-		//bebeHero.update(time);
-		/*Vilain.update(time);
-		Vilain2.update(time);
-		Vilain3.update(time);
-		Vilain4.update(time);*/
 		physics.update();
 
 		// 3. draw
@@ -222,11 +225,6 @@ int main() {
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
 		Vilain4.render(renderer); 
-		physics.hitboxBaby.render(renderer);
-		physics.hitboxVilain1.render(renderer);
-		physics.hitboxVilain2.render(renderer);
-		physics.hitboxVilain3.render(renderer);
-		physics.hitboxVilain4.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything
