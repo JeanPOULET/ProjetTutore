@@ -108,7 +108,7 @@ int main() {
 
 
 	// controls
-
+	
 	gf::ActionContainer actions;
 
 	gf::Action closeWindowAction("Close window");
