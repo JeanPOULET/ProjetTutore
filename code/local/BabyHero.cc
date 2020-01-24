@@ -4,9 +4,9 @@
 namespace KGB{
   
     BabyHero::BabyHero(gf::Vector2f position)
-        :         m_status(Status::Waiting)
-        
+        : m_status(Status::Waiting)
         {
+			
         dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/KGBaby_animation.png");
