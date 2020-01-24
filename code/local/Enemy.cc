@@ -7,7 +7,7 @@ namespace KGB{
         : m_position(position)
 		, m_spawn(position)
         , m_velocity(0, 0)
-        , m_texture(gResourceManager().getTexture("Image/Polizei_animation.png"))
+        , m_texture(&gResourceManager().getTexture("Image/Polizei_animation.png"))
         , m_orientation(gf::Orientation::South)
         , m_currentAnimation(nullptr)
 		, m_path(PathType::Static)
@@ -27,7 +27,7 @@ namespace KGB{
         : m_position(position)
 		, m_spawn(position)
         , m_velocity(0, 50.0)
-        , m_texture(gResourceManager().getTexture("Image/Polizei_animation.png"))
+        , m_texture(&gResourceManager().getTexture("Image/Polizei_animation.png"))
         , m_orientation(ori)
         , m_currentAnimation(nullptr)
 		, m_path(path)
@@ -166,9 +166,7 @@ namespace KGB{
 
         for (int i = 0; i < 4; ++i) {
           gf::RectF frame = gf::RectF::fromPositionSize(gf::Vector2i(i, line) *  FrameSize / TextureSize, FrameSize / TextureSize);
-          animation.addFrame(m_texture, frame, FrameDuration);
+          animation.addFrame(*m_texture, frame, FrameDuration);
         }
-        
     }
-
 }

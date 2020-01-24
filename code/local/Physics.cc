@@ -20,13 +20,14 @@ namespace KGB{
 
     void Physics::update() {
         m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
-        hitboxBaby.setPosition(m_baby.getPosition());
 
-        hitboxVilain1.setPosition(m_vilain1.getPosition());
-        hitboxVilain2.setPosition(m_vilain2.getPosition());
-        hitboxVilain3.setPosition(m_vilain3.getPosition());
-        hitboxVilain4.setPosition(m_vilain4.getPosition());
-        
+                m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
+        m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
+        m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
+        m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
+        m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
+
+        m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
         m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
         m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
@@ -158,11 +159,6 @@ namespace KGB{
         , m_vilainBody3(nullptr)
         , m_vilain4(policier4)
         , m_vilainBody4(nullptr)
-        , hitboxBaby(cinquante, 15.0f*PHYSICSCALE, gf::Color::Red)
-        , hitboxVilain1(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
-        , hitboxVilain2(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
-        , hitboxVilain3(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
-        , hitboxVilain4(cinquante, 25.0f*PHYSICSCALE, gf::Color::Red)
         {
         
         //MAP
@@ -238,11 +234,9 @@ namespace KGB{
         m_vilainBody4->CreateFixture(&fixtureDef);
 
         fixtureDef.shape = &shapeBaby;
-
         m_body->CreateFixture(&fixtureDef);
 
     }
-
 
 
 }
