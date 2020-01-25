@@ -92,20 +92,19 @@ int main() {
 	static constexpr gf::Vector2u pos2(32*54, 32*12);
 	static constexpr gf::Vector2u pos3(32*45, 32*9);
 	static constexpr gf::Vector2u pos4(32*71, 32*22);
+	static constexpr gf::Vector2u pos5(32*48, 32*15.45);
 
 	KGB::Enemy Vilain(pos1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 200.0);
 	KGB::Enemy Vilain2(pos2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
 	KGB::Enemy Vilain3(pos3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
-	KGB::Enemy Vilain4(pos4, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
+	KGB::Enemy Vilain4(pos4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
+	KGB::Enemy Vilain5(pos5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
+
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);
 	mainEntities.addEntity(Vilain4);
-
-	std::vector<KGB::Enemy> vilains;
-	vilains.push_back(Vilain);
-	vilains.push_back(Vilain2);
-
+	mainEntities.addEntity(Vilain5);
 
 	// controls
 	
@@ -151,7 +150,7 @@ int main() {
 	actions.addAction(downAction);
 
 	//Physics
-	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4);
+	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5);
 
 	// game loop
 	gf::Clock clock;
@@ -225,6 +224,7 @@ int main() {
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
 		Vilain4.render(renderer);
+		Vilain5.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything

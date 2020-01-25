@@ -24,12 +24,14 @@ namespace KGB{
         m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
         m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
+        m_vilainBody5->SetTransform(fromVec(m_vilain5.getPosition()), 0.0f);
 
         m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
         m_vilainBody1->SetLinearVelocity(fromVec(m_vilain1.getVelocity()));
         m_vilainBody2->SetLinearVelocity(fromVec(m_vilain2.getVelocity()));
         m_vilainBody3->SetLinearVelocity(fromVec(m_vilain3.getVelocity()));
         m_vilainBody4->SetLinearVelocity(fromVec(m_vilain4.getVelocity()));
+        m_vilainBody5->SetLinearVelocity(fromVec(m_vilain5.getVelocity()));
 
         m_world.Step(1/80.0, 8, 3);
 
@@ -37,6 +39,7 @@ namespace KGB{
         m_vilain2.setPosition(toVec(m_vilainBody2->GetPosition()));
         m_vilain3.setPosition(toVec(m_vilainBody3->GetPosition()));
         m_vilain4.setPosition(toVec(m_vilainBody4->GetPosition()));
+        m_vilain5.setPosition(toVec(m_vilainBody5->GetPosition()));
         m_baby.setPosition(toVec(m_body->GetPosition()));
         
         
@@ -147,7 +150,7 @@ namespace KGB{
     constexpr int PhysicsMaker::Sol;
     constexpr int PhysicsMaker::Walls;
 
-    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4)
+    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5)
         : m_world({ 0.0f, 0.0f })
         , m_body(nullptr)
         , m_baby(baby)
@@ -159,6 +162,8 @@ namespace KGB{
         , m_vilainBody3(nullptr)
         , m_vilain4(policier4)
         , m_vilainBody4(nullptr)
+        , m_vilain5(policier5)
+        , m_vilainBody5(nullptr)
         {
         
         //MAP
@@ -209,10 +214,19 @@ namespace KGB{
         bodyDefV4.position = fromVec(initialVilainPosition4);
         m_vilainBody4 = m_world.CreateBody(&bodyDefV4);
 
+        //ENEMY 5
+        
+        gf::Vector2f initialVilainPosition5 = m_vilain5.getPosition();
+
+        b2BodyDef bodyDefV5;
+        bodyDefV5.type = b2_dynamicBody;
+        bodyDefV5.position = fromVec(initialVilainPosition5);
+        m_vilainBody5 = m_world.CreateBody(&bodyDefV5);
+
 
         //Shape & Fixture
         b2PolygonShape shapeVilain;
-        shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 20.0f*PHYSICSCALE);
+        shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 18.0f*PHYSICSCALE);
 
         b2PolygonShape shapeBaby;
         shapeBaby.SetAsBox(13.0f*PHYSICSCALE, 12.0f*PHYSICSCALE);
@@ -227,6 +241,7 @@ namespace KGB{
         m_vilainBody2->CreateFixture(&fixtureDef);
         m_vilainBody3->CreateFixture(&fixtureDef);
         m_vilainBody4->CreateFixture(&fixtureDef);
+        m_vilainBody5->CreateFixture(&fixtureDef);
 
         fixtureDef.shape = &shapeBaby;
         m_body->CreateFixture(&fixtureDef);

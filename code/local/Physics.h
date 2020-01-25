@@ -33,7 +33,7 @@
 namespace KGB {
 	class Physics : public gf::Model, public b2ContactListener {
 	public:
-		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
+		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5);
 		void update();
 
 	private:
@@ -49,6 +49,8 @@ namespace KGB {
 		b2Body *m_vilainBody3;
 		Enemy& m_vilain4;
 		b2Body *m_vilainBody4;
+		Enemy& m_vilain5;
+		b2Body *m_vilainBody5;
 	};
 
 }
