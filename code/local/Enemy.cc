@@ -7,8 +7,9 @@ namespace KGB{
         : m_spawn(position)
 		, m_path(path)
 		, m_status(status)
+		, m_cone(nullptr)
         {
-
+		viewCone();
 		dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/Polizei_animation.png");
@@ -122,6 +123,13 @@ namespace KGB{
     }
 
     void Enemy::render(gf::RenderTarget& target){
+
+		gf::ConvexShape coneShape(m_cone);
+
+		coneShape.setPosition(dynamics.m_position+10.0f);
+        coneShape.setColor(gf::Color::Black);
+        coneShape.setAnchor(gf::Anchor::Center);
+
         gf::AnimatedSprite animated;
         assert(graphics.m_currentAnimation);
         animated.setAnimation(*graphics.m_currentAnimation);
@@ -129,6 +137,7 @@ namespace KGB{
         animated.setScale(0.75f);
         animated.setAnchor(gf::Anchor::Center);
         target.draw(animated);
+		target.draw(coneShape);
     }
     
 
@@ -150,4 +159,11 @@ namespace KGB{
           animation.addFrame(*graphics.m_texture, frame, FrameDuration);
         }
     }
+	
+	void Enemy::viewCone(){
+		
+		m_cone.addPoint({0.0f,0.0f});
+		m_cone.addPoint({10.0f,40.0f});
+		m_cone.addPoint({-10.0f,40.0f});
+	}
 }

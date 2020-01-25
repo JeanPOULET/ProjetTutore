@@ -49,7 +49,7 @@ namespace KGB{
             void round();
             void lineH();
             void lineV();
-            
+            void viewCone();
 
         private:
             gf::Vector2f m_spawn;
@@ -57,7 +57,7 @@ namespace KGB{
             Graphics graphics;
             
             
-            
+            gf::Polygon m_cone;
 
             Status m_status;
             
