@@ -43,7 +43,7 @@ int main() {
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(240, 240); 
+	static constexpr gf::Vector2f ViewSize(2048, 1024); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -83,20 +83,20 @@ int main() {
 	mainEntities.addEntity(map);
 
 
-	static constexpr gf::Vector2u initialPosition(32*51,120);
+	static constexpr gf::Vector2u initialPosition(32*51,32*4);
 	KGB::BabyHero bebeHero(initialPosition);
 	mainEntities.addEntity(bebeHero);
 
 
-	static constexpr gf::Vector2u zero(32*54, 240);
-	static constexpr gf::Vector2u cinquante(32*90, 340);
-	static constexpr gf::Vector2u troisCent(32*59, 500);
-	static constexpr gf::Vector2u cinqCent(32*68, 750);
+	static constexpr gf::Vector2u pos1(32*73, 32*4);
+	static constexpr gf::Vector2u pos2(32*54, 32*12);
+	static constexpr gf::Vector2u pos3(32*45, 32*9);
+	static constexpr gf::Vector2u pos4(32*71, 32*22);
 
-	KGB::Enemy Vilain(zero, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking);
-	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
-	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
-	KGB::Enemy Vilain4(cinquante, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting);
+	KGB::Enemy Vilain(pos1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 200.0);
+	KGB::Enemy Vilain2(pos2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
+	KGB::Enemy Vilain3(pos3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
+	KGB::Enemy Vilain4(pos4, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);
@@ -224,7 +224,7 @@ int main() {
 		Vilain.render(renderer);
 		Vilain2.render(renderer);
 		Vilain3.render(renderer);
-		Vilain4.render(renderer); 
+		Vilain4.render(renderer);
 
 		renderer.setView(hudView);
 		// draw everything

@@ -30,13 +30,10 @@
 #include "Debug.h"
 #include "Square.h"
 
-
-
 namespace KGB {
 	class Physics : public gf::Model, public b2ContactListener {
 	public:
 		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
-
 		void update();
 
 	private:

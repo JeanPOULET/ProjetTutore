@@ -76,11 +76,11 @@ namespace KGB{
                 auto tile = cell;
                 auto gid = cell.gid;
             
-                if (layer.name == "Murs") {
+                if (layer.name == "Murs"|| layer.name == "Déco" || layer.name == "Objets") {
                     if(gid!=0){
                         int i = k % map.mapSize.width;
                         int j = k / map.mapSize.width;
-                        gf::Log::info("i=%d\tj=%d\n",(i*32),j);
+                        //gf::Log::info("i=%d\tj=%d\n",(i*32),j);
                         gf::Vector2f position = gf::Vector2f((i*32)+16,(j*32)+16);
 
                         b2BodyDef bodyDef;
@@ -118,7 +118,7 @@ namespace KGB{
 
             auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-            if (layer.name == "Murs") {
+            if (layer.name == "Murs" || layer.name == "Déco" || layer.name == "Objets") {
                 gf::Vector2f position = tile->position + gf::Vector2f(384 / 2, -70);
 
                 b2BodyDef bodyDef;
@@ -232,6 +232,4 @@ namespace KGB{
         m_body->CreateFixture(&fixtureDef);
 
     }
-
-
 }
