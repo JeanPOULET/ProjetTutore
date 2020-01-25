@@ -125,7 +125,7 @@ namespace KGB{
     void Enemy::render(gf::RenderTarget& target){
 
 		gf::ConvexShape coneShape(m_cone);
-
+		
 		coneShape.setPosition(dynamics.m_position+10.0f);
         coneShape.setColor(gf::Color::Black);
         coneShape.setAnchor(gf::Anchor::Center);
@@ -163,7 +163,7 @@ namespace KGB{
 	void Enemy::viewCone(){
 		
 		m_cone.addPoint({0.0f,0.0f});
-		m_cone.addPoint({10.0f,40.0f});
-		m_cone.addPoint({-10.0f,40.0f});
+		m_cone.addPoint({20.0f,200.0f});
+		m_cone.addPoint({-20.0f,200.0f});
 	}
 }

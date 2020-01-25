@@ -25,6 +25,9 @@ namespace KGB{
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
         m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
 
+        /*for (b2Contact* contact = *m_world->GetContactList(); contact; contact = contact->GetNext()){
+
+        }*/
         m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
 
         m_world.Step(1/80.0, 8, 3);
@@ -205,7 +208,28 @@ namespace KGB{
         m_vilainBody4 = m_world.CreateBody(&bodyDefV4);
 
 
-        //Shape & Fixture
+        //Pour le cone 
+        
+        b2FixtureDef fixtureCone;
+        b2PolygonShape shapeCone;
+        b2Vec2 vertices[3];
+        vertices[0].Set(0,0);
+        vertices[1].Set(-20* PHYSICSCALE, 200* PHYSICSCALE);
+        vertices[2].Set( 20* PHYSICSCALE, 200* PHYSICSCALE);
+
+        shapeCone.Set(vertices, 3);
+
+        fixtureCone.density = 1.0f;
+        fixtureCone.friction = 0.0f;
+        fixtureCone.restitution = 0.0f;
+        fixtureCone.shape = &shapeCone;
+
+        m_vilainBody1->CreateFixture(&fixtureCone);
+        m_vilainBody2->CreateFixture(&fixtureCone);
+        m_vilainBody3->CreateFixture(&fixtureCone);
+        m_vilainBody4->CreateFixture(&fixtureCone);
+
+        //
         b2PolygonShape shapeVilain;
         shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
 
