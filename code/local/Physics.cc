@@ -26,10 +26,20 @@ namespace KGB{
         m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
 
         m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
+        m_vilainBody1->SetLinearVelocity(fromVec(m_vilain1.getVelocity()));
+        m_vilainBody2->SetLinearVelocity(fromVec(m_vilain2.getVelocity()));
+        m_vilainBody3->SetLinearVelocity(fromVec(m_vilain3.getVelocity()));
+        m_vilainBody4->SetLinearVelocity(fromVec(m_vilain4.getVelocity()));
 
         m_world.Step(1/80.0, 8, 3);
 
+        m_vilain1.setPosition(toVec(m_vilainBody1->GetPosition()));
+        m_vilain2.setPosition(toVec(m_vilainBody2->GetPosition()));
+        m_vilain3.setPosition(toVec(m_vilainBody3->GetPosition()));
+        m_vilain4.setPosition(toVec(m_vilainBody4->GetPosition()));
         m_baby.setPosition(toVec(m_body->GetPosition()));
+        
+        
     }
 
      /*
@@ -155,11 +165,6 @@ namespace KGB{
         PhysicsMaker maker(m_world);
         layers.visitLayers(maker);
 
-        b2CircleShape shape;
-        shape.m_radius = 20.0f * PHYSICSCALE; 
-
-
-
         //BABY
         gf::Vector2f initialPosition = m_baby.getPosition();
         
@@ -207,10 +212,10 @@ namespace KGB{
 
         //Shape & Fixture
         b2PolygonShape shapeVilain;
-        shapeVilain.SetAsBox(25.0f*PHYSICSCALE, 25.0f*PHYSICSCALE);
+        shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 20.0f*PHYSICSCALE);
 
         b2PolygonShape shapeBaby;
-        shapeBaby.SetAsBox(15.0f*PHYSICSCALE, 15.0f*PHYSICSCALE);
+        shapeBaby.SetAsBox(13.0f*PHYSICSCALE, 12.0f*PHYSICSCALE);
 
         b2FixtureDef fixtureDef;
         fixtureDef.density = 1.0f;

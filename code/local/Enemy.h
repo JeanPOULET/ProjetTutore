@@ -50,9 +50,10 @@ namespace KGB{
             void lineH();
             void lineV();
             void viewCone();
+            gf::Vector2f m_spawn;
 
         private:
-            gf::Vector2f m_spawn;
+            
             Dynamics dynamics;
             Graphics graphics;
             

@@ -89,7 +89,7 @@ int main() {
 
 
 	static constexpr gf::Vector2u zero(32*54, 240);
-	static constexpr gf::Vector2u cinquante(32*54, 340);
+	static constexpr gf::Vector2u cinquante(32*90, 340);
 	static constexpr gf::Vector2u troisCent(32*59, 500);
 	static constexpr gf::Vector2u cinqCent(32*68, 750);
 
