@@ -52,7 +52,6 @@ namespace KGB {
 		Enemy& m_vilain5;
 		b2Body *m_vilainBody5;
 	};
-
 }
 
 #endif // KGB_PHYSICS_H

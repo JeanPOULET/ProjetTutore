@@ -44,14 +44,18 @@ int main() {
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(2048, 1024); 
+	static constexpr gf::Vector2f ViewSize2(240, 240); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(FRAME);
-
+	
+	gf::Event::MouseButtonEvent button;
+	
 	gf::RenderWindow renderer(window);
-
+	
+	
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
 	gf::SingletonStorage<gf::ResourceManager> storageForResourceManager(KGB::gResourceManager);
 	KGB::gResourceManager().addSearchDir(KGB_DATA_DIR);
@@ -108,6 +112,19 @@ int main() {
 
 	// controls
 	
+	gf::ActionContainer introAction;
+
+	gf::Action space("Next");
+	space.addScancodeKeyControl(gf::Scancode::Space);
+	space.setContinuous();
+	introAction.addAction(space);
+
+	gf::Action skip("Skip");
+	skip.addScancodeKeyControl(gf::Scancode::P);
+	skip.setContinuous();
+	introAction.addAction(skip);
+
+
 	gf::ActionContainer actions;
 
 	gf::Action closeWindowAction("Close window");
@@ -115,11 +132,7 @@ int main() {
 	closeWindowAction.addKeycodeKeyControl(gf::Keycode::Escape);
 	closeWindowAction.addGamepadButtonControl(gf::AnyGamepad, gf::GamepadButton::Back);
 	actions.addAction(closeWindowAction);
-
-	gf::Action debugPhysicsAction("Debug Physics");
-	debugPhysicsAction.addScancodeKeyControl(gf::Scancode::F10);
-	debugPhysicsAction.setContinuous();
-	actions.addAction(debugPhysicsAction);
+	introAction.addAction(closeWindowAction);
 
 	gf::Action leftAction("Left");
 	leftAction.addScancodeKeyControl(gf::Scancode::A);
@@ -162,8 +175,78 @@ int main() {
 	
 	/*KGB::Debug debug();
   	mainEntities.addEntity(debug);*/
+	size_t intro = 0;
+	bool spaceisActiveOneTime = true;
+	while(window.isOpen() && intro <= 3){
+		
+		gf::Event event;
+		while (window.pollEvent(event)) {
+			introAction.processEvent(event);
+			views.processEvent(event);
+		}
 
-	while (window.isOpen()) {
+		if(closeWindowAction.isActive()){
+			window.close();
+		}
+
+		if(space.isActive()){
+			renderer.clear();
+			if(spaceisActiveOneTime){
+				intro++;
+				spaceisActiveOneTime = false;
+			}
+		}
+
+		if(skip.isActive()){
+			intro = 4;
+		}
+
+		mainView.setCenter(bebeHero.getPosition());
+		renderer.setView(mainView);
+		gf::Font font("../data/KGB/Xolonium-Regular.ttf");
+		gf::Text text("Hello", font);
+		text.setOutlineColor(gf::Color::Black);
+		text.setOutlineThickness(2.0f);
+		text.setPosition(initialPosition);
+		text.setParagraphWidth(1000.0f);
+		text.setAlignment(gf::Alignment::Center);
+		text.setAnchor(gf::Anchor::Center);
+
+		gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
+		text2.setCharacterSize(30);
+		text2.setColor(gf::Color::Black);
+		text2.setPosition(gf::Vector2f(32*51, 32*20));
+		text2.setParagraphWidth(1000.0f);
+		text2.setAlignment(gf::Alignment::Center);
+		text2.setAnchor(gf::Anchor::Center);
+		if(intro == 0){
+			text.setCharacterSize(30);
+			text.setColor(gf::Color::Red);			
+		}else if(intro == 1){
+			text.setString("This is");
+			text.setCharacterSize(160);
+			text.setColor(gf::Color::Blue);
+		}else if(intro == 2){
+			text.setString("Une intro");
+			text.setCharacterSize(60);
+			text.setColor(gf::Color::Black);
+		}else if(intro == 3){
+			text.setString("De petit joueur");
+			text.setCharacterSize(40);
+			text.setColor(gf::Color::Green);
+		}
+		renderer.draw(text);
+		renderer.draw(text2);
+		// draw everything
+		renderer.display();
+		introAction.reset();
+		if(!space.isActive()){
+			spaceisActiveOneTime = true;
+		}
+	}
+	mainView.setSize(ViewSize2);
+	while (window.isOpen() && intro > 3) {
+	
 		// 1. input
 		gf::Event event;
 		while (window.pollEvent(event)) {
@@ -225,11 +308,13 @@ int main() {
 		Vilain3.render(renderer);
 		Vilain4.render(renderer);
 		Vilain5.render(renderer);
-
+		
+		
 		renderer.setView(hudView);
 		// draw everything
 		renderer.display();
 		actions.reset();
 	}
+	
 	return 0;
 }
