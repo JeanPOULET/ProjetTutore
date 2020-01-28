@@ -37,7 +37,7 @@ namespace KGB{
                 Waiting,
             };
 
-            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status);
+            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance);
 
             void setVelocity(gf::Vector2f velocity);
             void update(gf::Time time);
@@ -61,7 +61,7 @@ namespace KGB{
             Dynamics dynamics;
             
             
-            
+            float m_distance;
             gf::Polygon m_cone;
 
             Status m_status;

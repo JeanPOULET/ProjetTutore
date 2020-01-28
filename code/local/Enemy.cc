@@ -3,11 +3,12 @@
 
 namespace KGB{
   
-	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status)
+	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance)
         : m_spawn(position)
 		, m_path(path)
 		, m_status(status)
 		, m_cone(nullptr)
+		, m_distance(distance)
         {
 		
 		dynamics.m_position = position;
@@ -34,13 +35,13 @@ namespace KGB{
     }
 
 	void Enemy::round(){
-		if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y >= m_spawn.y + 200.0f){
+		if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::East;
 			dynamics.m_velocity = gf::Vector2f(50.0,0);
-		}else if(dynamics.m_position.x >= m_spawn.x + 200.0f && dynamics.m_position.y >= m_spawn.y + 200.0f){
+		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::North;
 			dynamics.m_velocity = gf::Vector2f(0,-50.0);
-		}else if(dynamics.m_position.x >= m_spawn.x + 200.0f && dynamics.m_position.y <= m_spawn.y){
+		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::West;
 			dynamics.m_velocity = gf::Vector2f(-50.0,0);
 		}else if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y <= m_spawn.y){
@@ -49,18 +50,18 @@ namespace KGB{
 		}
 	}
 
-	void Enemy::lineV(){
+	void Enemy::lineH(){
 		if(dynamics.m_position.x <= m_spawn.x){
 			graphics.m_orientation = gf::Orientation::East;
 			dynamics.m_velocity = gf::Vector2f(50.0,0);
-		}else if(dynamics.m_position.x >= m_spawn.x + 200.0f){
+		}else if(dynamics.m_position.x >= m_spawn.x + m_distance){
 			graphics.m_orientation = gf::Orientation::West;
 			dynamics.m_velocity = gf::Vector2f(-50.0,0);
 		}
 	}
 
-	void Enemy::lineH(){
-		if(dynamics.m_position.y >= m_spawn.y + 200.0f){
+	void Enemy::lineV(){
+		if(dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::North;
 			dynamics.m_velocity = gf::Vector2f(0,-50.0);
 		}else if(dynamics.m_position.y <= m_spawn.y){

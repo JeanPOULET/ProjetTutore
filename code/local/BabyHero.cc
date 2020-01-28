@@ -1,6 +1,13 @@
 #include "BabyHero.h"
 #include "gf/Log.h"
 
+#include <gf/Anchor.h>
+#include <gf/Coordinates.h>
+#include <gf/StringUtils.h>
+#include <gf/Text.h>
+#include <gf/Unused.h>
+#include <gf/Font.h>
+
 namespace KGB{
   
     BabyHero::BabyHero(gf::Vector2f position)
@@ -109,6 +116,7 @@ namespace KGB{
         animated.setPosition(dynamics.m_position);
         animated.setAnchor(gf::Anchor::Center);
         target.draw(animated);
+        
     }
     
 
