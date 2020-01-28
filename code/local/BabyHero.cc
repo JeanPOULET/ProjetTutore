@@ -1,5 +1,5 @@
 #include "BabyHero.h"
-
+#include "gf/Log.h"
 
 namespace KGB{
   
@@ -120,6 +120,10 @@ namespace KGB{
         dynamics.m_position = position;
     }
 
+    std::string BabyHero::getClassName(){
+      return "BabyHero";
+    }
+
     void BabyHero::loadAnimation(gf::Animation &animation, int line) {
         static constexpr gf::Vector2f TextureSize = { 256.0f, 512.0f };
         static constexpr gf::Vector2f FrameSize = { 64.0f, 64.0f };
@@ -131,5 +135,10 @@ namespace KGB{
         }
         
     }
+
+    void BabyHero::startContact() {
+      gf::Log::info("JE T'AI VU\n");
+    }
+    void BabyHero::endContact() { gf::Log::info("JE FUIS SI VITE\n"); }
 
 }

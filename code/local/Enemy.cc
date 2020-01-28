@@ -9,7 +9,7 @@ namespace KGB{
 		, m_status(status)
 		, m_cone(nullptr)
         {
-		viewCone();
+		
 		dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/Polizei_animation.png");
@@ -123,7 +123,24 @@ namespace KGB{
     }
 
     void Enemy::render(gf::RenderTarget& target){
-
+		gf::Polygon m_cone;
+		if(this->graphics.m_orientation==gf::Orientation::South){
+			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({20.0f,200.0f});
+			m_cone.addPoint({-20.0f,200.0f});
+		}else if(this->graphics.m_orientation==gf::Orientation::North){
+			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({20.0f,-200.0f});
+			m_cone.addPoint({-20.0f,-200.0f});
+		}else if(this->graphics.m_orientation==gf::Orientation::East){
+			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({100.0f,200.0f});
+			m_cone.addPoint({100.0f,-200.0f});
+		}else{
+			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({-100.0f,200.0f});
+			m_cone.addPoint({-100.0f,-200.0f});			
+		}
 		gf::ConvexShape coneShape(m_cone);
 		
 		coneShape.setPosition(dynamics.m_position+10.0f);
@@ -159,11 +176,13 @@ namespace KGB{
           animation.addFrame(*graphics.m_texture, frame, FrameDuration);
         }
     }
-	
-	void Enemy::viewCone(){
-		
-		m_cone.addPoint({0.0f,0.0f});
-		m_cone.addPoint({20.0f,200.0f});
-		m_cone.addPoint({-20.0f,200.0f});
+
+    void Enemy::startContact() {
+      //gf::Log::info("AROUF GANGSTA\n");
+    }
+    void Enemy::endContact() { 
+		//gf::Log::info("JE SUIS LE ROI ARROUF\n");
 	}
+	
+
 }

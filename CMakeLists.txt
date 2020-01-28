@@ -25,6 +25,7 @@ add_executable(KGB
   code/local/Enemy.cc
   #code/local/Debug.cc
   code/local/Physics.cc
+  code/local/b2dContactListener.cc
 
 )
 

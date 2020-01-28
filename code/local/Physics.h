@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 #include <set>
-
+#include <string>
 
 #include <gf/Array2D.h>
 #include <gf/Color.h>
@@ -29,17 +29,19 @@
 #include "Enemy.h"
 #include "Debug.h"
 #include "Square.h"
+#include "b2dContactListener.h"
 
 
 
 namespace KGB {
-	class Physics : public gf::Model, public b2ContactListener {
+	class Physics : public gf::Model {
 	public:
 		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4);
-
+		void setPhysicCone(int vilain);
 		void update();
 
 	private:
+		//b2dContactListener m_contactListener;
 		b2World m_world;
 		b2Body *m_body;
 		BabyHero& m_baby;

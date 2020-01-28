@@ -97,6 +97,7 @@ int main() {
 	KGB::Enemy Vilain2(troisCent, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
 	KGB::Enemy Vilain3(cinqCent, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking);
 	KGB::Enemy Vilain4(cinquante, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting);
+
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
 	mainEntities.addEntity(Vilain3);

@@ -21,6 +21,8 @@
 #include "Dynamics.h"
 #include "Graphics.h"
 
+#include <Box2D/Box2D.h>
+
 namespace KGB{
 
     class BabyHero : public gf::Entity{
@@ -36,6 +38,10 @@ namespace KGB{
             void setPosition(gf::Vector2f position);
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
+            std::string getClassName();
+
+            virtual void startContact();
+            virtual void endContact();
 
         private:
             Dynamics dynamics;

@@ -1,7 +1,7 @@
 #include "Physics.h"
 
 namespace KGB{
-
+    KGB::b2dContactListener m_contactListener;
     namespace{
         constexpr float PHYSICSCALE = 0.02f;
         static constexpr gf::Vector2u cinquante(200, 200);
@@ -16,25 +16,33 @@ namespace KGB{
 
     }
 
+    enum _entityCategory{
+        BABY = 0x0001,
+        ENEMY = 0x0004,
+        OTHER = 0x0010,
+
+    };
 
 
     void Physics::update() {
+
+        
         m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
         m_vilainBody1->SetTransform(fromVec(m_vilain1.getPosition()), 0.0f);
         m_vilainBody2->SetTransform(fromVec(m_vilain2.getPosition()), 0.0f);
         m_vilainBody3->SetTransform(fromVec(m_vilain3.getPosition()), 0.0f);
         m_vilainBody4->SetTransform(fromVec(m_vilain4.getPosition()), 0.0f);
 
-        /*for (b2Contact* contact = *m_world->GetContactList(); contact; contact = contact->GetNext()){
 
-        }*/
         m_body->SetLinearVelocity(fromVec(m_baby.getVelocity()));
         m_vilainBody1->SetLinearVelocity(fromVec(m_vilain1.getVelocity()));
         m_vilainBody2->SetLinearVelocity(fromVec(m_vilain2.getVelocity()));
         m_vilainBody3->SetLinearVelocity(fromVec(m_vilain3.getVelocity()));
         m_vilainBody4->SetLinearVelocity(fromVec(m_vilain4.getVelocity()));
-
+        
         m_world.Step(1/80.0, 8, 3);
+
+
 
         m_vilain1.setPosition(toVec(m_vilainBody1->GetPosition()));
         m_vilain2.setPosition(toVec(m_vilainBody2->GetPosition()));
@@ -42,7 +50,7 @@ namespace KGB{
         m_vilain4.setPosition(toVec(m_vilainBody4->GetPosition()));
         m_baby.setPosition(toVec(m_body->GetPosition()));
         
-        
+
     }
 
      /*
@@ -99,6 +107,7 @@ namespace KGB{
                         fixtureDef.friction = 0.0f;
                         fixtureDef.restitution = 0.0f;
                         fixtureDef.shape = &shape;
+                        fixtureDef.filter.categoryBits = OTHER;
 
                         body->CreateFixture(&fixtureDef);
                         
@@ -162,12 +171,16 @@ namespace KGB{
         , m_vilainBody3(nullptr)
         , m_vilain4(policier4)
         , m_vilainBody4(nullptr)
+        
         {
         
         //MAP
         PhysicsMaker maker(m_world);
         layers.visitLayers(maker);
-
+        
+        
+        m_world.SetContactListener(&m_contactListener);
+        
         //BABY
         gf::Vector2f initialPosition = m_baby.getPosition();
         
@@ -176,7 +189,8 @@ namespace KGB{
         bodyDef.type = b2_dynamicBody;
         bodyDef.position = fromVec(initialPosition);
         m_body = m_world.CreateBody(&bodyDef);
-
+        m_body->SetUserData(&baby);
+        
         //ENEMY 1
         gf::Vector2f initialVilainPosition1 = m_vilain1.getPosition();
 
@@ -184,7 +198,7 @@ namespace KGB{
         bodyDefV1.type = b2_dynamicBody;
         bodyDefV1.position = fromVec(initialVilainPosition1);
         m_vilainBody1 = m_world.CreateBody(&bodyDefV1);
-
+        m_vilainBody1->SetUserData(&policier1);
         //ENEMY 2
 
         gf::Vector2f initialVilainPosition2 = m_vilain2.getPosition();
@@ -193,7 +207,7 @@ namespace KGB{
         bodyDefV2.type = b2_dynamicBody;
         bodyDefV2.position = fromVec(initialVilainPosition2);
         m_vilainBody2 = m_world.CreateBody(&bodyDefV2);
-
+        m_vilainBody2->SetUserData(&policier2);
         //ENEMY 3
         
         gf::Vector2f initialVilainPosition3 = m_vilain3.getPosition();
@@ -202,7 +216,7 @@ namespace KGB{
         bodyDefV3.type = b2_dynamicBody;
         bodyDefV3.position = fromVec(initialVilainPosition3);
         m_vilainBody3 = m_world.CreateBody(&bodyDefV3);
-
+        m_vilainBody3->SetUserData(&policier3);
         //ENEMY 4
         
         gf::Vector2f initialVilainPosition4 = m_vilain4.getPosition();
@@ -211,7 +225,7 @@ namespace KGB{
         bodyDefV4.type = b2_dynamicBody;
         bodyDefV4.position = fromVec(initialVilainPosition4);
         m_vilainBody4 = m_world.CreateBody(&bodyDefV4);
-
+        m_vilainBody4->SetUserData(&policier4);
 
         //Pour le cone 
         
@@ -227,6 +241,9 @@ namespace KGB{
         fixtureCone.density = 1.0f;
         fixtureCone.friction = 0.0f;
         fixtureCone.restitution = 0.0f;
+        fixtureCone.isSensor = true;
+        fixtureCone.filter.categoryBits = ENEMY;
+        fixtureCone.filter.maskBits = BABY;
         fixtureCone.shape = &shapeCone;
 
         m_vilainBody1->CreateFixture(&fixtureCone);
@@ -245,6 +262,7 @@ namespace KGB{
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.0f;
         fixtureDef.restitution = 0.0f;
+        fixtureDef.filter.categoryBits = ENEMY;
         fixtureDef.shape = &shapeVilain;
 
         m_vilainBody1->CreateFixture(&fixtureDef);
@@ -253,7 +271,10 @@ namespace KGB{
         m_vilainBody4->CreateFixture(&fixtureDef);
 
         fixtureDef.shape = &shapeBaby;
+        fixtureDef.filter.categoryBits = BABY;
         m_body->CreateFixture(&fixtureDef);
+        
+        
 
     }
 

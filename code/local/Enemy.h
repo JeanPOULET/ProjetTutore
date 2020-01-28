@@ -11,6 +11,7 @@
 #include <gf/Shapes.h>
 #include <gf/Vector.h>
 #include <gf/Window.h>
+#include <gf/Log.h>
 #include <gf/Sprite.h>
 
 #include "Messages.h"
@@ -50,12 +51,15 @@ namespace KGB{
             void lineH();
             void lineV();
             void viewCone();
+            virtual void startContact();
+            virtual void endContact();
+            Graphics graphics;
             gf::Vector2f m_spawn;
 
         private:
             
             Dynamics dynamics;
-            Graphics graphics;
+            
             
             
             gf::Polygon m_cone;
