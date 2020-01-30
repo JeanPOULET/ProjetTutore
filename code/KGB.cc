@@ -22,15 +22,17 @@
 #include <cassert>
 #include <vector>
 
-//#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 
 #include "config.h"
 #include "local/BabyHero.h"
 #include "local/Messages.h"
+#include "local/ResourceManager.h"
 #include "local/Singletons.h"
 #include "local/Map.h"
 #include "local/Enemy.h"
 #include "local/Physics.h"
+#include "local/BackgroundMusic.h"
 
 #define FRAME 80.0
 
@@ -55,7 +57,7 @@ int main() {
 	
 	
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
-	gf::SingletonStorage<gf::ResourceManager> storageForResourceManager(KGB::gResourceManager);
+	gf::SingletonStorage<KGB::ResourceManager> storageForResourceManager(KGB::gResourceManager);
 	KGB::gResourceManager().addSearchDir(KGB_DATA_DIR);
 
 	// views
@@ -71,6 +73,10 @@ int main() {
 
 	// entity
 	gf::EntityContainer mainEntities;
+
+	//Sound
+
+	KGB::BackgroundMusic music;
 
 	//map
 
@@ -135,6 +141,10 @@ int main() {
 	gf::Action debugPhysicsAction("Debug Physics");
 	debugPhysicsAction.addScancodeKeyControl(gf::Scancode::F10);
 	actions.addAction(debugPhysicsAction);
+
+	gf::Action toogleMuteAction("Toggle Mute");
+	toogleMuteAction.addKeycodeKeyControl(gf::Keycode::M);
+	actions.addAction(toogleMuteAction);
 
 	gf::Action leftAction("Left");
 	leftAction.addScancodeKeyControl(gf::Scancode::A);
@@ -264,6 +274,9 @@ int main() {
 			debugPhysics = !debugPhysics;
 			debug.setDebug(debugPhysics);
 			
+    	}
+		if (toogleMuteAction.isActive()) {
+			music.toggleMute();
     	}
 
 		if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){

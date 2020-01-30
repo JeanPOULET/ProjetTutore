@@ -13,6 +13,7 @@
 #include <gf/Window.h>
 #include <gf/Log.h>
 #include <gf/Sprite.h>
+#include "ResourceManager.h"
 
 #include "Messages.h"
 #include "Singletons.h"

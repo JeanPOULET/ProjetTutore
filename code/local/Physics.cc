@@ -26,9 +26,6 @@ namespace KGB{
 
     };
 
-
-
-
     void Physics::update() {
 
         m_body->SetTransform(fromVec(m_baby.getPosition()), 0.0f);
@@ -47,8 +44,6 @@ namespace KGB{
         m_vilainBody5->SetLinearVelocity(fromVec(m_vilain5.getVelocity()));
 
         m_world.Step(1/80.0, 8, 3);
-
-
 
         m_vilain1.setPosition(toVec(m_vilainBody1->GetPosition()));
         m_vilain2.setPosition(toVec(m_vilainBody2->GetPosition()));
@@ -268,10 +263,6 @@ namespace KGB{
         m_vilainBody3->CreateFixture(&fixtureCone);
         m_vilainBody4->CreateFixture(&fixtureCone);
 
-        //
-
-
-
         //Shape & Fixture
         b2PolygonShape shapeVilain;
         shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 18.0f*PHYSICSCALE);
@@ -393,7 +384,7 @@ namespace KGB{
         gf::Polygon polygon;
 
         for (int32 i = 0; i < vertexCount; ++i) {
-        polygon.addPoint(toVec(vertices[i]));
+            polygon.addPoint(toVec(vertices[i]));
         }
 
         polygons.push_back({ std::move(polygon), toColor(color) });
@@ -403,7 +394,7 @@ namespace KGB{
         gf::Polygon polygon;
 
         for (int32 i = 0; i < vertexCount; ++i) {
-        polygon.addPoint(toVec(vertices[i]));
+            polygon.addPoint(toVec(vertices[i]));
         }
 
         solidPolygons.push_back({ std::move(polygon), toColor(color) });

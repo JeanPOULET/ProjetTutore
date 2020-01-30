@@ -14,8 +14,9 @@ project(KGB
 
 find_package(gf REQUIRED)
 find_package(Box2D REQUIRED)
-
+find_package(SFML 2.4.2 COMPONENTS audio REQUIRED)
 add_executable(KGB
+  code/local/BackgroundMusic.cc
   code/KGB.cc
   code/local/ResourceManager.cc
   code/local/Singletons.cc
@@ -24,6 +25,7 @@ add_executable(KGB
   code/local/Enemy.cc
   code/local/Physics.cc
   code/local/b2dContactListener.cc
+
 
 )
 
@@ -36,7 +38,8 @@ target_include_directories(KGB
 target_link_libraries(KGB
 PUBLIC
 	gf::gf0
-	${BOX2D_LIBRARIES}
+  ${BOX2D_LIBRARIES}
+  ${SFML_LIBRARIES}
 
 )
 
