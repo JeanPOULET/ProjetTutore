@@ -175,18 +175,19 @@ int main() {
   	mainEntities.addEntity(debug);*/
 
 	/**********************************************INTRO TEST**************************************************/
-	mainView.setCenter(initialPosition);
+	gf::Vector2u introPos(32*51,32*32);
+	mainView.setCenter(introPos);
 	renderer.setView(mainView);
 
 	size_t intro = 0;
 	size_t i = 0;
 	size_t varX = 25;
-	size_t varY = 0;
+	size_t varY = 20;
 	size_t drawRect = 0;
 	bool spaceisActiveOneTime = true;
 
 	gf::RectangleShape rectangle({ 32*60, 32*8 });
-	rectangle.setPosition(gf::Vector2f(32*51, 32*1));
+	rectangle.setPosition(gf::Vector2f(32*51, 32*21));
 	rectangle.setOutlineColor(gf::Color::Black);
 	rectangle.setOutlineThickness(5);
 	rectangle.setAnchor(gf::Anchor::Center);
@@ -196,7 +197,7 @@ int main() {
 	gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
 	text2.setCharacterSize(30);
 	text2.setColor(gf::Color::Black);
-	text2.setPosition(gf::Vector2f(32*51, 32*25));
+	text2.setPosition(gf::Vector2f(32*51, 32*50));
 	text2.setParagraphWidth(1000.0f);
 	text2.setAlignment(gf::Alignment::Center);
 	text2.setAnchor(gf::Anchor::Center);
@@ -217,7 +218,7 @@ int main() {
 			renderer.clear();
 			i = 0;
 			varX = 25;
-			varY = 0;
+			varY = 20;
 			drawRect = 0;
 			if(spaceisActiveOneTime){
 				intro++;
@@ -234,7 +235,7 @@ int main() {
 
 		gf::Text text;
 
-		gf::Vector2u textPosition(32*varX,32*varY);
+		gf::Vector2u textPosition(32*varX,32*(varY));
 
 		text.setFont(font);
 		text.setPosition(textPosition);
@@ -272,11 +273,9 @@ int main() {
 			if(i < str.length()-1){
 				i++;
 			}
-			
 			text.setCharacterSize(140);
-			text.setPosition(gf::Vector2u (32*varX,32*4));
+			text.setPosition(gf::Vector2u (32*varX,32*34));
 			varX += 10;
-			
 		}
 		
 		text.setString(str2);
