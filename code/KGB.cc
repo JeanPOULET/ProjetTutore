@@ -25,7 +25,6 @@
 //#include <SFML/Audio.hpp>
 
 #include "config.h"
-#include "local/Square.h"
 #include "local/BabyHero.h"
 #include "local/Messages.h"
 #include "local/Singletons.h"
