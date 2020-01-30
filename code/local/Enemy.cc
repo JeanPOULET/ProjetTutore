@@ -126,7 +126,7 @@ namespace KGB{
     void Enemy::render(gf::RenderTarget& target){
 		gf::Polygon m_cone;
 		if(this->graphics.m_orientation==gf::Orientation::South){
-			m_cone.addPoint({-10.0f,10.0f});
+			m_cone.addPoint({10.0f,10.0f});
 			m_cone.addPoint({20.0f,200.0f});
 			m_cone.addPoint({-20.0f,200.0f});
 		}else if(this->graphics.m_orientation==gf::Orientation::North){
@@ -134,17 +134,17 @@ namespace KGB{
 			m_cone.addPoint({20.0f,-200.0f});
 			m_cone.addPoint({-20.0f,-200.0f});
 		}else if(this->graphics.m_orientation==gf::Orientation::East){
-			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({-10.0f,10.0f});
 			m_cone.addPoint({100.0f,150.0f});
 			m_cone.addPoint({100.0f,-150.0f});
 		}else{
-			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({-40.0f,10.0f});
 			m_cone.addPoint({-100.0f,150.0f});
 			m_cone.addPoint({-100.0f,-150.0f});			
 		}
 		gf::ConvexShape coneShape(m_cone);
 		
-		coneShape.setPosition(dynamics.m_position+10.0f);
+		coneShape.setPosition({dynamics.m_position.x,dynamics.m_position.y});
         coneShape.setColor(gf::Color::Black);
         coneShape.setAnchor(gf::Anchor::Center);
 

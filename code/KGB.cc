@@ -31,7 +31,6 @@
 #include "local/Singletons.h"
 #include "local/Map.h"
 #include "local/Enemy.h"
-#include "local/Debug.h"
 #include "local/Physics.h"
 
 #define FRAME 80.0
@@ -134,6 +133,10 @@ int main() {
 	actions.addAction(closeWindowAction);
 	introAction.addAction(closeWindowAction);
 
+	gf::Action debugPhysicsAction("Debug Physics");
+	debugPhysicsAction.addScancodeKeyControl(gf::Scancode::F10);
+	actions.addAction(debugPhysicsAction);
+
 	gf::Action leftAction("Left");
 	leftAction.addScancodeKeyControl(gf::Scancode::A);
 	leftAction.addScancodeKeyControl(gf::Scancode::Left);
@@ -169,14 +172,14 @@ int main() {
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
 
-	
+	KGB::PhysicsDebugger debug(physics.getWorld());
+	mainEntities.addEntity(debug);
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 	
-	/*KGB::Debug debug();
-  	mainEntities.addEntity(debug);*/
 	size_t intro = 0;
 	bool spaceisActiveOneTime = true;
+	bool debugPhysics = false;
 	while(window.isOpen() && intro <= 3){
 		
 		gf::Event event;
@@ -258,6 +261,12 @@ int main() {
 			window.close();
 		}
 
+		if (debugPhysicsAction.isActive()) {
+			debugPhysics = !debugPhysics;
+			debug.setDebug(debugPhysics);
+			
+    	}
+
 		if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
 			if(velocity.x > -50){
 				velocity.x -= Vitesse;
@@ -301,6 +310,7 @@ int main() {
 		renderer.clear();
 		renderer.setView(mainView);
 
+
 		mainEntities.render(renderer);
 		bebeHero.render(renderer);
 		Vilain.render(renderer);
@@ -309,7 +319,9 @@ int main() {
 		Vilain4.render(renderer);
 		Vilain5.render(renderer);
 		
-		
+		if(debugPhysics){
+			debug.render(renderer);
+		}
 		renderer.setView(hudView);
 		// draw everything
 		renderer.display();

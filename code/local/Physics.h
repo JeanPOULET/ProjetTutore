@@ -24,6 +24,10 @@
 #include <gf/Shapes.h>
 #include <gf/Unused.h>
 #include <gf/VectorOps.h>
+#include <gf/Circ.h>
+#include <gf/Entity.h>
+#include <gf/Polygon.h>
+#include <gf/Vector.h>
 
 #include "BabyHero.h"
 #include "Enemy.h"
@@ -33,29 +37,118 @@
 
 namespace KGB {
 	class Physics : public gf::Model {
-	public:
-		Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5);
-		void setPhysicCone(int vilain);
 		
-		void update();
+		public:
+			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5);
+			void setPhysicCone(int vilain);
+			
+			void update();
+			b2World& getWorld();
 
-	private:
-		//b2dContactListener m_contactListener;
-		b2World m_world;
-		b2Body *m_body;
-		BabyHero& m_baby;
-		
-		Enemy& m_vilain1;
-		b2Body *m_vilainBody1;
-		Enemy& m_vilain2;
-		b2Body *m_vilainBody2;
-		Enemy& m_vilain3;
-		b2Body *m_vilainBody3;
-		Enemy& m_vilain4;
-		b2Body *m_vilainBody4;
-		Enemy& m_vilain5;
-		b2Body *m_vilainBody5;
+		private:
+			b2World m_world;
+			b2Body *m_body;
+			BabyHero& m_baby;
+			
+			Enemy& m_vilain1;
+			b2Body *m_vilainBody1;
+			Enemy& m_vilain2;
+			b2Body *m_vilainBody2;
+			Enemy& m_vilain3;
+			b2Body *m_vilainBody3;
+			Enemy& m_vilain4;
+			b2Body *m_vilainBody4;
+			Enemy& m_vilain5;
+			b2Body *m_vilainBody5;
 	};
+
+	struct PhysicsState;
+
+	class PhysicsDebugger : public gf::Entity {
+		public:
+			
+			PhysicsDebugger(b2World& world)
+			: gf::Entity(10000)
+			, m_state(world)
+			{
+
+			}
+			void setDebug(bool debug);
+			virtual void render(gf::RenderTarget& target);
+		private:
+      		b2World& m_state;
+
+			struct Polygon {
+				gf::Polygon shape;
+				gf::Color4f color;
+			};
+
+			struct Circle {
+				gf::CircF shape;
+				gf::Color4f color;
+			};
+
+			struct SolidCircle {
+				gf::CircF shape;
+				gf::Vector2f axis;
+				gf::Color4f color;
+			};
+
+			struct Segment {
+				gf::Vector2f p1;
+				gf::Vector2f p2;
+				gf::Color4f color;
+			};
+
+			struct Transform {
+				gf::Vector2f position;
+				gf::Vector2f xAxis;
+				gf::Vector2f yAxis;
+			};
+
+			struct Point {
+				gf::Vector2f position;
+				float size;
+				gf::Color4f color;
+			};
+
+		struct PhysicsDraw : public b2Draw {
+		public:
+			PhysicsDraw();
+
+			/// Draw a closed polygon provided in CCW order.
+			virtual void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;
+
+			/// Draw a solid closed polygon provided in CCW order.
+			virtual void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;
+
+			/// Draw a circle.
+			virtual void DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) override;
+
+			/// Draw a solid circle.
+			virtual void DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) override;
+
+			/// Draw a line segment.
+			virtual void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) override;
+
+			/// Draw a transform. Choose your own length scale.
+			/// @param xf a transform.
+			virtual void DrawTransform(const b2Transform& xf) override;
+
+			/// Draw a point.
+			virtual void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color);
+
+			std::vector<Polygon> polygons;
+			std::vector<Polygon> solidPolygons;
+			std::vector<Circle> circles;
+			std::vector<SolidCircle> solidCircles;
+			std::vector<Segment> segments;
+			std::vector<Transform> transforms;
+			std::vector<Point> points;
+		};
+		PhysicsDraw m_draw;
+	};
+
 }
 
 #endif // KGB_PHYSICS_H

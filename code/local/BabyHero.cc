@@ -145,8 +145,8 @@ namespace KGB{
     }
 
     void BabyHero::startContact() {
-      gf::Log::info("JE T'AI VU\n");
+      gf::Log::debug("JE T'AI VU\n");
     }
-    void BabyHero::endContact() { gf::Log::info("JE FUIS SI VITE\n"); }
+    void BabyHero::endContact() { gf::Log::debug("JE FUIS SI VITE\n"); }
 
 }
