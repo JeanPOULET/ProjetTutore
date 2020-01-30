@@ -276,8 +276,8 @@ int main() {
 			
     	}
 		if (toogleMuteAction.isActive()) {
-			music.toggleMute();
-    	}
+      		music.toggleMute();
+   		}
 
 		if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
 			if(velocity.x > -50){
