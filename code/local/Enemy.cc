@@ -155,7 +155,7 @@ namespace KGB{
         animated.setScale(0.75f);
         animated.setAnchor(gf::Anchor::Center);
         target.draw(animated);
-		target.draw(coneShape);
+		//target.draw(coneShape);
     }
     
 
@@ -169,7 +169,7 @@ namespace KGB{
 
     void Enemy::loadAnimation(gf::Animation &animation, int line) {
         static constexpr gf::Vector2f TextureSize = { 256.0f, 768.0f };
-        static constexpr gf::Vector2f FrameSize = { 64.0f, 100.0f };
+        static constexpr gf::Vector2f FrameSize = { 64.0f, 96.0f };
         static constexpr gf::Time FrameDuration = gf::seconds(1.0f/5.0f);
 
         for (int i = 0; i < 4; ++i) {
@@ -179,10 +179,10 @@ namespace KGB{
     }
 
     void Enemy::startContact() {
-      gf::Log::info("AROUF GANGSTA\n");
+      	gf::Log::info("AROUF GANGSTA\n");
     }
     void Enemy::endContact() { 
-		//gf::Log::info("JE SUIS LE ROI ARROUF\n");
+		gf::Log::info("JE SUIS LE ROI ARROUF\n");
 	}
 	
 
