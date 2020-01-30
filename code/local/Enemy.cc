@@ -126,7 +126,7 @@ namespace KGB{
     void Enemy::render(gf::RenderTarget& target){
 		gf::Polygon m_cone;
 		if(this->graphics.m_orientation==gf::Orientation::South){
-			m_cone.addPoint({0.0f,0.0f});
+			m_cone.addPoint({-10.0f,10.0f});
 			m_cone.addPoint({20.0f,200.0f});
 			m_cone.addPoint({-20.0f,200.0f});
 		}else if(this->graphics.m_orientation==gf::Orientation::North){
@@ -135,12 +135,12 @@ namespace KGB{
 			m_cone.addPoint({-20.0f,-200.0f});
 		}else if(this->graphics.m_orientation==gf::Orientation::East){
 			m_cone.addPoint({0.0f,0.0f});
-			m_cone.addPoint({100.0f,200.0f});
-			m_cone.addPoint({100.0f,-200.0f});
+			m_cone.addPoint({100.0f,150.0f});
+			m_cone.addPoint({100.0f,-150.0f});
 		}else{
 			m_cone.addPoint({0.0f,0.0f});
-			m_cone.addPoint({-100.0f,200.0f});
-			m_cone.addPoint({-100.0f,-200.0f});			
+			m_cone.addPoint({-100.0f,150.0f});
+			m_cone.addPoint({-100.0f,-150.0f});			
 		}
 		gf::ConvexShape coneShape(m_cone);
 		
@@ -179,7 +179,7 @@ namespace KGB{
     }
 
     void Enemy::startContact() {
-      //gf::Log::info("AROUF GANGSTA\n");
+      gf::Log::info("AROUF GANGSTA\n");
     }
     void Enemy::endContact() { 
 		//gf::Log::info("JE SUIS LE ROI ARROUF\n");

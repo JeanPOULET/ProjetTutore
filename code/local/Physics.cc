@@ -40,14 +40,8 @@ namespace KGB{
         m_vilainBody2->SetLinearVelocity(fromVec(m_vilain2.getVelocity()));
         m_vilainBody3->SetLinearVelocity(fromVec(m_vilain3.getVelocity()));
         m_vilainBody4->SetLinearVelocity(fromVec(m_vilain4.getVelocity()));
-<<<<<<< HEAD
-        
-||||||| merged common ancestors
-
-=======
         m_vilainBody5->SetLinearVelocity(fromVec(m_vilain5.getVelocity()));
 
->>>>>>> 250c3ff0803a9827a3f7b175e7e1e1e0d0e42598
         m_world.Step(1/80.0, 8, 3);
 
 
@@ -155,6 +149,7 @@ namespace KGB{
                 fixtureDef.friction = 0.0f;
                 fixtureDef.restitution = 0.0f;
                 fixtureDef.shape = &shape;
+                fixtureDef.filter.categoryBits = OTHER;
 
                 body->CreateFixture(&fixtureDef);
             }
@@ -180,13 +175,8 @@ namespace KGB{
         , m_vilainBody3(nullptr)
         , m_vilain4(policier4)
         , m_vilainBody4(nullptr)
-<<<<<<< HEAD
-        
-||||||| merged common ancestors
-=======
         , m_vilain5(policier5)
         , m_vilainBody5(nullptr)
->>>>>>> 250c3ff0803a9827a3f7b175e7e1e1e0d0e42598
         {
         
         //MAP
@@ -242,7 +232,6 @@ namespace KGB{
         m_vilainBody4 = m_world.CreateBody(&bodyDefV4);
         m_vilainBody4->SetUserData(&policier4);
 
-<<<<<<< HEAD
         //Pour le cone 
         
         b2FixtureDef fixtureCone;
@@ -268,10 +257,6 @@ namespace KGB{
         m_vilainBody4->CreateFixture(&fixtureCone);
 
         //
-||||||| merged common ancestors
-
-        //Shape & Fixture
-=======
         //ENEMY 5
         
         gf::Vector2f initialVilainPosition5 = m_vilain5.getPosition();
@@ -283,7 +268,6 @@ namespace KGB{
 
 
         //Shape & Fixture
->>>>>>> 250c3ff0803a9827a3f7b175e7e1e1e0d0e42598
         b2PolygonShape shapeVilain;
         shapeVilain.SetAsBox(15.0f*PHYSICSCALE, 18.0f*PHYSICSCALE);
 
