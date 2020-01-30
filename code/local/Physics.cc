@@ -384,13 +384,6 @@ namespace KGB{
         m_draw.points.clear();
     }
 
-
-    namespace {
-
-
-
-    }
-
     PhysicsDebugger::PhysicsDraw::PhysicsDraw()
     {
         SetFlags(b2Draw::e_shapeBit /* | b2Draw::e_aabbBit */ | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);

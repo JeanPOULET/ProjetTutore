@@ -24,7 +24,6 @@
 
 #include "BabyHero.h"
 #include "Enemy.h"
-#include "Debug.h"
 #include "Square.h"
 #include "Physics.h"
 
