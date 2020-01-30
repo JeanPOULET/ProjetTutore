@@ -183,12 +183,37 @@ int main() {
 
 	KGB::PhysicsDebugger debug(physics.getWorld());
 	mainEntities.addEntity(debug);
+
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
-	
+
+	gf::Vector2u introPos(32*51,32*32);
+	mainView.setCenter(introPos);
+	renderer.setView(mainView);
+
 	size_t intro = 0;
+	size_t i = 0;
+	size_t varX = 22;
+	size_t varY = 20;
+	size_t drawRect = 0;
 	bool spaceisActiveOneTime = true;
-	bool debugPhysics = false;
+
+	gf::RectangleShape rectangle({ 32*60, 32*8 });
+	rectangle.setPosition(gf::Vector2f(32*51, 32*21));
+	rectangle.setOutlineColor(gf::Color::Black);
+	rectangle.setOutlineThickness(5);
+	rectangle.setAnchor(gf::Anchor::Center);
+
+	gf::Font font("../data/KGB/Pokemon_Classic.ttf");
+
+	gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
+	text2.setCharacterSize(30);
+	text2.setColor(gf::Color::Black);
+	text2.setPosition(gf::Vector2f(32*51, 32*50));
+	text2.setParagraphWidth(1000.0f);
+	text2.setAlignment(gf::Alignment::Center);
+	text2.setAnchor(gf::Anchor::Center);
+
 	while(window.isOpen() && intro <= 3){
 		
 		gf::Event event;
@@ -203,6 +228,10 @@ int main() {
 
 		if(space.isActive()){
 			renderer.clear();
+			i = 0;
+			varX = 22;
+			varY = 20;
+			drawRect = 0;
 			if(spaceisActiveOneTime){
 				intro++;
 				spaceisActiveOneTime = false;
@@ -212,51 +241,85 @@ int main() {
 		if(skip.isActive()){
 			intro = 4;
 		}
+		
+		std::string str;
+		std::string str2;	
 
-		mainView.setCenter(bebeHero.getPosition());
-		renderer.setView(mainView);
-		gf::Font font("../data/KGB/Xolonium-Regular.ttf");
-		gf::Text text("Hello", font);
-		text.setOutlineColor(gf::Color::Black);
-		text.setOutlineThickness(2.0f);
-		text.setPosition(initialPosition);
-		text.setParagraphWidth(1000.0f);
+		gf::Text text;
+
+		gf::Vector2u textPosition(32*varX,32*(varY));
+
+		text.setFont(font);
+		text.setPosition(textPosition);
 		text.setAlignment(gf::Alignment::Center);
-		text.setAnchor(gf::Anchor::Center);
+		text.setAnchor(gf::Anchor::BottomRight);
+		text.setCharacterSize(30);
+		text.setColor(gf::Color::Black);
 
-		gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
-		text2.setCharacterSize(30);
-		text2.setColor(gf::Color::Black);
-		text2.setPosition(gf::Vector2f(32*51, 32*20));
-		text2.setParagraphWidth(1000.0f);
-		text2.setAlignment(gf::Alignment::Center);
-		text2.setAnchor(gf::Anchor::Center);
+		varX++;
+		if(i == 57){
+			varY+=2;
+			varX = 22;
+		}
 		if(intro == 0){
-			text.setCharacterSize(30);
-			text.setColor(gf::Color::Red);			
+			str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
+			str2 = str.substr(i, 1);
+			
 		}else if(intro == 1){
-			text.setString("This is");
-			text.setCharacterSize(160);
-			text.setColor(gf::Color::Blue);
+			str  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pasles yeux verts et qui ont un poids inferieur a 3,75kg.";
+			str2 = str.substr(i, 1);
 		}else if(intro == 2){
-			text.setString("Une intro");
-			text.setCharacterSize(60);
-			text.setColor(gf::Color::Black);
+			str  = "Mmmhhh... De ce que je comprends, je vais devoir partir auplus vite...";
+			str2 = str.substr(i, 1);
 		}else if(intro == 3){
-			text.setString("De petit joueur");
-			text.setCharacterSize(40);
-			text.setColor(gf::Color::Green);
+			if(i == 0){
+				varX = 40;
+			}else{
+				sleep(1);
+			}
+			gf::Vector2f ViewSize3(1024, 512); 
+			mainView.setSize(ViewSize3);
+			renderer.setView(mainView);
+			text.setColor(gf::Color::Red);
+			str  = "K.G.B.";
+			str2 = str.substr(i, 2);
+			if(i < str.length()-1){
+				i++;
+			}
+			text.setCharacterSize(140);
+			text.setPosition(gf::Vector2u (32*varX,32*34));
+			varX += 10;
+		}
+		
+		text.setString(str2);
+
+		if(drawRect == 0 && intro != 3){
+			renderer.draw(rectangle);
+			drawRect++;
 		}
 		renderer.draw(text);
 		renderer.draw(text2);
 		// draw everything
 		renderer.display();
+		sleep(0.7);
 		introAction.reset();
+		
 		if(!space.isActive()){
 			spaceisActiveOneTime = true;
 		}
+		if(i < str.length()){
+			i++;
+		}
+
+		if(intro == 3 && str2 == "B."){
+			sleep(2);
+			break;
+		}
 	}
 	mainView.setSize(ViewSize2);
+	intro++; 
+
+	bool debugPhysics = false;
 	while (window.isOpen() && intro > 3) {
 	
 		// 1. input
