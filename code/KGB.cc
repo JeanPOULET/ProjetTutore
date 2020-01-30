@@ -166,7 +166,6 @@ int main() {
 	// game loop
 	gf::Clock clock;
 	renderer.clear(gf::Color::White);
-
 	
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
@@ -181,7 +180,7 @@ int main() {
 
 	size_t intro = 0;
 	size_t i = 0;
-	size_t varX = 25;
+	size_t varX = 22;
 	size_t varY = 20;
 	size_t drawRect = 0;
 	bool spaceisActiveOneTime = true;
@@ -217,7 +216,7 @@ int main() {
 		if(space.isActive()){
 			renderer.clear();
 			i = 0;
-			varX = 25;
+			varX = 22;
 			varY = 20;
 			drawRect = 0;
 			if(spaceisActiveOneTime){
@@ -241,22 +240,23 @@ int main() {
 		text.setPosition(textPosition);
 		text.setAlignment(gf::Alignment::Center);
 		text.setAnchor(gf::Anchor::BottomRight);
-		text.setCharacterSize(40);
+		text.setCharacterSize(30);
 		text.setColor(gf::Color::Black);
 
 		varX++;
+		if(i == 57){
+			varY+=2;
+			varX = 22;
+		}
 		if(intro == 0){
-			str  = "Avant j'etais un aventurier comme toi.Et puis je me suis pris une fleche dans le genou.";
+			str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
 			str2 = str.substr(i, 1);
-			if(i == 37){
-				varY+=2;
-				varX = 25;
-			}
+			
 		}else if(intro == 1){
-			str  = "Ceci est";
+			str  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pasles yeux verts et qui ont un poids inferieur a 3,75kg.";
 			str2 = str.substr(i, 1);
 		}else if(intro == 2){
-			str  = "Une intro";
+			str  = "Mmmhhh... De ce que je comprends, je vais devoir partir auplus vite...";
 			str2 = str.substr(i, 1);
 		}else if(intro == 3){
 			if(i == 0){
