@@ -51,7 +51,7 @@ int main() {
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(2048, 1024); 
-	static constexpr gf::Vector2f ViewSize2(240, 240); 
+	static constexpr gf::Vector2f ViewSize2(2048, 1024); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -126,13 +126,13 @@ int main() {
 	mainEntities.addEntity(bebeHero);
 
 
-	static constexpr gf::Vector2u pos1(32*73, 32*4);
+	static constexpr gf::Vector2u pos1(32*71, 32*5);
 	static constexpr gf::Vector2u pos2(32*54, 32*12);
 	static constexpr gf::Vector2u pos3(32*45, 32*9);
 	static constexpr gf::Vector2u pos4(32*71, 32*22);
 	static constexpr gf::Vector2u pos5(32*48, 32*15.45);
 
-	KGB::Enemy Vilain(pos1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 200.0);
+	KGB::Enemy Vilain(pos1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0);
 	KGB::Enemy Vilain2(pos2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
 	KGB::Enemy Vilain3(pos3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
 	KGB::Enemy Vilain4(pos4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
