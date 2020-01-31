@@ -83,7 +83,7 @@ int main() {
 
 	//Messages handlers
 
-	GameState state = GameState::PLAYING;
+	GameState state = GameState::INTRO;
 
 	KGB::gMessageManager().registerHandler<KGB::GameOver>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::GameOver::type);
@@ -238,7 +238,7 @@ int main() {
 	bool debugPhysics = false;
 
 	while (window.isOpen()) {
-		while(intro <= 3){
+		if(state == GameState::INTRO){
 			gf::Event event;
 			while (window.pollEvent(event)) {
 				introAction.processEvent(event);
@@ -336,14 +336,18 @@ int main() {
 
 			if(intro == 3 && str2 == "B."){
 				sleep(2);
-				break;
+				mainView.setSize(ViewSize2);
+				state = GameState::PLAYING;
+			}
+			if(intro > 3){
+				mainView.setSize(ViewSize2);
+				state = GameState::PLAYING;
 			}
 		}
 
-		mainView.setSize(ViewSize2);
-		intro++; 
+		
 
-		while(intro > 3 && (state != GameState::GAMEOVER || state == GameState::VICTORY)){
+		if(state == GameState::PLAYING){
 			// 1. input
 			gf::Event event;
 			while (window.pollEvent(event)) {
@@ -441,7 +445,7 @@ int main() {
 			renderer.display();
 			sleep(3);
 			break;
-		}else{
+		}else if(state == GameState::VICTORY){
 			
 		}
 
