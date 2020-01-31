@@ -134,14 +134,14 @@ namespace KGB {
      //gMessageManager().registerHandler<HeroPosition>(&Map::onHeroPosition, this);
   }
 
-  void Map::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+  void Map::render(gf::RenderTarget& target) {
 
       for (auto& layer : m_data.tiles) {
-        target.draw(layer,states);
+        target.draw(layer);
       }
       
       for (auto& sprite : m_data.sprites) {
-        target.draw(sprite,states);
+        target.draw(sprite);
 
       }
     
