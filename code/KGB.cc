@@ -114,12 +114,12 @@ int main() {
     	return EXIT_FAILURE;
   	}
 	KGB::Objects objs;
-  	mainEntities.addEntity(objs);
+  	
 	KGB::MapGraphicsData data(layers,objs);
   	KGB::Map map( data);
 
 	mainEntities.addEntity(map);
-
+	mainEntities.addEntity(objs);
 
 	static constexpr gf::Vector2u initialPosition(32*51,32*4);
 	KGB::BabyHero bebeHero(initialPosition);
@@ -430,7 +430,7 @@ int main() {
 			Vilain3.render(renderer);
 			Vilain4.render(renderer);
 			Vilain5.render(renderer);
-			
+			objs.render(renderer);
 			if(debugPhysics){
 				debug.render(renderer);
 			}

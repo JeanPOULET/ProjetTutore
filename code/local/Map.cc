@@ -13,9 +13,10 @@ namespace KGB {
 
     class LayersMaker : public gf::TmxVisitor {
     public:
-      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, Objects& supplies)
+      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, Objects& objs)
       : m_layers(layers)
       , m_sprites(sprites)
+      , m_objs(objs)
       {
 
       }
@@ -54,11 +55,11 @@ namespace KGB {
             tileLayer.setTile({ i, j }, gid, cell.flip);
 
             if (!tileLayer.hasTexture()) {
-              assert(tileset->image);
-              const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-              tileLayer.setTexture(texture);
+				assert(tileset->image);
+				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				tileLayer.setTexture(texture);
             } else {
-              assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
+				assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
             }
 
           }
@@ -83,23 +84,27 @@ namespace KGB {
 			auto tileset = map.getTileSetFromGID(tile->gid);
 			assert(tileset);
 			assert(tileset->image);
+			
 
-
-			auto lid = tile->gid - tile->id;
+			auto lid = tile->gid - tileset->firstGid;
 			auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
+			gf::Vector2f position = tile->position;
+			//position.x += subTexture.getWidth() / 2;
+			//position.y -= subTexture.getHeight() / 2;
 			if(layer.name == "Objets"){
+				gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				gf::RectF textureRect = texture.computeTextureCoords(subTexture);
+
+				gf::Sprite sprite(texture, textureRect);
 				switch(lid){
-					case 1050 :
-						
+					case 1055 :
+            			m_objs.addObject(ObjectType::CLEF,position,sprite);
 					break;
 					default :
-
+						m_objs.addObject(ObjectType::CLEF,position,sprite);
 					break;
 				}
 				gf::Log::debug("lid = %d\n && %d ",lid);
-				gf::Vector2f position = tile->position;
-				position.x += subTexture.getWidth() / 2;
-				position.y -= subTexture.getHeight() / 2;
 
 			}else{
 				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
@@ -118,6 +123,7 @@ namespace KGB {
     private:
       std::vector<gf::TileLayer>& m_layers;
       std::vector<gf::Sprite>& m_sprites;
+      Objects& m_objs;
     };
   }
 
@@ -134,14 +140,14 @@ namespace KGB {
      //gMessageManager().registerHandler<HeroPosition>(&Map::onHeroPosition, this);
   }
 
-  void Map::render(gf::RenderTarget& target) {
+  void Map::render(gf::RenderTarget& target, const gf::RenderStates& states) {
 
       for (auto& layer : m_data.tiles) {
-        target.draw(layer);
+        target.draw(layer,states);
       }
       
       for (auto& sprite : m_data.sprites) {
-        target.draw(sprite);
+        target.draw(sprite,states);
 
       }
     
