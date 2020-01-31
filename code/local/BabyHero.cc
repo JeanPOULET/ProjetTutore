@@ -38,7 +38,6 @@ namespace KGB{
 		return dynamics.m_velocity;
 	}
 
-
     void BabyHero::updateOrientation(int orientation){
       switch(orientation){
         case 0:
@@ -145,7 +144,10 @@ namespace KGB{
     }
 
     void BabyHero::startContact() {
-      gf::Log::debug("JE T'AI VU\n");
+		gf::Log::debug("JE T'AI VU\n");
+		GameOver message;
+		//message.position = m_position;
+		gMessageManager().sendMessage(&message);
     }
     void BabyHero::endContact() { gf::Log::debug("JE FUIS SI VITE\n"); }
 

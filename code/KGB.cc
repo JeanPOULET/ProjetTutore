@@ -36,6 +36,12 @@
 
 #define FRAME 80.0
 
+enum GameState{
+	INTRO,
+	PLAYING,
+	VICTORY,
+	GAMEOVER
+};
 
 int main() {
 	
@@ -73,6 +79,19 @@ int main() {
 
 	// entity
 	gf::EntityContainer mainEntities;
+
+
+	//Messages handlers
+
+	GameState state = GameState::PLAYING;
+
+	KGB::gMessageManager().registerHandler<KGB::GameOver>([&state](gf::Id type, gf::Message *msg) {
+		assert(type == KGB::GameOver::type);
+		gf::unused(type, msg);
+		state = GameState::GAMEOVER;
+		gf::Log::debug("Je me meursssss");
+		return gf::MessageStatus::Die;
+  	});
 
 	//Sound
 
@@ -320,7 +339,7 @@ int main() {
 	intro++; 
 
 	bool debugPhysics = false;
-	while (window.isOpen() && intro > 3) {
+	while (window.isOpen() && intro > 3 && state != GameState::GAMEOVER) {
 	
 		// 1. input
 		gf::Event event;

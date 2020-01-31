@@ -9,12 +9,13 @@ using namespace gf::literals;
 
 namespace KGB{
 
-    struct SquareState : public gf::Message{
-        static constexpr gf::Id type ="Square"_id;
+    struct GameOver: public gf::Message {
+        static const gf::Id type = "GameOver"_id;
+    };
 
-        gf::Vector2f position;
 
-
+    struct Victory: public gf::Message {
+        static const gf::Id type = "Victory"_id;
     };
 
 

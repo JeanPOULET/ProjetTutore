@@ -39,7 +39,6 @@ namespace KGB{
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
             std::string getClassName();
-
             virtual void startContact();
             virtual void endContact();
 
