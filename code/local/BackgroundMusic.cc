@@ -5,7 +5,7 @@ namespace KGB {
   static constexpr float DefaultMusicVolume = 100.0f;
 
   BackgroundMusic::BackgroundMusic()
-  : m_music(gResourceManager().getMusic("sounds/skyrim.ogg"))
+  : m_music(gResourceManager().getMusic("sounds/theme.ogg"))
   {
     m_music.setLoop(true);
     m_music.setVolume(DefaultMusicVolume);
