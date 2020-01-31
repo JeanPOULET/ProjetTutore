@@ -37,6 +37,7 @@
 #define FRAME 80.0
 
 enum GameState{
+	INTRO,
 	PLAYING,
 	VICTORY,
 	GAMEOVER
