@@ -51,7 +51,7 @@ namespace KGB{
         m_vilain4.setPosition(toVec(m_vilainBody4->GetPosition()));
         m_vilain5.setPosition(toVec(m_vilainBody5->GetPosition()));
         m_baby.setPosition(toVec(m_body->GetPosition()));
-        
+
 
     }
 
@@ -62,8 +62,6 @@ namespace KGB{
      */   
 
     class PhysicsMaker : public gf::TmxVisitor {
-        static constexpr int Sol = 0;
-        static constexpr int Walls = 1;
 
         public:
             PhysicsMaker(b2World& world)
@@ -82,7 +80,6 @@ namespace KGB{
 
                 gf::Vector2i tileSize = map.tileSize;
                 gf::Vector2i tilesetTileSize = tileSize;
-                gf::Array2D<int, int> biomes(map.mapSize, Sol);
 
                 int k = 0;
                 for (auto& cell : layer.cells) {
@@ -131,26 +128,24 @@ namespace KGB{
 
             auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-            if (layer.name == "Murs" || layer.name == "Déco" || layer.name == "Objets") {
-                gf::Vector2f position = tile->position + gf::Vector2f(384 / 2, -70);
+            gf::Vector2f position = tile->position + gf::Vector2f(384 / 2, -70);
 
-                b2BodyDef bodyDef;
-                bodyDef.type = b2_staticBody;
-                bodyDef.position = fromVec(position);
-                auto body = m_world.CreateBody(&bodyDef);
+            b2BodyDef bodyDef;
+            bodyDef.type = b2_staticBody;
+            bodyDef.position = fromVec(position);
+            auto body = m_world.CreateBody(&bodyDef);
 
-                b2PolygonShape shape;
-                shape.m_radius = 10.0f * PHYSICSCALE;
+            b2PolygonShape shape;
+            shape.m_radius = 10.0f * PHYSICSCALE;
 
-                b2FixtureDef fixtureDef;
-                fixtureDef.density = 1.0f;
-                fixtureDef.friction = 0.0f;
-                fixtureDef.restitution = 0.0f;
-                fixtureDef.shape = &shape;
-                fixtureDef.filter.categoryBits = OTHER;
+            b2FixtureDef fixtureDef;
+            fixtureDef.density = 1.0f;
+            fixtureDef.friction = 0.0f;
+            fixtureDef.restitution = 0.0f;
+            fixtureDef.shape = &shape;
+            fixtureDef.filter.categoryBits = OTHER;
 
-                body->CreateFixture(&fixtureDef);
-            }
+            body->CreateFixture(&fixtureDef);
         }
     }
 
@@ -158,8 +153,6 @@ namespace KGB{
       b2World& m_world;
     };
 
-    constexpr int PhysicsMaker::Sol;
-    constexpr int PhysicsMaker::Walls;
 
     Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5)
         : m_world({ 0.0f, 0.0f })
@@ -298,6 +291,8 @@ namespace KGB{
         constexpr float DebugOutlineThickness = 1.0f;
         constexpr float DebugTransformLength = 0.5f;
     }
+
+    //DEBUG DRAW
 
     void PhysicsDebugger::setDebug(bool debug) {
         m_state.SetDebugDraw(debug ? &m_draw : nullptr);
