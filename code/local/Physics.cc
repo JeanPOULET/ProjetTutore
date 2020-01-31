@@ -86,7 +86,7 @@ namespace KGB{
                     auto tile = cell;
                     auto gid = cell.gid;
                 
-                    if (layer.name == "Murs"|| layer.name == "Déco" || layer.name == "Objets") {
+                    if (layer.name == "Murs"|| layer.name == "Déco") {
                         if(gid!=0){
                             int i = k % map.mapSize.width;
                             int j = k / map.mapSize.width;

@@ -13,7 +13,7 @@ namespace KGB {
 
     class LayersMaker : public gf::TmxVisitor {
     public:
-      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites)
+      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, Objects& supplies)
       : m_layers(layers)
       , m_sprites(sprites)
       {
@@ -69,37 +69,51 @@ namespace KGB {
         m_layers.push_back(std::move(tileLayer));
       }
 
-      virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
-        gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
+	virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
+		gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
 
 
-        for (auto& object : layer.objects) {
-          if (object->kind != gf::TmxObject::Tile) {
-            continue;
-          }
+		for (auto& object : layer.objects) {
+			if (object->kind != gf::TmxObject::Tile) {
+				continue;
+			}
 
-          auto tile = static_cast<gf::TmxTileObject *>(object.get());
+			auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-          auto tileset = map.getTileSetFromGID(tile->gid);
-          assert(tileset);
-          assert(tileset->image);
+			auto tileset = map.getTileSetFromGID(tile->gid);
+			assert(tileset);
+			assert(tileset->image);
 
 
-          auto lid = tile->gid - tileset->firstGid;
-          auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
-          
-          const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-          gf::RectF textureRect = texture.computeTextureCoords(subTexture);
+			auto lid = tile->gid - tile->id;
+			auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
+			if(layer.name == "Objets"){
+				switch(lid){
+					case 1050 :
+						
+					break;
+					default :
 
-          gf::Sprite sprite(texture, textureRect);
-          sprite.setPosition(tile->position);
-          sprite.setRotation(gf::degreesToRadians(tile->rotation));
-          sprite.setAnchor(gf::Anchor::BottomLeft); 
+					break;
+				}
+				gf::Log::debug("lid = %d\n && %d ",lid);
+				gf::Vector2f position = tile->position;
+				position.x += subTexture.getWidth() / 2;
+				position.y -= subTexture.getHeight() / 2;
 
-          m_sprites.push_back(std::move(sprite));
-          
-        }
-      }
+			}else{
+				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				gf::RectF textureRect = texture.computeTextureCoords(subTexture);
+
+				gf::Sprite sprite(texture, textureRect);
+				sprite.setPosition(tile->position);
+				sprite.setRotation(gf::degreesToRadians(tile->rotation));
+				sprite.setAnchor(gf::Anchor::BottomLeft); 
+
+				m_sprites.push_back(std::move(sprite));
+			}
+		}
+    }
 
     private:
       std::vector<gf::TileLayer>& m_layers;
@@ -107,9 +121,9 @@ namespace KGB {
     };
   }
 
-  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers)
+  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, Objects& objs)
   {
-    LayersMaker maker(tiles, sprites);
+    LayersMaker maker(tiles, sprites,objs);
     layers.visitLayers(maker);
   }
 

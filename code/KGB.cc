@@ -33,6 +33,7 @@
 #include "local/Enemy.h"
 #include "local/Physics.h"
 #include "local/BackgroundMusic.h"
+#include "local/Objects.h"
 
 #define FRAME 80.0
 
@@ -112,7 +113,9 @@ int main() {
     	gf::Log::error("Impossible de charger la carte !\n");
     	return EXIT_FAILURE;
   	}
-	KGB::MapGraphicsData data(layers);
+	KGB::Objects objs;
+  	mainEntities.addEntity(objs);
+	KGB::MapGraphicsData data(layers,objs);
   	KGB::Map map( data);
 
 	mainEntities.addEntity(map);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="7">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="9">
  <tileset firstgid="1" source="tileSet.tsx"/>
  <layer name="Sol" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -16,12 +16,8 @@
    eJzt1cFqwkAQANCFHK1ebP2PfEC/z6NHz1p6aMWD7Q86AQNx2dRoA4K+BwNhs7NZZrJJSgAAAAAAAAAAAAAAAJDS58Cxa/L3N+6Fc/WA8X1hXl/epedcm/fs2ve8r26lczCkp433m3ZE7j/v9KZKaRvxUTkbfZrv/1i1ubTOV/ThO2JXjfTAB5b/l+s/7nVNI2bZWN///BB9+In41Y/BJhEv6bwf7XWpzm8Ri2z+MptTWouyvD7ziNfTdbf+3TNSF/JaTc5qnK0xkvW9NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPJQjtj4WpQ==
   </data>
  </layer>
- <layer name="Objets" width="100" height="100">
-  <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
-  </data>
- </layer>
- <objectgroup name="cle" offsetx="4.66667" offsety="10">
-  <object id="6" gid="1056" x="1858" y="155.333" width="32" height="32"/>
+ <objectgroup name="Objets" offsetx="4.66667" offsety="10">
+  <object id="6" gid="1056" x="1862.33" y="139.667" width="27.3333" height="29.3333"/>
+  <object id="8" gid="755" x="1993.33" y="111" width="32" height="32"/>
  </objectgroup>
 </map>
