@@ -37,7 +37,6 @@
 #define FRAME 80.0
 
 enum GameState{
-	INTRO,
 	PLAYING,
 	VICTORY,
 	GAMEOVER
@@ -90,6 +89,14 @@ int main() {
 		gf::unused(type, msg);
 		state = GameState::GAMEOVER;
 		gf::Log::debug("Je me meursssss");
+		return gf::MessageStatus::Die;
+  	});
+
+	KGB::gMessageManager().registerHandler<KGB::Victory>([&state](gf::Id type, gf::Message *msg) {
+		assert(type == KGB::Victory::type);
+		gf::unused(type, msg);
+		state = GameState::VICTORY;
+		gf::Log::debug("Je winnzzzz");
 		return gf::MessageStatus::Die;
   	});
 
