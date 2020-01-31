@@ -13,9 +13,10 @@ namespace KGB {
 
     class LayersMaker : public gf::TmxVisitor {
     public:
-      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites)
+      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, Objects& objs)
       : m_layers(layers)
       , m_sprites(sprites)
+      , m_objs(objs)
       {
 
       }
@@ -54,11 +55,11 @@ namespace KGB {
             tileLayer.setTile({ i, j }, gid, cell.flip);
 
             if (!tileLayer.hasTexture()) {
-              assert(tileset->image);
-              const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-              tileLayer.setTexture(texture);
+				assert(tileset->image);
+				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				tileLayer.setTexture(texture);
             } else {
-              assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
+				assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
             }
 
           }
@@ -69,47 +70,66 @@ namespace KGB {
         m_layers.push_back(std::move(tileLayer));
       }
 
-      virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
-        gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
+	virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
+		gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
 
 
-        for (auto& object : layer.objects) {
-          if (object->kind != gf::TmxObject::Tile) {
-            continue;
-          }
+		for (auto& object : layer.objects) {
+			if (object->kind != gf::TmxObject::Tile) {
+				continue;
+			}
 
-          auto tile = static_cast<gf::TmxTileObject *>(object.get());
+			auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-          auto tileset = map.getTileSetFromGID(tile->gid);
-          assert(tileset);
-          assert(tileset->image);
+			auto tileset = map.getTileSetFromGID(tile->gid);
+			assert(tileset);
+			assert(tileset->image);
+			
 
+			auto lid = tile->gid - tileset->firstGid;
+			auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
+			gf::Vector2f position = tile->position;
+			//position.x += subTexture.getWidth() / 2;
+			//position.y -= subTexture.getHeight() / 2;
+			if(layer.name == "Objets"){
+				gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				gf::RectF textureRect = texture.computeTextureCoords(subTexture);
 
-          auto lid = tile->gid - tileset->firstGid;
-          auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
-          
-          const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-          gf::RectF textureRect = texture.computeTextureCoords(subTexture);
+				gf::Sprite sprite(texture, textureRect);
+				switch(lid){
+					case 1055 :
+            			m_objs.addObject(ObjectType::CLEF,position,sprite);
+					break;
+					default :
+						m_objs.addObject(ObjectType::CLEF,position,sprite);
+					break;
+				}
+				gf::Log::debug("lid = %d\n && %d ",lid);
 
-          gf::Sprite sprite(texture, textureRect);
-          sprite.setPosition(tile->position);
-          sprite.setRotation(gf::degreesToRadians(tile->rotation));
-          sprite.setAnchor(gf::Anchor::BottomLeft); 
+			}else{
+				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+				gf::RectF textureRect = texture.computeTextureCoords(subTexture);
 
-          m_sprites.push_back(std::move(sprite));
-          
-        }
-      }
+				gf::Sprite sprite(texture, textureRect);
+				sprite.setPosition(tile->position);
+				sprite.setRotation(gf::degreesToRadians(tile->rotation));
+				sprite.setAnchor(gf::Anchor::BottomLeft); 
+
+				m_sprites.push_back(std::move(sprite));
+			}
+		}
+    }
 
     private:
       std::vector<gf::TileLayer>& m_layers;
       std::vector<gf::Sprite>& m_sprites;
+      Objects& m_objs;
     };
   }
 
-  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers)
+  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, Objects& objs)
   {
-    LayersMaker maker(tiles, sprites);
+    LayersMaker maker(tiles, sprites,objs);
     layers.visitLayers(maker);
   }
 

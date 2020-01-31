@@ -10,15 +10,16 @@
 #include <gf/Tmx.h>
 
 #include "Messages.h"
-
+#include "Objects.h"
 
 namespace KGB {
 
   struct MapGraphicsData {
-    MapGraphicsData(const gf::TmxLayers& layers);
+    MapGraphicsData(const gf::TmxLayers& layers, Objects& objs);
 
     std::vector<gf::TileLayer> tiles;
     std::vector<gf::Sprite> sprites;
+    
   };
 
   class Map : public gf::Entity {
@@ -27,7 +28,7 @@ namespace KGB {
 
     Map(MapGraphicsData& data);
 
-    virtual void render(gf::RenderTarget& target,  const gf::RenderStates& states) ;
+    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) ;
 
   private:
 

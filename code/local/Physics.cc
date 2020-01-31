@@ -23,6 +23,7 @@ namespace KGB{
         BABY = 0x0001,
         ENEMY = 0x0004,
         OTHER = 0x0010,
+        HARVESTABLE = 0x0014
 
     };
 
@@ -86,7 +87,7 @@ namespace KGB{
                     auto tile = cell;
                     auto gid = cell.gid;
                 
-                    if (layer.name == "Murs"|| layer.name == "Déco" || layer.name == "Objets") {
+                    if (layer.name == "Murs"|| layer.name == "Déco") {
                         if(gid!=0){
                             int i = k % map.mapSize.width;
                             int j = k / map.mapSize.width;
@@ -128,14 +129,14 @@ namespace KGB{
 
             auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
-            gf::Vector2f position = tile->position + gf::Vector2f(384 / 2, -70);
+            gf::Vector2f position = tile->position;
 
             b2BodyDef bodyDef;
             bodyDef.type = b2_staticBody;
             bodyDef.position = fromVec(position);
             auto body = m_world.CreateBody(&bodyDef);
 
-            b2PolygonShape shape;
+            b2CircleShape shape;
             shape.m_radius = 10.0f * PHYSICSCALE;
 
             b2FixtureDef fixtureDef;
@@ -144,6 +145,10 @@ namespace KGB{
             fixtureDef.restitution = 0.0f;
             fixtureDef.shape = &shape;
             fixtureDef.filter.categoryBits = OTHER;
+
+            if(layer.name =="Objets"){
+                fixtureDef.filter.categoryBits = HARVESTABLE;
+            }
 
             body->CreateFixture(&fixtureDef);
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="7">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="9">
  <tileset firstgid="1" source="tileSet.tsx"/>
  <layer name="Sol" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -21,12 +21,8 @@
    eJzt271Og1AUAOAmVV/DZ+gDOPgY/kzdfSzHPoBVB3VSNzVxcFLjpMZJN400bRVvLhRbkFq+LyFQChTO4XC4Q1stAAD4O3vtus8AgEXST/WVQz2Gf+DOfQq16WfU34G6BAq6bw8n5sONfAAAAAAAVGa34Lr1X+zfm/50SOkUWN+LbBfbLyt/6e2zfo+48X2eFbdYHRTJ6cDaVGdEqKx7Wm3EDZ7/Yjx/wr7cyfluEv28fJ3Icl6c82ojdizi8uKTjn+6Rjo5+xWtjbz3L8QHAACAerz4XwJM5VrtACyER8/zRjhK8nyWTA/t72XqcZyK/bM81O58lIPTZH4iHwAAAPDlcjROvkrmT5Ex821J4+iN4Djd1Oet4LudBo7dV5aG8/3k2i9muP7xcajGUs3xDWtl0U0b7/R+bw2LWdXCnrAc5GjSM+hjxnx05XNmrxXGMOz1DK3m1MV7STFrWn8ok3enehXp9WHvKfp+MBhT5I0rNhtYN2Hfppm2M+79sCa8dwEAAAAAAAAA/PQJnsYzIg==
   </data>
  </layer>
- <layer name="Objets" width="100" height="100">
-  <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
-  </data>
- </layer>
- <objectgroup name="cle" offsetx="4.66667" offsety="10">
-  <object id="6" gid="1056" x="1858" y="155.333" width="32" height="32"/>
+ <objectgroup name="Objets" offsetx="4.66667" offsety="10">
+  <object id="6" gid="1056" x="1862.33" y="139.667" width="27.3333" height="29.3333"/>
+  <object id="8" gid="755" x="1993.33" y="111" width="32" height="32"/>
  </objectgroup>
 </map>

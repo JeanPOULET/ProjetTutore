@@ -33,6 +33,7 @@
 #include "local/Enemy.h"
 #include "local/Physics.h"
 #include "local/BackgroundMusic.h"
+#include "local/Objects.h"
 
 #define FRAME 80.0
 
@@ -112,11 +113,13 @@ int main() {
     	gf::Log::error("Impossible de charger la carte !\n");
     	return EXIT_FAILURE;
   	}
-	KGB::MapGraphicsData data(layers);
+	KGB::Objects objs;
+  	
+	KGB::MapGraphicsData data(layers,objs);
   	KGB::Map map( data);
 
 	mainEntities.addEntity(map);
-
+	mainEntities.addEntity(objs);
 
 	static constexpr gf::Vector2u initialPosition(32*51,32*4);
 	KGB::BabyHero bebeHero(initialPosition);
@@ -427,7 +430,7 @@ int main() {
 			Vilain3.render(renderer);
 			Vilain4.render(renderer);
 			Vilain5.render(renderer);
-			
+			objs.render(renderer);
 			if(debugPhysics){
 				debug.render(renderer);
 			}
