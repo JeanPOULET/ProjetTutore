@@ -210,6 +210,7 @@ int main() {
 	mainView.setCenter(introPos);
 	renderer.setView(mainView);
 
+	//Initialisation pour intro
 	size_t intro = 0;
 	size_t i = 0;
 	size_t varX = 22;
@@ -233,193 +234,217 @@ int main() {
 	text2.setAlignment(gf::Alignment::Center);
 	text2.setAnchor(gf::Anchor::Center);
 
-	while(window.isOpen() && intro <= 3){
-		
-		gf::Event event;
-		while (window.pollEvent(event)) {
-			introAction.processEvent(event);
-			views.processEvent(event);
-		}
+	//Mode débug actif ou non
+	bool debugPhysics = false;
 
-		if(closeWindowAction.isActive()){
-			window.close();
-		}
-
-		if(space.isActive()){
-			renderer.clear();
-			i = 0;
-			varX = 22;
-			varY = 20;
-			drawRect = 0;
-			if(spaceisActiveOneTime){
-				intro++;
-				spaceisActiveOneTime = false;
+	while (window.isOpen()) {
+		while(intro <= 3){
+			gf::Event event;
+			while (window.pollEvent(event)) {
+				introAction.processEvent(event);
+				views.processEvent(event);
 			}
-		}
 
-		if(skip.isActive()){
-			intro = 4;
-		}
-		
-		std::string str;
-		std::string str2;	
+			if(closeWindowAction.isActive()){
+				window.close();
+			}
 
-		gf::Text text;
+			if(space.isActive()){
+				renderer.clear();
+				i = 0;
+				varX = 22;
+				varY = 20;
+				drawRect = 0;
+				if(spaceisActiveOneTime){
+					intro++;
+					spaceisActiveOneTime = false;
+				}
+			}
 
-		gf::Vector2u textPosition(32*varX,32*(varY));
-
-		text.setFont(font);
-		text.setPosition(textPosition);
-		text.setAlignment(gf::Alignment::Center);
-		text.setAnchor(gf::Anchor::BottomRight);
-		text.setCharacterSize(30);
-		text.setColor(gf::Color::Black);
-
-		varX++;
-		if(i == 57){
-			varY+=2;
-			varX = 22;
-		}
-		if(intro == 0){
-			str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
-			str2 = str.substr(i, 1);
+			if(skip.isActive()){
+				intro = 4;
+			}
 			
-		}else if(intro == 1){
-			str  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pasles yeux verts et qui ont un poids inferieur a 3,75kg.";
-			str2 = str.substr(i, 1);
-		}else if(intro == 2){
-			str  = "Mmmhhh... De ce que je comprends, je vais devoir partir auplus vite...";
-			str2 = str.substr(i, 1);
-		}else if(intro == 3){
-			if(i == 0){
-				varX = 40;
-			}else{
-				sleep(1);
+			std::string str;
+			std::string str2;	
+
+			gf::Text text;
+
+			gf::Vector2u textPosition(32*varX,32*(varY));
+
+			text.setFont(font);
+			text.setPosition(textPosition);
+			text.setAlignment(gf::Alignment::Center);
+			text.setAnchor(gf::Anchor::BottomRight);
+			text.setCharacterSize(30);
+			text.setColor(gf::Color::Black);
+
+			varX++;
+			if(i == 57){
+				varY+=2;
+				varX = 22;
 			}
-			gf::Vector2f ViewSize3(1024, 512); 
-			mainView.setSize(ViewSize3);
-			renderer.setView(mainView);
-			text.setColor(gf::Color::Red);
-			str  = "K.G.B.";
-			str2 = str.substr(i, 2);
-			if(i < str.length()-1){
+			if(intro == 0){
+				str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
+				str2 = str.substr(i, 1);
+				
+			}else if(intro == 1){
+				str  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pasles yeux verts et qui ont un poids inferieur a 3,75kg.";
+				str2 = str.substr(i, 1);
+			}else if(intro == 2){
+				str  = "Mmmhhh... De ce que je comprends, je vais devoir partir auplus vite...";
+				str2 = str.substr(i, 1);
+			}else if(intro == 3){
+				if(i == 0){
+					varX = 40;
+				}else{
+					sleep(1);
+				}
+				gf::Vector2f ViewSize3(1024, 512); 
+				mainView.setSize(ViewSize3);
+				renderer.setView(mainView);
+				text.setColor(gf::Color::Red);
+				str  = "K.G.B.";
+				str2 = str.substr(i, 2);
+				if(i < str.length()-1){
+					i++;
+				}
+				text.setCharacterSize(140);
+				text.setPosition(gf::Vector2u (32*varX,32*34));
+				varX += 10;
+			}
+			
+			text.setString(str2);
+
+			if(drawRect == 0 && intro != 3){
+				renderer.draw(rectangle);
+				drawRect++;
+			}
+			renderer.draw(text);
+			renderer.draw(text2);
+			// draw everything
+			renderer.display();
+			sleep(0.7);
+			introAction.reset();
+			
+			if(!space.isActive()){
+				spaceisActiveOneTime = true;
+			}
+			if(i < str.length()){
 				i++;
 			}
-			text.setCharacterSize(140);
-			text.setPosition(gf::Vector2u (32*varX,32*34));
-			varX += 10;
-		}
-		
-		text.setString(str2);
 
-		if(drawRect == 0 && intro != 3){
-			renderer.draw(rectangle);
-			drawRect++;
-		}
-		renderer.draw(text);
-		renderer.draw(text2);
-		// draw everything
-		renderer.display();
-		sleep(0.7);
-		introAction.reset();
-		
-		if(!space.isActive()){
-			spaceisActiveOneTime = true;
-		}
-		if(i < str.length()){
-			i++;
+			if(intro == 3 && str2 == "B."){
+				sleep(2);
+				break;
+			}
 		}
 
-		if(intro == 3 && str2 == "B."){
-			sleep(2);
+		mainView.setSize(ViewSize2);
+		intro++; 
+
+		while(intro > 3 && (state != GameState::GAMEOVER || state == GameState::VICTORY)){
+			// 1. input
+			gf::Event event;
+			while (window.pollEvent(event)) {
+				actions.processEvent(event);
+				views.processEvent(event);
+			}
+
+			if(closeWindowAction.isActive()){
+				window.close();
+			}
+
+			if (debugPhysicsAction.isActive()) {
+				debugPhysics = !debugPhysics;
+				debug.setDebug(debugPhysics);
+				
+			}
+			if (toogleMuteAction.isActive()) {
+				music.toggleMute();
+			}
+
+			if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
+				if(velocity.x > -50){
+					velocity.x -= Vitesse;
+				}
+				bebeHero.updateOrientation(3);
+			}else if(rightAction.isActive()&& !downAction.isActive() && !upAction.isActive()){
+				if(velocity.x < 50){
+					velocity.x += Vitesse;
+				}
+				bebeHero.updateOrientation(2);
+			}else{
+				velocity.x = 0;
+			}
+
+			if(downAction.isActive()){
+				if(velocity.y < 50){
+					velocity.y += Vitesse;
+				}
+				bebeHero.updateOrientation(0);
+			}else if(upAction.isActive()){
+				if(velocity.y > -50){
+					velocity.y -= Vitesse;
+				}
+				bebeHero.updateOrientation(1);
+			}else{
+				velocity.y = 0;
+				
+			}
+			
+			bebeHero.setVelocity(velocity);
+
+			// 2. update
+			
+			gf::Time time = clock.restart();
+			mainEntities.update(time);
+			physics.update();
+
+			// 3. draw
+			//gf::Log::info("Position x : %lf\t Position y :%lf\n",bebeHero.getPosition().u,bebeHero.getPosition().v);
+			mainView.setCenter(bebeHero.getPosition());
+			renderer.clear();
+			renderer.setView(mainView);
+
+
+			mainEntities.render(renderer);
+			bebeHero.render(renderer);
+			Vilain.render(renderer);
+			Vilain2.render(renderer);
+			Vilain3.render(renderer);
+			Vilain4.render(renderer);
+			Vilain5.render(renderer);
+			
+			if(debugPhysics){
+				debug.render(renderer);
+			}
+			renderer.setView(hudView);
+			// draw everything
+			renderer.display();
+			actions.reset();
+		}
+
+		if(state == GameState::GAMEOVER){
+			gf::Vector2u introPos(32*51,32*32);
+			mainView.setCenter(introPos);
+			renderer.setView(mainView);
+			renderer.clear();
+			gf::Text text3("T'es mort kek", font);
+			text3.setCharacterSize(20);
+			text3.setColor(gf::Color::Black);
+			text3.setPosition(gf::Vector2f(32*51, 32*32));
+			text3.setParagraphWidth(1000.0f);
+			text3.setAlignment(gf::Alignment::Center);
+			text3.setAnchor(gf::Anchor::Center);
+			renderer.draw(text3);
+			renderer.display();
+			sleep(3);
 			break;
-		}
-	}
-	mainView.setSize(ViewSize2);
-	intro++; 
-
-	bool debugPhysics = false;
-	while (window.isOpen() && intro > 3 && state != GameState::GAMEOVER) {
-	
-		// 1. input
-		gf::Event event;
-		while (window.pollEvent(event)) {
-			actions.processEvent(event);
-			views.processEvent(event);
-		}
-
-		if(closeWindowAction.isActive()){
-			window.close();
-		}
-
-		if (debugPhysicsAction.isActive()) {
-			debugPhysics = !debugPhysics;
-			debug.setDebug(debugPhysics);
-			
-    	}
-		if (toogleMuteAction.isActive()) {
-      		music.toggleMute();
-   		}
-
-		if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
-			if(velocity.x > -50){
-				velocity.x -= Vitesse;
-			}
-			bebeHero.updateOrientation(3);
-		}else if(rightAction.isActive()&& !downAction.isActive() && !upAction.isActive()){
-			if(velocity.x < 50){
-				velocity.x += Vitesse;
-			}
-			bebeHero.updateOrientation(2);
 		}else{
-			velocity.x = 0;
-		}
-
-		if(downAction.isActive()){
-			if(velocity.y < 50){
-				velocity.y += Vitesse;
-			}
-			bebeHero.updateOrientation(0);
-		}else if(upAction.isActive()){
-			if(velocity.y > -50){
-				velocity.y -= Vitesse;
-			}
-			bebeHero.updateOrientation(1);
-		}else{
-			velocity.y = 0;
 			
 		}
-		
-		bebeHero.setVelocity(velocity);
 
-		// 2. update
-		
-		gf::Time time = clock.restart();
-		mainEntities.update(time);
-		physics.update();
-
-		// 3. draw
-		//gf::Log::info("Position x : %lf\t Position y :%lf\n",bebeHero.getPosition().u,bebeHero.getPosition().v);
-		mainView.setCenter(bebeHero.getPosition());
-		renderer.clear();
-		renderer.setView(mainView);
-
-
-		mainEntities.render(renderer);
-		bebeHero.render(renderer);
-		Vilain.render(renderer);
-		Vilain2.render(renderer);
-		Vilain3.render(renderer);
-		Vilain4.render(renderer);
-		Vilain5.render(renderer);
-		
-		if(debugPhysics){
-			debug.render(renderer);
-		}
-		renderer.setView(hudView);
-		// draw everything
-		renderer.display();
-		actions.reset();
 	}
 	
 	return 0;
