@@ -49,6 +49,7 @@ namespace KGB{
             enum class Status {
                 Walking,
                 Waiting,
+                Immolate,
             };
 
             Status m_status;

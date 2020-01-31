@@ -84,7 +84,7 @@ namespace KGB{
 				// assert(false);
             break;
           }
-        }else{
+        }else if(m_status == Status::Waiting){
 			switch (graphics.m_orientation) {
 				case gf::Orientation::South:
 					graphics.m_currentAnimation = &graphics.m_waitSouth;
@@ -102,6 +102,8 @@ namespace KGB{
 				// assert(false);
 				break;
          	}
+        }else if(m_status == Status::Immolate){
+
         }
 
         assert(graphics.m_currentAnimation);
