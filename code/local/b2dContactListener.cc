@@ -12,24 +12,47 @@ namespace KGB{
 			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
 			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
 			
-			//BABY-ENEMY
+			int entityTypeA = dataTypeA->getEntityType();
+			int entityTypeB = dataTypeB->getEntityType();
 			
-			if((dataTypeA->getEntityType() == DataType::Main_Type::BABY && dataTypeB->getEntityType() == DataType::Main_Type::ENEMY)) {
+			//Element A
+			
+			if(entityTypeA == DataType::Main_Type::BABY) {
 		
-				BabyHero* bb = static_cast<BabyHero*> (dataTypeA);
+				BabyHero* bb = static_cast<BabyHero*>(dataTypeA);
 				if(bb){
-					bb->startContact();
+					bb->startContact(entityTypeB);
 				}
 		   	}
+			   
+			if(entityTypeA == DataType::Main_Type::ENEMY) {
+		
+				Enemy* enemy = static_cast<Enemy*>(dataTypeA);
+				if(enemy){
+					enemy->startContact(entityTypeB);
+				}
+		   	}
+			   
+			  
 			
-			if((dataTypeB->getEntityType() == DataType::Main_Type::BABY && dataTypeA->getEntityType() == DataType::Main_Type::ENEMY)) {
+			//Element B
+			
+			if(entityTypeB == DataType::Main_Type::BABY ) {
 		
 				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
 				if(bb){
-					bb->startContact();
+					bb->startContact(entityTypeA);
 				}
 		   	}
 			
+			if(entityTypeB == DataType::Main_Type::ENEMY ) {
+		
+				Enemy* enemy = static_cast<Enemy*>(dataTypeB);
+				if(enemy){
+					enemy->startContact(entityTypeA);
+				}
+		   	}
+			   
 		}
 		
     }
@@ -44,21 +67,44 @@ namespace KGB{
 			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
 			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
 			
-			//BABY-ENEMY
+			int entityTypeA = dataTypeA->getEntityType();
+			int entityTypeB = dataTypeB->getEntityType();
 			
-			if((dataTypeA->getEntityType() == DataType::Main_Type::BABY && dataTypeB->getEntityType() == DataType::Main_Type::ENEMY)) {
+			//Element A
+			
+			if(entityTypeA == DataType::Main_Type::BABY) {
 		
-				BabyHero* bb = static_cast<BabyHero*> (dataTypeA);
+				BabyHero* bb = static_cast<BabyHero*>(dataTypeA);
 				if(bb){
-					bb->endContact();
+					bb->endContact(entityTypeB);
 				}
 		   	}
+			   
+			if(entityTypeA == DataType::Main_Type::ENEMY) {
+		
+				Enemy* enemy = static_cast<Enemy*>(dataTypeA);
+				if(enemy){
+					enemy->endContact(entityTypeB);
+				}
+		   	}
+			   
+			  
 			
-			if((dataTypeB->getEntityType() == DataType::Main_Type::BABY && dataTypeA->getEntityType() == DataType::Main_Type::ENEMY)) {
+			//Element B
+			
+			if(entityTypeB == DataType::Main_Type::BABY ) {
 		
 				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
 				if(bb){
-					bb->endContact();
+					bb->endContact(entityTypeA);
+				}
+		   	}
+			
+			if(entityTypeB == DataType::Main_Type::ENEMY ) {
+		
+				Enemy* enemy = static_cast<Enemy*>(dataTypeB);
+				if(enemy){
+					enemy->endContact(entityTypeA);
 				}
 		   	}
 			

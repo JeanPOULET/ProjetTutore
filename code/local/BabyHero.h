@@ -42,8 +42,8 @@ namespace KGB{
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
             std::string getClassName();
-            virtual void startContact();
-            virtual void endContact();
+            virtual void startContact(int contactwith);
+            virtual void endContact(int contactwith);
 	    void setBodyPhysics(b2World& world);
 	    void updatePhysics_set();
 	    void updatePhysics_correction();

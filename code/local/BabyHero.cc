@@ -146,13 +146,30 @@ namespace KGB{
         
     }
 
-    void BabyHero::startContact() {
-		gf::Log::debug("JE T'AI VU\n");
-		GameOver message;
-		//message.position = m_position;
-		gMessageManager().sendMessage(&message);
+    void BabyHero::startContact(int contactwith) {
+		
+		switch (contactwith){
+				
+			case  DataType::Main_Type::ENEMY:		gf::Log::debug("JE T'AI VU\n");
+													GameOver message;
+													//message.position = m_position;
+													gMessageManager().sendMessage(&message);
+													break;
+			default: 								break;
+				
+		}
+	
     }
-    void BabyHero::endContact() { gf::Log::debug("JE FUIS SI VITE\n"); }
+    void BabyHero::endContact(int contactwith) { 
+		
+		switch (contactwith){
+			
+			default: 	gf::Log::debug("FUIT");
+						break;
+				
+		}
+	
+	}
 
 	void BabyHero::setBodyPhysics(b2World& world){
 

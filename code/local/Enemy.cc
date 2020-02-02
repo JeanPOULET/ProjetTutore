@@ -179,11 +179,24 @@ namespace KGB{
         }
     }
 
-    void Enemy::startContact() {
-      	gf::Log::info("AROUF GANGSTA\n");
+    void Enemy::startContact(int contactwith) {
+		switch (contactwith){
+			
+			default: 	gf::Log::info("AROUF GANGSTA\n");
+						break;
+				
+		}
+		
     }
-    void Enemy::endContact() { 
-		gf::Log::info("JE SUIS LE ROI ARROUF\n");
+    void Enemy::endContact(int contactwith) { 
+		
+		switch (contactwith){
+			
+			default: 	gf::Log::info("JE SUIS LE ROI ARROUF\n");
+						break;
+				
+		}
+		
 	}
 	
 	void Enemy::setBodyPhysics(b2World& world){

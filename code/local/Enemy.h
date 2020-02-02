@@ -55,14 +55,14 @@ namespace KGB{
             void lineH();
             void lineV();
             void viewCone();
-            virtual void startContact();
-            virtual void endContact();
+            virtual void startContact(int contactwith);
+            virtual void endContact(int contactwith);
             Graphics graphics;
             gf::Vector2f m_spawn;
-	    void setBodyPhysics(b2World& world);
-	    void updatePhysics_set();
-	    void updatePhysics_correction();
-	    int getEntityType() { return DataType::Main_Type::ENEMY; }
+	   	 	void setBodyPhysics(b2World& world);
+	    	void updatePhysics_set();
+	    	void updatePhysics_correction();
+	    	int getEntityType() { return DataType::Main_Type::ENEMY; }
 
         private:
             
