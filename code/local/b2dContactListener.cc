@@ -1,61 +1,68 @@
 #include "b2dContactListener.h"
 
 namespace KGB{
+	
 	void b2dContactListener::BeginContact(b2Contact* contact){
 
-		bool isSensorA = contact->GetFixtureA()->IsSensor();
-		bool isSensorB = contact->GetFixtureB()->IsSensor();
-		void* bodyUserData;
-		if(isSensorA && !isSensorB){
-			bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-		}else if(isSensorB && !isSensorA){
-			bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-		}else{
-			return;
+		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+		
+		if(dataA && dataB){
+			
+			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
+			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
+			
+			//BABY-ENEMY
+			
+			if((dataTypeA->getEntityType() == DataType::Main_Type::BABY && dataTypeB->getEntityType() == DataType::Main_Type::ENEMY)) {
+		
+				BabyHero* bb = static_cast<BabyHero*> (dataTypeA);
+				if(bb){
+					bb->startContact();
+				}
+		   	}
+			
+			if((dataTypeB->getEntityType() == DataType::Main_Type::BABY && dataTypeA->getEntityType() == DataType::Main_Type::ENEMY)) {
+		
+				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
+				if(bb){
+					bb->startContact();
+				}
+		   	}
+			
 		}
-		/*BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-		bb->startContact();*/
-        /*;
-        if ( bodyUserData){
-			BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-			if(bb->getClassName()=="BabyHero"){
-				bb->startContact();
-			}
-        }
-
-    	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-		if ( bodyUserData ){
-			BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-			if(bb->getClassName()=="BabyHero"){
-				bb->startContact();
-			}
-		}*/
+		
     }
 
     void b2dContactListener::EndContact(b2Contact* contact) {
-		bool isSensorA = contact->GetFixtureA()->IsSensor();
-		bool isSensorB = contact->GetFixtureB()->IsSensor();
-		void* bodyUserData;
-		if(isSensorA && !isSensorB){
-			bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-		}else if(isSensorB && !isSensorA){
-			bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-		}else{
-			return;
-		}
-		/*BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-		bb->endContact();*/
-  
-		/*void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-		if ( bodyUserData ){
-			static_cast<BabyHero*>( bodyUserData )->endContact();
 
+		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+		
+		if(dataA && dataB){
+			
+			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
+			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
+			
+			//BABY-ENEMY
+			
+			if((dataTypeA->getEntityType() == DataType::Main_Type::BABY && dataTypeB->getEntityType() == DataType::Main_Type::ENEMY)) {
+		
+				BabyHero* bb = static_cast<BabyHero*> (dataTypeA);
+				if(bb){
+					bb->endContact();
+				}
+		   	}
+			
+			if((dataTypeB->getEntityType() == DataType::Main_Type::BABY && dataTypeA->getEntityType() == DataType::Main_Type::ENEMY)) {
+		
+				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
+				if(bb){
+					bb->endContact();
+				}
+		   	}
+			
 		}
-	
-		bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-		if ( bodyUserData ){
-			static_cast<BabyHero*>( bodyUserData )->endContact();
-		}*/
   
     }
 }

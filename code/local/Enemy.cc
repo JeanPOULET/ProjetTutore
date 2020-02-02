@@ -193,11 +193,11 @@ namespace KGB{
 		bodyDef.position = Physics::fromVec(this->getPosition());
 		m_body = world.CreateBody(&bodyDef);
 
-		DataType::BodyUserData enemy;
+		/*DataType::BodyUserData enemy;
 		enemy.entity = this;
-		enemy.main_type = DataType::Main_Type::ENEMY;
+		enemy.main_type = DataType::Main_Type::ENEMY;*/
 
-		m_body->SetUserData((void*) &enemy);
+		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
 		b2PolygonShape shapeEnemy;
 		shapeEnemy.SetAsBox(15.0f*Physics::getPhysicScale(), 18.0f*Physics::getPhysicScale());

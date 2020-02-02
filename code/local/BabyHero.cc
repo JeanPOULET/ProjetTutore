@@ -161,11 +161,11 @@ namespace KGB{
     bodyDef.position = Physics::fromVec(this->getPosition());
     m_body = world.CreateBody(&bodyDef);
 
-	DataType::BodyUserData hero;
+	/*DataType::BodyUserData hero;
 	hero.entity = this;
-	hero.main_type = DataType::Main_Type::BABY;
+	hero.main_type = DataType::Main_Type::BABY;*/
 
-	m_body->SetUserData((void*) &hero);
+	m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
 	b2PolygonShape shapeBaby;
        	shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());

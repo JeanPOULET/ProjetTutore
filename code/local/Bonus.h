@@ -1,5 +1,5 @@
-#ifndef KGB_BabyHero_H
-#define KGB_BabyHero_H
+#ifndef KGB_BONUS_H
+#define KGB_BONUS_H
 
 #include <gf/Entity.h>
 #include <gf/Clock.h>
@@ -22,48 +22,43 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "DataType.h"
-#include "KEntity.h"
 
 #include <Box2D/Box2D.h>
 
 namespace KGB{
 
-    class BabyHero : public gf::Entity, public KGB::KEntity{
+    class Bonus : public gf::Entity{
         public:
 
-            BabyHero(gf::Vector2f position);
+         enum class Status {
+                Moving,
+                Waiting,
+         };            
+
+	    Bonus(gf::Vector2f position, DataType::Bonus_Type type);
 
             void setVelocity(gf::Vector2f velocity);
 			gf::Vector2f getVelocity();
+	     	void setBodyPhysics(b2World& world);
+	     	void updatePhysics_set();
+	     	void updatePhysics_correction();
             void update(gf::Time time);
             void render(gf::RenderTarget& target);
             gf::Vector2f getPosition();
             void setPosition(gf::Vector2f position);
-            void loadAnimation(gf::Animation &animation, int line);
-            void updateOrientation(int orientation);
-            std::string getClassName();
-            virtual void startContact();
-            virtual void endContact();
-	    void setBodyPhysics(b2World& world);
-	    void updatePhysics_set();
-	    void updatePhysics_correction();
-	    int getEntityType() { return DataType::Main_Type::BABY; }
+	    void loadAnimation(gf::Animation &animation, int line);
 
+ 	    void startContact() { dynamics.m_contacting = true; }
+  	    void endContact() { dynamics.m_contacting = false; }
+		
         private:
             Dynamics dynamics;
             Graphics graphics;
-            
-	    int munition = 3;
-		
-            enum class Status {
-                Walking,
-                Waiting,
-                Immolate,
-            };
+           
 
             Status m_status;
-			b2Body *m_body;
+	    b2Body *m_body;
     };
 }
 
-#endif // KGB_BabyHero_H
+#endif // KGB_BONUS_H

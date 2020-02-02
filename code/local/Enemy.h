@@ -21,12 +21,13 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "DataType.h"
+#include "KEntity.h"
 
 #include <Box2D/Box2D.h>
 
 namespace KGB{
 
-    class Enemy : public gf::Entity{
+    class Enemy : public gf::Entity, public KGB::KEntity{
         public:
             enum class PathType{
                 VerticalLine,
@@ -58,9 +59,10 @@ namespace KGB{
             virtual void endContact();
             Graphics graphics;
             gf::Vector2f m_spawn;
-			void setBodyPhysics(b2World& world);
-	    	void updatePhysics_set();
-	    	void updatePhysics_correction();
+	    void setBodyPhysics(b2World& world);
+	    void updatePhysics_set();
+	    void updatePhysics_correction();
+	    int getEntityType() { return DataType::Main_Type::ENEMY; }
 
         private:
             

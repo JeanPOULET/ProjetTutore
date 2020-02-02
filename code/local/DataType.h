@@ -30,7 +30,6 @@ namespace KGB {
 
 			BONUS = 		1,
 			MALUS = 		2,
-			BUTTON =		3,
 
 		};
 
