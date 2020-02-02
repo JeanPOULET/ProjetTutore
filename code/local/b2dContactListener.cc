@@ -33,7 +33,13 @@ namespace KGB{
 				}
 		   	}
 			   
-			  
+			if(entityTypeA == DataType::Main_Type::HARVESTABLE) {
+		
+				Bonus* bonus = static_cast<Bonus*>(dataTypeA);
+				if(bonus){
+					bonus->startContact(entityTypeB);
+				}
+		   	} 
 			
 			//Element B
 			
@@ -52,6 +58,14 @@ namespace KGB{
 					enemy->startContact(entityTypeA);
 				}
 		   	}
+			
+			if(entityTypeB == DataType::Main_Type::HARVESTABLE) {
+		
+				Bonus* bonus = static_cast<Bonus*>(dataTypeB);
+				if(bonus){
+					bonus->startContact(entityTypeA);
+				}
+		   	} 
 			   
 		}
 		

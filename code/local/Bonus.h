@@ -22,12 +22,13 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "DataType.h"
+#include "KEntity.h"
 
 #include <Box2D/Box2D.h>
 
 namespace KGB{
 
-    class Bonus : public gf::Entity{
+    class Bonus : public gf::Entity, public KGB::KEntity{
         public:
 
          enum class Status {
@@ -48,8 +49,9 @@ namespace KGB{
             void setPosition(gf::Vector2f position);
 	    void loadAnimation(gf::Animation &animation, int line);
 
- 	    void startContact() { dynamics.m_contacting = true; }
-  	    void endContact() { dynamics.m_contacting = false; }
+ 	    void startContact(int contactwith);
+  	    void endContact(int contactwith);
+	    int getEntityType() { return DataType::Main_Type::HARVESTABLE; }
 		
         private:
             Dynamics dynamics;

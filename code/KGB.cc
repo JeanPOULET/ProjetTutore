@@ -143,6 +143,20 @@ int main() {
 	mainEntities.addEntity(Vilain3);
 	mainEntities.addEntity(Vilain4);
 	mainEntities.addEntity(Vilain5);
+	
+	
+	static constexpr gf::Vector2u posBonus1(33*51,32*4);
+	static constexpr gf::Vector2u posBonus2(34*51,32*4);
+	static constexpr gf::Vector2u posBonus3(35*51,32*4);
+	
+	
+	KGB::Bonus Couche1(posBonus1, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
+	KGB::Bonus Couche2(posBonus2, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
+	KGB::Bonus Couche3(posBonus3, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
+
+	mainEntities.addEntity(Couche1);
+	mainEntities.addEntity(Couche2);
+	mainEntities.addEntity(Couche3);
 
 	// controls
 	
@@ -205,7 +219,7 @@ int main() {
 	actions.addAction(downAction);
 
 	//Physics
-	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5);
+	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
 
 	// game loop
 	gf::Clock clock;
@@ -430,6 +444,10 @@ int main() {
 			Vilain3.render(renderer);
 			Vilain4.render(renderer);
 			Vilain5.render(renderer);
+			Couche1.render(renderer);
+			Couche2.render(renderer);
+			Couche3.render(renderer);
+			
 			objs.render(renderer);
 			if(debugPhysics){
 				debug.render(renderer);

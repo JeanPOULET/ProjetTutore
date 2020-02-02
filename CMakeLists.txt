@@ -26,8 +26,7 @@ add_executable(KGB
   code/local/Enemy.cc
   code/local/Physics.cc
   code/local/b2dContactListener.cc
-
-
+  code/local/Bonus.cc
 )
 
 target_include_directories(KGB 

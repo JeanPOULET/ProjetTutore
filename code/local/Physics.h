@@ -31,6 +31,7 @@
 
 #include "BabyHero.h"
 #include "Enemy.h"
+#include "Bonus.h"
 #include "b2dContactListener.h"
 #include "DataType.h"
 
@@ -38,11 +39,12 @@ namespace KGB {
 
 	class Enemy;
 	class BabyHero;
+	class Bonus;
 
 	class Physics : public gf::Model {
 		
 		public:
-			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5);
+			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3);
 			void setPhysicCone(int vilain);
 			
 			static float getPhysicScale();
@@ -62,9 +64,9 @@ namespace KGB {
 			Enemy& m_vilain4;
 			Enemy& m_vilain5;
 		
-			/*Bonus& m_bonus1;
+			Bonus& m_bonus1;
 			Bonus& m_bonus2;
-			Bonus& m_bonus3;*/
+			Bonus& m_bonus3;
 	};
 
 	struct PhysicsState;

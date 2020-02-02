@@ -41,16 +41,10 @@ namespace KGB{
     	bodyDef.position = Physics::fromVec(this->getPosition());
     	m_body = world.CreateBody(&bodyDef);
 
-	DataType::BodyUserData bonus;
-	bonus.entity = this;
-	bonus.main_type = DataType::Main_Type::HARVESTABLE;
-	bonus.sub_type1 = DataType::Item_Type::BONUS;
-	bonus.sub_type2 = DataType::Bonus_Type::STUNNING_DIAPERS;
-
-	m_body->SetUserData((void*) &bonus);
+	m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
 	b2PolygonShape shapeBonus;
-    	shapeBonus.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
+    shapeBonus.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.density = 1.0f;
@@ -118,5 +112,27 @@ namespace KGB{
         }
         
     }
+	
+	void Bonus::startContact(int contactwith) {
+		
+		switch (contactwith){
+				
+			case  DataType::Main_Type::BABY:		gf::Log::debug("MORE DIAPERS\n");
+													break;
+			default: 								break;
+				
+		}
+	
+    }
+    void Bonus::endContact(int contactwith) { 
+		
+		switch (contactwith){
+			
+			default: 	gf::Log::debug("OH NO");
+						break;
+				
+		}
+	
+	}
 
 }

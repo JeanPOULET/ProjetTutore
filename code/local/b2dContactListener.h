@@ -24,6 +24,7 @@
 
 #include "BabyHero.h"
 #include "Enemy.h"
+#include "Bonus.h"
 #include "Physics.h"
 
 

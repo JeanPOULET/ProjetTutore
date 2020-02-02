@@ -35,9 +35,9 @@ namespace KGB{
 		m_vilain4.updatePhysics_set();
 		m_vilain5.updatePhysics_set();
 
-		/*m_bonus1.updatePhysics_set();
+		m_bonus1.updatePhysics_set();
 		m_bonus2.updatePhysics_set();
-		m_bonus3.updatePhysics_set();*/
+		m_bonus3.updatePhysics_set();
 
         m_world.Step(1/80.0, 8, 3);
 
@@ -48,9 +48,9 @@ namespace KGB{
 		m_vilain4.updatePhysics_correction();
 		m_vilain5.updatePhysics_correction();
         
-		/*m_bonus1.updatePhysics_correction();
+		m_bonus1.updatePhysics_correction();
 		m_bonus2.updatePhysics_correction();
-		m_bonus3.updatePhysics_correction();*/
+		m_bonus3.updatePhysics_correction();
 
 
     }
@@ -160,7 +160,7 @@ namespace KGB{
     };
 
 
-    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5)
+    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
         , m_vilain1(policier1)
@@ -168,6 +168,9 @@ namespace KGB{
         , m_vilain3(policier3)
         , m_vilain4(policier4)
         , m_vilain5(policier5)
+		, m_bonus1(bon1)
+		, m_bonus2(bon2)
+		, m_bonus3(bon3)
         {
         
         //MAP
@@ -188,6 +191,10 @@ namespace KGB{
 		m_vilain3.setBodyPhysics(m_world);
 		m_vilain4.setBodyPhysics(m_world);
 		m_vilain5.setBodyPhysics(m_world);
+			
+		m_bonus1.setBodyPhysics(m_world);
+		m_bonus2.setBodyPhysics(m_world);
+		m_bonus3.setBodyPhysics(m_world);
 
     }
 
