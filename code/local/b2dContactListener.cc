@@ -13,8 +13,8 @@ namespace KGB{
 		}else{
 			return;
 		}
-		BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-		bb->startContact();
+		/*BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
+		bb->startContact();*/
         /*;
         if ( bodyUserData){
 			BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
@@ -43,8 +43,8 @@ namespace KGB{
 		}else{
 			return;
 		}
-		BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
-		bb->endContact();
+		/*BabyHero* bb = static_cast<BabyHero*> (bodyUserData);
+		bb->endContact();*/
   
 		/*void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 		if ( bodyUserData ){

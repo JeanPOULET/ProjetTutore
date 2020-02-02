@@ -19,6 +19,8 @@
 #include "Singletons.h"
 #include "Dynamics.h"
 #include "Graphics.h"
+#include "Physics.h"
+#include "DataType.h"
 
 #include <Box2D/Box2D.h>
 
@@ -56,17 +58,20 @@ namespace KGB{
             virtual void endContact();
             Graphics graphics;
             gf::Vector2f m_spawn;
+			void setBodyPhysics(b2World& world);
+	    	void updatePhysics_set();
+	    	void updatePhysics_correction();
 
         private:
             
             Dynamics dynamics;
             
-            
             float m_distance;
             gf::Polygon m_cone;
 
             Status m_status;
-            
+        	b2Body *m_body;    
+		
             PathType m_path;
                 
     };

@@ -20,6 +20,8 @@
 #include "Singletons.h"
 #include "Dynamics.h"
 #include "Graphics.h"
+#include "Physics.h"
+#include "DataType.h"
 
 #include <Box2D/Box2D.h>
 
@@ -41,11 +43,16 @@ namespace KGB{
             std::string getClassName();
             virtual void startContact();
             virtual void endContact();
+			void setBodyPhysics(b2World& world);
+	    	void updatePhysics_set();
+	    	void updatePhysics_correction();
 
         private:
             Dynamics dynamics;
             Graphics graphics;
             
+	    int munition = 3;
+		
             enum class Status {
                 Walking,
                 Waiting,
@@ -53,6 +60,7 @@ namespace KGB{
             };
 
             Status m_status;
+			b2Body *m_body;
     };
 }
 

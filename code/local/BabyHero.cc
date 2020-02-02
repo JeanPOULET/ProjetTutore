@@ -12,6 +12,7 @@ namespace KGB{
   
     BabyHero::BabyHero(gf::Vector2f position)
         : m_status(Status::Waiting)
+		, m_body(nullptr)
         {
 			
         dynamics.m_position = position;
@@ -153,4 +154,44 @@ namespace KGB{
     }
     void BabyHero::endContact() { gf::Log::debug("JE FUIS SI VITE\n"); }
 
+	void BabyHero::setBodyPhysics(b2World& world){
+
+	b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position = Physics::fromVec(this->getPosition());
+    m_body = world.CreateBody(&bodyDef);
+
+	DataType::BodyUserData hero;
+	hero.entity = this;
+	hero.main_type = DataType::Main_Type::BABY;
+
+	m_body->SetUserData((void*) &hero);
+
+	b2PolygonShape shapeBaby;
+       	shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.0f;
+	fixtureDef.restitution = 0.0f;
+	fixtureDef.filter.categoryBits = DataType::Main_Type::BABY;
+	fixtureDef.shape = &shapeBaby;
+
+	m_body->CreateFixture(&fixtureDef);
+
+    }
+
+    void BabyHero::updatePhysics_set(){
+
+	m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
+	m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
+
+    }
+
+    void BabyHero::updatePhysics_correction(){
+
+	setPosition(Physics::toVec(m_body->GetPosition()));
+
+    }
+	
 }

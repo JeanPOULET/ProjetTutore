@@ -32,32 +32,39 @@
 #include "BabyHero.h"
 #include "Enemy.h"
 #include "b2dContactListener.h"
+#include "DataType.h"
 
 namespace KGB {
+
+	class Enemy;
+	class BabyHero;
+
 	class Physics : public gf::Model {
 		
 		public:
 			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5);
 			void setPhysicCone(int vilain);
 			
+			static float getPhysicScale();
+			static b2Vec2 fromVec(gf::Vector2f vec);
+        	static gf::Vector2f toVec(b2Vec2 vec);
+		
 			void update();
 			b2World& getWorld();
 
 		private:
 			b2World m_world;
-			b2Body *m_body;
 			BabyHero& m_baby;
 			
 			Enemy& m_vilain1;
-			b2Body *m_vilainBody1;
 			Enemy& m_vilain2;
-			b2Body *m_vilainBody2;
 			Enemy& m_vilain3;
-			b2Body *m_vilainBody3;
 			Enemy& m_vilain4;
-			b2Body *m_vilainBody4;
 			Enemy& m_vilain5;
-			b2Body *m_vilainBody5;
+		
+			/*Bonus& m_bonus1;
+			Bonus& m_bonus2;
+			Bonus& m_bonus3;*/
 	};
 
 	struct PhysicsState;

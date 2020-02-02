@@ -7,6 +7,7 @@ namespace KGB{
         : m_spawn(position)
 		, m_path(path)
 		, m_status(status)
+		, m_body(nullptr)
 		, m_cone(nullptr)
 		, m_distance(distance)
         {
@@ -185,5 +186,65 @@ namespace KGB{
 		gf::Log::info("JE SUIS LE ROI ARROUF\n");
 	}
 	
+	void Enemy::setBodyPhysics(b2World& world){
+
+		b2BodyDef bodyDef;
+		bodyDef.type = b2_dynamicBody;
+		bodyDef.position = Physics::fromVec(this->getPosition());
+		m_body = world.CreateBody(&bodyDef);
+
+		DataType::BodyUserData enemy;
+		enemy.entity = this;
+		enemy.main_type = DataType::Main_Type::ENEMY;
+
+		m_body->SetUserData((void*) &enemy);
+
+		b2PolygonShape shapeEnemy;
+		shapeEnemy.SetAsBox(15.0f*Physics::getPhysicScale(), 18.0f*Physics::getPhysicScale());
+
+		b2FixtureDef fixtureDef;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
+        fixtureDef.filter.categoryBits = DataType::Main_Type::ENEMY;
+        fixtureDef.shape = &shapeEnemy;
+
+		m_body->CreateFixture(&fixtureDef);
+		
+		//cone
+		
+		b2FixtureDef fixtureCone;
+        b2PolygonShape shapeCone;
+        b2Vec2 vertices[3];
+        vertices[0].Set(0,0);
+        vertices[1].Set(-20* Physics::getPhysicScale(), 200* Physics::getPhysicScale());
+        vertices[2].Set( 20* Physics::getPhysicScale(), 200* Physics::getPhysicScale());
+
+        shapeCone.Set(vertices, 3);
+
+        fixtureCone.density = 1.0f;
+        fixtureCone.friction = 0.0f;
+        fixtureCone.restitution = 0.0f;
+        fixtureCone.isSensor = true;
+        fixtureCone.filter.categoryBits = DataType::Main_Type::ENEMY;
+        fixtureCone.filter.maskBits = DataType::Main_Type::BABY;
+        fixtureCone.shape = &shapeCone;
+
+        m_body->CreateFixture(&fixtureCone);
+
+    }
+
+    void Enemy::updatePhysics_set(){
+
+	m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
+	m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
+
+    }
+
+    void Enemy::updatePhysics_correction(){
+
+	setPosition(Physics::toVec(m_body->GetPosition()));
+
+    }
 
 }
