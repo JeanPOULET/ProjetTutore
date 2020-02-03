@@ -5,9 +5,10 @@
 
 namespace KGB {
 	class KEntity {
-	public:
+		
+		public:
 
-		virtual int getEntityType() = 0;
+			virtual int getEntityType() = 0;
 
 	};
 }

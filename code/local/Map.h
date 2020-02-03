@@ -14,27 +14,25 @@
 
 namespace KGB {
 
-  struct MapGraphicsData {
-    MapGraphicsData(const gf::TmxLayers& layers, Objects& objs);
+	struct MapGraphicsData {
 
-    std::vector<gf::TileLayer> tiles;
-    std::vector<gf::Sprite> sprites;
-    
-  };
+		MapGraphicsData(const gf::TmxLayers& layers, Objects& objs);
+		std::vector<gf::TileLayer> tiles;
+		std::vector<gf::Sprite> sprites;
+		
+	};
 
-  class Map : public gf::Entity {
-  public :
+	class Map : public gf::Entity {
+		public:
 
+			Map(MapGraphicsData& data);
+			virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) ;
 
-    Map(MapGraphicsData& data);
+		private:
 
-    virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) ;
-
-  private:
-
-    MapGraphicsData& m_data;
-    gf::Vector2f m_hero;
-  };
+			MapGraphicsData& m_data;
+			gf::Vector2f m_hero;
+	};
 }
 
 #endif // KGB_MAP_H

@@ -131,7 +131,7 @@ namespace KGB{
     }
 
     std::string BabyHero::getClassName(){
-      return "BabyHero";
+      	return "BabyHero";
     }
 
     void BabyHero::loadAnimation(gf::Animation &animation, int line) {
