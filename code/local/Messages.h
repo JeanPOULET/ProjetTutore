@@ -18,7 +18,9 @@ namespace KGB{
         static const gf::Id type = "Victory"_id;
     };
 
-
+    struct Clef: public gf::Message {
+        static const gf::Id type = "Clef"_id;
+    };
 }
 
 #endif //KGB_MESSAGES_H

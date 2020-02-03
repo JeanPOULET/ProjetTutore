@@ -121,9 +121,12 @@ namespace KGB{
 		
 		switch (contactwith){
 				
-			case  DataType::Main_Type::BABY:		gf::Log::debug("MORE DIAPERS\n");
-													break;
-			default: 								break;
+			case  DataType::Main_Type::BABY:
+            	gf::Log::debug("MORE DIAPERS\n");
+			break;
+			default:
+            
+            break;
 				
 		}
 	

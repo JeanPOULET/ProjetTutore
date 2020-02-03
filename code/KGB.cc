@@ -94,6 +94,13 @@ int main() {
 		return gf::MessageStatus::Die;
   	});
 
+	KGB::gMessageManager().registerHandler<KGB::Clef>([&state](gf::Id type, gf::Message *msg) {
+		assert(type == KGB::Clef::type);
+		gf::unused(type, msg);
+		gf::Log::debug("Je winnzzzz");
+		return gf::MessageStatus::Die;
+  	});
+
 	KGB::gMessageManager().registerHandler<KGB::Victory>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::Victory::type);
 		gf::unused(type, msg);
@@ -219,7 +226,7 @@ int main() {
 	actions.addAction(downAction);
 
 	//Physics
-	KGB::Physics physics(layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
+	KGB::Physics physics(objs,layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
 
 	// game loop
 	gf::Clock clock;
@@ -475,6 +482,7 @@ int main() {
 			sleep(3);
 			break;
 		}else if(state == GameState::VICTORY){
+			break;
 			
 		}
 

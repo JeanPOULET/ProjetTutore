@@ -14,6 +14,7 @@ namespace KGB{
 			
 			int entityTypeA = dataTypeA->getEntityType();
 			int entityTypeB = dataTypeB->getEntityType();
+
 			
 			//Element A
 			
@@ -40,6 +41,14 @@ namespace KGB{
 					bonus->startContact(entityTypeB);
 				}
 		   	} 
+
+			if(entityTypeA == ObjectType::CLEF) {
+		
+				object* obj = static_cast<object*>(dataTypeA);
+				if(obj){
+					obj->startContact(entityTypeB);
+				}
+		   	}
 			
 			//Element B
 			
@@ -58,9 +67,17 @@ namespace KGB{
 					enemy->startContact(entityTypeA);
 				}
 		   	}
+
+			if(entityTypeB == ObjectType::CLEF) {
+		
+				object* obj = static_cast<object*>(dataTypeB);
+				if(obj){
+					obj->startContact(entityTypeA);
+				}
+		   	} 
 			
 			if(entityTypeB == DataType::Main_Type::HARVESTABLE) {
-		
+
 				Bonus* bonus = static_cast<Bonus*>(dataTypeB);
 				if(bonus){
 					bonus->startContact(entityTypeA);
@@ -72,7 +89,7 @@ namespace KGB{
     }
 
     void b2dContactListener::EndContact(b2Contact* contact) {
-
+		/*
 		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		
@@ -123,6 +140,6 @@ namespace KGB{
 		   	}
 			
 		}
-  
+  */
     }
 }

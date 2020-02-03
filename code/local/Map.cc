@@ -104,7 +104,7 @@ namespace KGB {
 						m_objs.addObject(ObjectType::CLEF,position,sprite);
 					break;
 				}
-				gf::Log::debug("lid = %d\n && %d ",lid);
+				gf::Log::debug("lid = %d\n",lid);
 
 			}else{
 				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);

@@ -34,17 +34,19 @@
 #include "Bonus.h"
 #include "b2dContactListener.h"
 #include "DataType.h"
+#include "Objects.h"
 
 namespace KGB {
 
 	class Enemy;
 	class BabyHero;
 	class Bonus;
+	class Objects;
 
 	class Physics : public gf::Model {
 		
 		public:
-			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3);
+			Physics(Objects& objs, const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3);
 			void setPhysicCone(int vilain);
 			
 			static float getPhysicScale();
@@ -56,6 +58,7 @@ namespace KGB {
 
 		private:
 			b2World m_world;
+			Objects& m_objs;
 			BabyHero& m_baby;
 			
 			Enemy& m_vilain1;

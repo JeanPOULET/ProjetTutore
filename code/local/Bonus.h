@@ -31,35 +31,32 @@ namespace KGB{
     class Bonus : public gf::Entity, public KGB::KEntity{
         public:
 
-         enum class Status {
+            enum class Status {
                 Moving,
                 Waiting,
-         };            
+            };            
 
-	    Bonus(gf::Vector2f position, DataType::Bonus_Type type);
-
+            Bonus(gf::Vector2f position, DataType::Bonus_Type type);
             void setVelocity(gf::Vector2f velocity);
-			gf::Vector2f getVelocity();
-	     	void setBodyPhysics(b2World& world);
-	     	void updatePhysics_set();
-	     	void updatePhysics_correction();
+            gf::Vector2f getVelocity();
+            void setBodyPhysics(b2World& world);
+            void updatePhysics_set();
+            void updatePhysics_correction();
             void update(gf::Time time);
             void render(gf::RenderTarget& target);
             gf::Vector2f getPosition();
             void setPosition(gf::Vector2f position);
-	    void loadAnimation(gf::Animation &animation, int line);
-
- 	    void startContact(int contactwith);
-  	    void endContact(int contactwith);
-	    int getEntityType() { return DataType::Main_Type::HARVESTABLE; }
-		
+            void loadAnimation(gf::Animation &animation, int line);
+            void startContact(int contactwith);
+            void endContact(int contactwith);
+            int getEntityType() { return DataType::Main_Type::HARVESTABLE;};
+            
         private:
+
             Dynamics dynamics;
             Graphics graphics;
-           
-
             Status m_status;
-	    b2Body *m_body;
+	        b2Body *m_body;
     };
 }
 

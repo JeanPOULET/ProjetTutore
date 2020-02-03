@@ -13,7 +13,7 @@ namespace KGB{
     BabyHero::BabyHero(gf::Vector2f position)
         : m_status(Status::Waiting)
 		, m_body(nullptr)
-        {
+    {
 			
         dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);

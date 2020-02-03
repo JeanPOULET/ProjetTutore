@@ -64,8 +64,9 @@ namespace KGB{
     class PhysicsMaker : public gf::TmxVisitor {
 
         public:
-            PhysicsMaker(b2World& world)
+            PhysicsMaker(b2World& world, Objects& objs)
             : m_world(world)
+            , m_objs(objs)
             {
 
             }
@@ -116,51 +117,33 @@ namespace KGB{
                 }
             }
 
-        virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
-            gf::unused(map);
+            virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
+                gf::unused(map);
 
-            gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
+                gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
 
-            for (auto& object : layer.objects) {
-                if (object->kind != gf::TmxObject::Tile) {
-                    continue;
+                int numObject =0;
+                for (auto& object : layer.objects) {
+                    if (object->kind != gf::TmxObject::Tile) {
+                        continue;
+                    }
+
+                    auto tile = static_cast<gf::TmxTileObject *>(object.get());
+
+                    gf::Vector2f position = tile->position;
+
+                    m_objs.setObjectBody(numObject,m_world,position);
+                    numObject++;
                 }
-
-                auto tile = static_cast<gf::TmxTileObject *>(object.get());
-
-                gf::Vector2f position = tile->position;
-
-                b2BodyDef bodyDef;
-                bodyDef.type = b2_staticBody;
-                bodyDef.position = Physics::fromVec(position);
-                
-                auto body = m_world.CreateBody(&bodyDef);
-
-                b2CircleShape shape;
-                shape.m_radius = 10.0f * PHYSICSCALE;
-
-                b2FixtureDef fixtureDef;
-                fixtureDef.density = 1.0f;
-                fixtureDef.friction = 0.0f;
-                fixtureDef.restitution = 0.0f;
-                fixtureDef.shape = &shape;
-                fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
-
-                if(layer.name =="Objets"){
-                    fixtureDef.filter.categoryBits = DataType::Main_Type::HARVESTABLE;
-                    //body->SetUserData()
-                }
-
-                body->CreateFixture(&fixtureDef);
             }
-        }
 
-    private:
-      b2World& m_world;
-    };
+        private:
+        b2World& m_world;
+        Objects& m_objs;
+        };
 
 
-    Physics::Physics(const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
+    Physics::Physics(Objects& objs,const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
         , m_vilain1(policier1)
@@ -171,10 +154,11 @@ namespace KGB{
 		, m_bonus1(bon1)
 		, m_bonus2(bon2)
 		, m_bonus3(bon3)
+        , m_objs(objs)
         {
         
         //MAP
-        PhysicsMaker maker(m_world);
+        PhysicsMaker maker(m_world,m_objs);
         layers.visitLayers(maker);
         
         
