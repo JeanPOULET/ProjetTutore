@@ -4,6 +4,7 @@ namespace KGB{
     KGB::b2dContactListener m_contactListener;
     namespace{
         constexpr float PHYSICSCALE = 0.02f;
+        constexpr float ANGLE = 0.0174532925199432957f;
         static constexpr gf::Vector2u cinquante(200, 200);
 
         gf::Color4f toColor(b2Color color) {
@@ -23,6 +24,12 @@ namespace KGB{
 	float Physics::getPhysicScale(){
 		
 		return PHYSICSCALE;
+		
+	}
+
+    float Physics::getAngle(){
+		
+		return ANGLE;
 		
 	}
 

@@ -46,7 +46,7 @@ namespace KGB {
 		public:
 			Physics(const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3);
 			void setPhysicCone(int vilain);
-			
+			static float getAngle();
 			static float getPhysicScale();
 			static b2Vec2 fromVec(gf::Vector2f vec);
         	static gf::Vector2f toVec(b2Vec2 vec);

@@ -55,6 +55,7 @@ namespace KGB{
 		if(dynamics.m_position.x <= m_spawn.x){
 			graphics.m_orientation = gf::Orientation::East;
 			dynamics.m_velocity = gf::Vector2f(50.0,0);
+			
 		}else if(dynamics.m_position.x >= m_spawn.x + m_distance){
 			graphics.m_orientation = gf::Orientation::West;
 			dynamics.m_velocity = gf::Vector2f(-50.0,0);
@@ -104,6 +105,7 @@ namespace KGB{
 			switch (graphics.m_orientation) {
 				case gf::Orientation::South:
 					graphics.m_currentAnimation = &graphics.m_waitSouth;
+					
 				break;
 				case gf::Orientation::North:
 					graphics.m_currentAnimation = &graphics.m_waitNorth;
@@ -244,13 +246,30 @@ namespace KGB{
         fixtureCone.shape = &shapeCone;
 
         m_body->CreateFixture(&fixtureCone);
+		
 
     }
 
     void Enemy::updatePhysics_set(){
 
-	m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
-	m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
+		switch (graphics.m_orientation) {
+			case gf::Orientation::South:
+				m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
+				break;
+			case gf::Orientation::North:
+				m_body->SetTransform(Physics::fromVec(this->getPosition()), Physics::getAngle()*180.0);
+				break;
+			case gf::Orientation::East:
+				m_body->SetTransform(Physics::fromVec(this->getPosition()), Physics::getAngle()*(-90.0));
+				break;
+			case gf::Orientation::West:
+				m_body->SetTransform(Physics::fromVec(this->getPosition()), Physics::getAngle()*90.0);
+				break;
+			default:
+			// assert(false);
+			break;
+		}
+		m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
 
     }
 
