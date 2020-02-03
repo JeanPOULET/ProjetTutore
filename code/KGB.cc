@@ -230,7 +230,7 @@ int main() {
 
 	// game loop
 	gf::Clock clock;
-	renderer.clear(gf::Color::White);
+	renderer.clear(gf::Color::Black);
 
 	KGB::PhysicsDebugger debug(physics.getWorld());
 	mainEntities.addEntity(debug);
@@ -245,31 +245,31 @@ int main() {
 	//Initialisation pour intro
 	size_t intro = 0;
 	size_t i = 0;
-	size_t varX = 22;
-	size_t varY = 20;
-	size_t drawRect = 0;
+	float varX = 25;
+	size_t varY = 24;
 	bool spaceisActiveOneTime = true;
 
-	gf::RectangleShape rectangle({ 32*60, 32*8 });
-	rectangle.setPosition(gf::Vector2f(32*51, 32*21));
-	rectangle.setOutlineColor(gf::Color::Black);
-	rectangle.setOutlineThickness(5);
-	rectangle.setAnchor(gf::Anchor::Center);
+	
 
 	gf::Font font("../data/KGB/Pokemon_Classic.ttf");
 
 	gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
 	text2.setCharacterSize(30);
-	text2.setColor(gf::Color::Black);
-	text2.setPosition(gf::Vector2f(32*51, 32*50));
+	text2.setColor(gf::Color::Red);
+	text2.setPosition(gf::Vector2f(32*51, 32*52));
 	text2.setParagraphWidth(1000.0f);
 	text2.setAlignment(gf::Alignment::Center);
 	text2.setAnchor(gf::Anchor::Center);
 
 	//Mode débug actif ou non
 	bool debugPhysics = false;
-
+	gf::Texture background("../data/KGB/Image/intro1.png");
+	gf::Sprite backgroundSprite(background);
+	backgroundSprite.setPosition(gf::Vector2f(32*19, 32*16));
+	renderer.draw(backgroundSprite);
 	while (window.isOpen()) {
+		
+		
 		if(state == GameState::INTRO){
 			gf::Event event;
 			while (window.pollEvent(event)) {
@@ -282,11 +282,10 @@ int main() {
 			}
 
 			if(space.isActive()){
-				renderer.clear();
+				renderer.clear(gf::Color::White);
 				i = 0;
-				varX = 22;
-				varY = 20;
-				drawRect = 0;
+				varX = 25;
+				varY = 24;
 				if(spaceisActiveOneTime){
 					intro++;
 					spaceisActiveOneTime = false;
@@ -311,10 +310,10 @@ int main() {
 			text.setCharacterSize(30);
 			text.setColor(gf::Color::Black);
 
-			varX++;
+			varX+=0.9;
 			if(i == 57){
 				varY+=2;
-				varX = 22;
+				varX = 25;
 			}
 			if(intro == 0){
 				str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
@@ -348,10 +347,6 @@ int main() {
 			
 			text.setString(str2);
 
-			if(drawRect == 0 && intro != 3){
-				renderer.draw(rectangle);
-				drawRect++;
-			}
 			renderer.draw(text);
 			renderer.draw(text2);
 			// draw everything
@@ -482,8 +477,21 @@ int main() {
 			sleep(3);
 			break;
 		}else if(state == GameState::VICTORY){
+			gf::Vector2u introPos(32*51,32*32);
+			mainView.setCenter(introPos);
+			renderer.setView(mainView);
+			renderer.clear();
+			gf::Text text3("Free Jacob", font);
+			text3.setCharacterSize(20);
+			text3.setColor(gf::Color::Black);
+			text3.setPosition(gf::Vector2f(32*51, 32*32));
+			text3.setParagraphWidth(1000.0f);
+			text3.setAlignment(gf::Alignment::Center);
+			text3.setAnchor(gf::Anchor::Center);
+			renderer.draw(text3);
+			renderer.display();
+			sleep(3);
 			break;
-			
 		}
 
 	}
