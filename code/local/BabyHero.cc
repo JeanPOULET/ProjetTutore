@@ -131,7 +131,7 @@ namespace KGB{
     }
 
     std::string BabyHero::getClassName(){
-      return "BabyHero";
+      	return "BabyHero";
     }
 
     void BabyHero::loadAnimation(gf::Animation &animation, int line) {
@@ -150,12 +150,15 @@ namespace KGB{
 		
 		switch (contactwith){
 				
-			case  DataType::Main_Type::ENEMY:		gf::Log::debug("JE T'AI VU\n");
-													GameOver message;
-													//message.position = m_position;
-													gMessageManager().sendMessage(&message);
-													break;
-			default: 								break;
+			case  DataType::Main_Type::ENEMY:
+				gf::Log::debug("JE T'AI VU\n");
+				GameOver message;
+				//message.position = m_position;
+				gMessageManager().sendMessage(&message);
+			break;
+			default:
+			
+			break;
 				
 		}
 	
@@ -173,41 +176,41 @@ namespace KGB{
 
 	void BabyHero::setBodyPhysics(b2World& world){
 
-	b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position = Physics::fromVec(this->getPosition());
-    m_body = world.CreateBody(&bodyDef);
+		b2BodyDef bodyDef;
+		bodyDef.type = b2_dynamicBody;
+		bodyDef.position = Physics::fromVec(this->getPosition());
+		m_body = world.CreateBody(&bodyDef);
 
-	/*DataType::BodyUserData hero;
-	hero.entity = this;
-	hero.main_type = DataType::Main_Type::BABY;*/
+		/*DataType::BodyUserData hero;
+		hero.entity = this;
+		hero.main_type = DataType::Main_Type::BABY;*/
 
-	m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
+		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
-	b2PolygonShape shapeBaby;
-       	shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
+		b2PolygonShape shapeBaby;
+			shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.0f;
-	fixtureDef.restitution = 0.0f;
-	fixtureDef.filter.categoryBits = DataType::Main_Type::BABY;
-	fixtureDef.shape = &shapeBaby;
+		b2FixtureDef fixtureDef;
+		fixtureDef.density = 1.0f;
+		fixtureDef.friction = 0.0f;
+		fixtureDef.restitution = 0.0f;
+		fixtureDef.filter.categoryBits = DataType::Main_Type::BABY;
+		fixtureDef.shape = &shapeBaby;
 
-	m_body->CreateFixture(&fixtureDef);
+		m_body->CreateFixture(&fixtureDef);
 
     }
 
     void BabyHero::updatePhysics_set(){
 
-	m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
-	m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
+		m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
+		m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
 
     }
 
     void BabyHero::updatePhysics_correction(){
 
-	setPosition(Physics::toVec(m_body->GetPosition()));
+	    setPosition(Physics::toVec(m_body->GetPosition()));
 
     }
 	

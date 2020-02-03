@@ -5,21 +5,25 @@ namespace KGB{
     Bonus::Bonus(gf::Vector2f position, DataType::Bonus_Type type)
         : m_body(nullptr)
 		, m_status(Status::Waiting)
-        {
+    {
 	
-	dynamics.m_position = position;
-	dynamics.m_velocity = gf::Vector2f(0,0);
-	graphics.m_orientation = gf::Orientation::South;
+        dynamics.m_position = position;
+        dynamics.m_velocity = gf::Vector2f(0,0);
+        graphics.m_orientation = gf::Orientation::South;
 
-	switch (type){
+        switch (type){
 
-		case DataType::Bonus_Type::STUNNING_DIAPERS : graphics.m_texture = &gResourceManager().getTexture("Image/Couche_animation.png");
-				break;
-		default :	break;
-	}
+            case DataType::Bonus_Type::STUNNING_DIAPERS :
+                graphics.m_texture = &gResourceManager().getTexture("Image/Couche_animation.png");
+            break;
+            
+            default :
+            
+            break;
+        }
 
-	graphics.m_currentAnimation = &graphics.m_waitSouth;	
-	loadAnimation(graphics.m_waitSouth, 0);
+        graphics.m_currentAnimation = &graphics.m_waitSouth;	
+        loadAnimation(graphics.m_waitSouth, 0);
 			
     }
 
@@ -36,37 +40,37 @@ namespace KGB{
 
     void Bonus::setBodyPhysics(b2World& world){
 
-	b2BodyDef bodyDef;
-    	bodyDef.type = b2_dynamicBody;
-    	bodyDef.position = Physics::fromVec(this->getPosition());
-    	m_body = world.CreateBody(&bodyDef);
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position = Physics::fromVec(this->getPosition());
+        m_body = world.CreateBody(&bodyDef);
 
-	m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
+        m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
-	b2PolygonShape shapeBonus;
-    shapeBonus.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
-	
-	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.0f;
-	fixtureDef.restitution = 0.0f;
-	 fixtureDef.filter.categoryBits = DataType::Main_Type::HARVESTABLE;
-	fixtureDef.shape = &shapeBonus;
+        b2PolygonShape shapeBonus;
+        shapeBonus.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
+        
+        b2FixtureDef fixtureDef;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.restitution = 0.0f;
+        fixtureDef.filter.categoryBits = DataType::Main_Type::HARVESTABLE;
+        fixtureDef.shape = &shapeBonus;
 
-	m_body->CreateFixture(&fixtureDef);
+        m_body->CreateFixture(&fixtureDef);
 
     }
 
     void Bonus::updatePhysics_set(){
 
-	m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
-	m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
+        m_body->SetTransform(Physics::fromVec(this->getPosition()), 0.0f);
+        m_body->SetLinearVelocity(Physics::fromVec(this->getVelocity()));
 
     }
 
     void Bonus::updatePhysics_correction(){
 
-	setPosition(Physics::toVec(m_body->GetPosition()));
+	    setPosition(Physics::toVec(m_body->GetPosition()));
 
     }
 

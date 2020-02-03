@@ -10,9 +10,9 @@
 
 namespace KGB {
 
-  extern gf::Singleton<ResourceManager> gResourceManager;
-  extern gf::Singleton<gf::MessageManager> gMessageManager;
-  extern gf::Singleton<gf::Random> gRandom;
+    extern gf::Singleton<ResourceManager> gResourceManager;
+    extern gf::Singleton<gf::MessageManager> gMessageManager;
+    extern gf::Singleton<gf::Random> gRandom;
 
 }
 

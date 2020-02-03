@@ -184,7 +184,7 @@ namespace KGB{
     void Enemy::startContact(int contactwith) {
 		switch (contactwith){
 			
-			default: 	gf::Log::info("AROUF GANGSTA\n");
+			default: 	gf::Log::info("garde debut\n");
 						break;
 				
 		}
@@ -194,7 +194,7 @@ namespace KGB{
 		
 		switch (contactwith){
 			
-			default: 	gf::Log::info("JE SUIS LE ROI ARROUF\n");
+			default: 	gf::Log::info("garde fin\n");
 						break;
 				
 		}

@@ -20,9 +20,9 @@ namespace KGB {
 		enum Main_Type{
 
 			BABY = 0x0001,
-        		ENEMY = 0x0004,
-        		OTHER = 0x0010,
-        		HARVESTABLE = 0x0014,
+        	ENEMY = 0x0004,
+        	OTHER = 0x0010,
+        	HARVESTABLE = 0x0014,
 
 		};
 
@@ -34,8 +34,10 @@ namespace KGB {
 		};
 
 		enum Bonus_Type {
-                	STUNNING_DIAPERS = 	1,
-            	};
+
+            STUNNING_DIAPERS = 	1,
+        
+		};
 
 	private:
 
