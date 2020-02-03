@@ -44,16 +44,16 @@ namespace KGB{
             std::string getClassName();
             virtual void startContact(int contactwith);
             virtual void endContact(int contactwith);
-	    void setBodyPhysics(b2World& world);
-	    void updatePhysics_set();
-	    void updatePhysics_correction();
-	    int getEntityType() { return DataType::Main_Type::BABY; }
+            void setBodyPhysics(b2World& world);
+            void updatePhysics_set();
+            void updatePhysics_correction();
+            int getEntityType() { return DataType::Main_Type::BABY; }
 
         private:
             Dynamics dynamics;
             Graphics graphics;
             
-	    int munition = 3;
+            int munition = 3;
 		
             enum class Status {
                 Walking,

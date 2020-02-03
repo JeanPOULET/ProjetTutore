@@ -51,7 +51,7 @@ int main() {
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSize(2048, 1024); 
-	static constexpr gf::Vector2f ViewSize2(2048, 1024); 
+	static constexpr gf::Vector2f ViewSize2(420, 420); 
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
