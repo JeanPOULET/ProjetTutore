@@ -263,10 +263,10 @@ int main() {
 
 	//Mode débug actif ou non
 	bool debugPhysics = false;
-	gf::Texture background("../data/KGB/Image/intro1.png");
+	/*gf::Texture background("../data/KGB/Image/intro1.png");
 	gf::Sprite backgroundSprite(background);
 	backgroundSprite.setPosition(gf::Vector2f(32*19, 32*16));
-	renderer.draw(backgroundSprite);
+	renderer.draw(backgroundSprite);*/
 	while (window.isOpen()) {
 		
 		
