@@ -44,14 +44,24 @@ enum GameState{
 	GAMEOVER
 };
 
+void timer(gf::Clock clock, float seconds){
+	clock.restart();
+	gf::Time actualTime = gf::seconds(0);
+	gf::Time timeToWait = gf::seconds(seconds);
+	while(actualTime<timeToWait){
+		actualTime = clock.getElapsedTime();
+	}
+}
+
 int main() {
 	
 	//Mettre le b2body dans la classe square
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
-	static constexpr gf::Vector2f ViewSize(2048, 1024); 
-	static constexpr gf::Vector2f ViewSize2(420, 420); 
+	static constexpr gf::Vector2f ViewSizeIntro(2048, 1024); 
+	static constexpr gf::Vector2f ViewSizeJeu(420, 420); 
+	static constexpr gf::Vector2f ViewSizeIntroTitre(1024, 512);
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
 	gf::Window window("K.G.B.", ScreenSize);
@@ -70,7 +80,7 @@ int main() {
 	// views
 	gf::ViewContainer views;
 
-	gf::ExtendView mainView(ViewCenter, ViewSize);
+	gf::ExtendView mainView(ViewCenter, ViewSizeIntro);
 	views.addView(mainView);
 
 	gf::ScreenView hudView;
@@ -133,17 +143,17 @@ int main() {
 	mainEntities.addEntity(bebeHero);
 
 
-	static constexpr gf::Vector2u pos1(32*71, 32*5);
-	static constexpr gf::Vector2u pos2(32*54, 32*12);
-	static constexpr gf::Vector2u pos3(32*45, 32*9);
-	static constexpr gf::Vector2u pos4(32*71, 32*22);
-	static constexpr gf::Vector2u pos5(32*48, 32*15.45);
+	static constexpr gf::Vector2u posEnemy1(32*71, 32*5);
+	static constexpr gf::Vector2u posEnemy2(32*54, 32*12);
+	static constexpr gf::Vector2u posEnemy3(32*45, 32*9);
+	static constexpr gf::Vector2u posEnemy4(32*71, 32*22);
+	static constexpr gf::Vector2u posEnemy5(32*48, 32*15.45);
 
-	KGB::Enemy Vilain(pos1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0);
-	KGB::Enemy Vilain2(pos2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
-	KGB::Enemy Vilain3(pos3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
-	KGB::Enemy Vilain4(pos4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
-	KGB::Enemy Vilain5(pos5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
+	KGB::Enemy Vilain(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0);
+	KGB::Enemy Vilain2(posEnemy2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
+	KGB::Enemy Vilain3(posEnemy3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
+	KGB::Enemy Vilain4(posEnemy4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
+	KGB::Enemy Vilain5(posEnemy5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
 
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
@@ -238,37 +248,38 @@ int main() {
 	static constexpr float Vitesse = 10.0f;
 	gf::Vector2d velocity(0,0);
 
-	gf::Vector2u introPos(32*51,32*32);
+	bool debugPhysics = false;
+
+	//Initialisation pour intro
+	static constexpr gf::Vector2u introPos(32*51,32*32);
 	mainView.setCenter(introPos);
 	renderer.setView(mainView);
 
-	//Initialisation pour intro
-	size_t intro = 0;
-	size_t i = 0;
-	float varX = 25;
-	size_t varY = 24;
-	bool spaceisActiveOneTime = true;
+	static constexpr gf::Vector2u textPosition(32*25, 32*24);
+	static constexpr gf::Vector2f textBasIntroPosition(32*51, 32*52);
+	static constexpr gf::Vector2u textKBGPosition(32*41, 32*33);
 
-	
+	static constexpr gf::Vector2f backgroundPosition(32*19, 32*16);
 
 	gf::Font font("../data/KGB/Pokemon_Classic.ttf");
 
-	gf::Text text2("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
-	text2.setCharacterSize(30);
-	text2.setColor(gf::Color::Red);
-	text2.setPosition(gf::Vector2f(32*51, 32*52));
-	text2.setParagraphWidth(1000.0f);
-	text2.setAlignment(gf::Alignment::Center);
-	text2.setAnchor(gf::Anchor::Center);
+	size_t intro = 0;
+	size_t nbCharToSelect = 0;
+	bool spaceisActiveOneTime = true;
 
-	//Mode débug actif ou non
-	bool debugPhysics = false;
+	gf::Text textBasIntro("Appuyer sur espace pour voir la suite et sur p pour passer directement au jeu", font);
+	textBasIntro.setCharacterSize(30);
+	textBasIntro.setColor(gf::Color::Red);
+	textBasIntro.setPosition(textBasIntroPosition);
+	textBasIntro.setParagraphWidth(1000.0f);
+	textBasIntro.setAlignment(gf::Alignment::Center);
+	textBasIntro.setAnchor(gf::Anchor::Center);
+
 	gf::Texture background("../data/KGB/Image/intro1.png");
 	gf::Sprite backgroundSprite(background);
-	backgroundSprite.setPosition(gf::Vector2f(32*19, 32*16));
-	renderer.draw(backgroundSprite);
+	backgroundSprite.setPosition(backgroundPosition);
+	
 	while (window.isOpen()) {
-		
 		
 		if(state == GameState::INTRO){
 			gf::Event event;
@@ -282,10 +293,7 @@ int main() {
 			}
 
 			if(space.isActive()){
-				renderer.clear(gf::Color::White);
-				i = 0;
-				varX = 25;
-				varY = 24;
+				nbCharToSelect = 0;
 				if(spaceisActiveOneTime){
 					intro++;
 					spaceisActiveOneTime = false;
@@ -296,86 +304,84 @@ int main() {
 				intro = 4;
 			}
 			
-			std::string str;
-			std::string str2;	
+			std::string CompleteString;
+			std::string currentString;	
 
-			gf::Text text;
+			gf::Text textIntro;			
+			textIntro.setPosition(textPosition);
+			textIntro.setFont(font);
+			textIntro.setParagraphWidth(1700.0f);
+			textIntro.setAlignment(gf::Alignment::Center);
+			textIntro.setAnchor(gf::Anchor::Center);
+			textIntro.setCharacterSize(30);
+			textIntro.setColor(gf::Color::Black);
 
-			gf::Vector2u textPosition(32*varX,32*(varY));
-
-			text.setFont(font);
-			text.setPosition(textPosition);
-			text.setAlignment(gf::Alignment::Center);
-			text.setAnchor(gf::Anchor::BottomRight);
-			text.setCharacterSize(30);
-			text.setColor(gf::Color::Black);
-
-			varX+=0.9;
-			if(i == 57){
-				varY+=2;
-				varX = 25;
-			}
 			if(intro == 0){
-				str  = "Franchement je perds mon temps a surveiller ces mioches...T'as vu les nouvelles reformes pour les enfants etrangers ?";
-				str2 = str.substr(i, 1);
-				
+				CompleteString  = "Franchement je perds mon temps a surveiller ces mioches...\nT'as vu les nouvelles reformes pour les enfants etrangers ?";
+				currentString = CompleteString.substr(0, nbCharToSelect);
 			}else if(intro == 1){
-				str  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pasles yeux verts et qui ont un poids inferieur a 3,75kg.";
-				str2 = str.substr(i, 1);
+				CompleteString  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pas les yeux verts et qui ont un poids inferieur a 3,75kg.";
+				currentString = CompleteString.substr(0, nbCharToSelect);
 			}else if(intro == 2){
-				str  = "Mmmhhh... De ce que je comprends, je vais devoir partir auplus vite...";
-				str2 = str.substr(i, 1);
+				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite...";
+				currentString = CompleteString.substr(0, nbCharToSelect);
 			}else if(intro == 3){
-				if(i == 0){
-					varX = 40;
-				}else{
-					sleep(1);
-				}
-				gf::Vector2f ViewSize3(1024, 512); 
-				mainView.setSize(ViewSize3);
+				mainView.setSize(ViewSizeIntroTitre);
 				renderer.setView(mainView);
-				text.setColor(gf::Color::Red);
-				str  = "K.G.B.";
-				str2 = str.substr(i, 2);
-				if(i < str.length()-1){
-					i++;
+
+				if(nbCharToSelect >= 2){
+					timer(clock, 1.0);
 				}
-				text.setCharacterSize(140);
-				text.setPosition(gf::Vector2u (32*varX,32*34));
-				varX += 10;
+				
+				CompleteString  = "K.G.B.";
+				currentString = CompleteString.substr(0, nbCharToSelect);
+
+				if(nbCharToSelect < CompleteString.length()-1){
+					nbCharToSelect++;
+				}
+
+				textIntro.setColor(gf::Color::Red);
+				textIntro.setAlignment(gf::Alignment::Left);
+				textIntro.setCharacterSize(140);
+				textIntro.setPosition(textKBGPosition);
 			}
 			
-			text.setString(str2);
+			textIntro.setString(currentString);
 
-			renderer.draw(text);
-			renderer.draw(text2);
-			// draw everything
+			
+			if(intro < 3){
+				renderer.clear(gf::Color::Black);
+				renderer.draw(backgroundSprite);
+			}else{
+				renderer.clear(gf::Color::White);
+			}
+			renderer.draw(textIntro);
+			renderer.draw(textBasIntro);
 			renderer.display();
-			sleep(0.7);
+			timer(clock, 0.04);
 			introAction.reset();
 			
 			if(!space.isActive()){
 				spaceisActiveOneTime = true;
 			}
-			if(i < str.length()){
-				i++;
+			if(nbCharToSelect < CompleteString.length()){
+				nbCharToSelect++;
 			}
 
-			if(intro == 3 && str2 == "B."){
-				sleep(2);
-				mainView.setSize(ViewSize2);
+			if(intro == 3 && currentString == "K.G.B."){
+				timer(clock, 2);
+				mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
 			}
 			if(intro > 3){
-				mainView.setSize(ViewSize2);
+				mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
 			}
 		}
 
 		
-
+		//Début du jeu
 		if(state == GameState::PLAYING){
-			// 1. input
 			gf::Event event;
 			while (window.pollEvent(event)) {
 				actions.processEvent(event);
@@ -425,17 +431,13 @@ int main() {
 			}
 			
 			bebeHero.setVelocity(velocity);
-
-			// 2. update
 			
 			gf::Time time = clock.restart();
 			mainEntities.update(time);
 			physics.update();
 
-			// 3. draw
-			//gf::Log::info("Position x : %lf\t Position y :%lf\n",bebeHero.getPosition().u,bebeHero.getPosition().v);
 			mainView.setCenter(bebeHero.getPosition());
-			renderer.clear();
+			renderer.clear(gf::Color::White);
 			renderer.setView(mainView);
 
 
@@ -455,42 +457,39 @@ int main() {
 				debug.render(renderer);
 			}
 			renderer.setView(hudView);
-			// draw everything
 			renderer.display();
 			actions.reset();
 		}
 
 		if(state == GameState::GAMEOVER){
-			gf::Vector2u introPos(32*51,32*32);
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text text3("T'es mort kek", font);
-			text3.setCharacterSize(20);
-			text3.setColor(gf::Color::Black);
-			text3.setPosition(gf::Vector2f(32*51, 32*32));
-			text3.setParagraphWidth(1000.0f);
-			text3.setAlignment(gf::Alignment::Center);
-			text3.setAnchor(gf::Anchor::Center);
-			renderer.draw(text3);
+			gf::Text textGameOver("T'es mort kek", font);
+			textGameOver.setCharacterSize(20);
+			textGameOver.setColor(gf::Color::Black);
+			textGameOver.setPosition(introPos);
+			textGameOver.setParagraphWidth(1000.0f);
+			textGameOver.setAlignment(gf::Alignment::Center);
+			textGameOver.setAnchor(gf::Anchor::Center);
+			renderer.draw(textGameOver);
 			renderer.display();
-			sleep(3);
+			timer(clock, 3.0);
 			break;
 		}else if(state == GameState::VICTORY){
-			gf::Vector2u introPos(32*51,32*32);
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text text3("Free Jacob", font);
-			text3.setCharacterSize(20);
-			text3.setColor(gf::Color::Black);
-			text3.setPosition(gf::Vector2f(32*51, 32*32));
-			text3.setParagraphWidth(1000.0f);
-			text3.setAlignment(gf::Alignment::Center);
-			text3.setAnchor(gf::Anchor::Center);
-			renderer.draw(text3);
+			gf::Text textVictoire("Free Jacob", font);
+			textVictoire.setCharacterSize(20);
+			textVictoire.setColor(gf::Color::Black);
+			textVictoire.setPosition(introPos);
+			textVictoire.setParagraphWidth(1000.0f);
+			textVictoire.setAlignment(gf::Alignment::Center);
+			textVictoire.setAnchor(gf::Anchor::Center);
+			renderer.draw(textVictoire);
 			renderer.display();
-			sleep(3);
+			timer(clock, 3.0);
 			break;
 		}
 
