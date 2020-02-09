@@ -18,8 +18,7 @@ namespace KGB{
             break;
             
             default :
-            
-            break;
+            	break;
         }
 
         graphics.m_currentAnimation = &graphics.m_waitSouth;	
@@ -57,7 +56,7 @@ namespace KGB{
         fixtureDef.filter.categoryBits = DataType::Main_Type::HARVESTABLE;
         fixtureDef.shape = &shapeBonus;
 
-        m_body->CreateFixture(&fixtureDef);
+       	m_fixture = m_body->CreateFixture(&fixtureDef);
 
     }
 
@@ -69,7 +68,12 @@ namespace KGB{
     }
 
     void Bonus::updatePhysics_correction(){
-
+	  if(remove){
+	    m_body->DestroyFixture(m_fixture);
+	    m_fixture = nullptr;
+            remove = false;
+	    removed = true;
+	  }
 	    setPosition(Physics::toVec(m_body->GetPosition()));
 
     }
@@ -88,12 +92,15 @@ namespace KGB{
     }
 
     void Bonus::render(gf::RenderTarget& target){
-        gf::AnimatedSprite animated;
-        animated.setAnimation(*graphics.m_currentAnimation);
-        animated.setScale(0.4f);
-        animated.setPosition(dynamics.m_position);
-        animated.setAnchor(gf::Anchor::Center);
-        target.draw(animated);
+
+	if(!removed){
+		gf::AnimatedSprite animated;
+		animated.setAnimation(*graphics.m_currentAnimation);
+		animated.setScale(0.4f);
+		animated.setPosition(dynamics.m_position);
+		animated.setAnchor(gf::Anchor::Center);
+		target.draw(animated);
+	}
     }
     
 
@@ -122,8 +129,9 @@ namespace KGB{
 		switch (contactwith){
 				
 			case  DataType::Main_Type::BABY:
-            	gf::Log::debug("MORE DIAPERS\n");
+    				remove = true;
 			break;
+			
 			default:
             
             break;

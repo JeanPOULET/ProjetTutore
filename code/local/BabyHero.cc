@@ -114,6 +114,9 @@ namespace KGB{
     void BabyHero::render(gf::RenderTarget& target){
         gf::AnimatedSprite animated;
         animated.setAnimation(*graphics.m_currentAnimation);
+	if(visible > 0){
+		animated.setColor({100, 100, 100, 0.5});
+	}
         animated.setScale(0.75f);
         animated.setPosition(dynamics.m_position);
         animated.setAnchor(gf::Anchor::Center);
@@ -151,14 +154,15 @@ namespace KGB{
 		switch (contactwith){
 				
 			case  DataType::Main_Type::ENEMY:
-				gf::Log::debug("JE T'AI VU\n");
-				GameOver message;
-				//message.position = m_position;
-				gMessageManager().sendMessage(&message);
-			break;
+				m_ennemycontact.push_back(0);
+				break;
+			case  DataType::Main_Type::HARVESTABLE :
+				++munition;
+				gf::Log::debug("Munition %d:\n", munition);
+				break;
 			default:
 			
-			break;
+				break;
 				
 		}
 	
@@ -167,6 +171,9 @@ namespace KGB{
 		
 		switch (contactwith){
 			
+			case  DataType::Main_Type::ENEMY:
+				m_ennemycontact.pop_back();
+				break;
 			default: 	gf::Log::debug("FUIT");
 						break;
 				
@@ -209,9 +216,30 @@ namespace KGB{
     }
 
     void BabyHero::updatePhysics_correction(){
+	
+   	 setPosition(Physics::toVec(m_body->GetPosition()));
+	 if(visible <= 0){
+		if(m_ennemycontact.size() > 0){
+			gf::Log::debug("JE T'AI VU\n");
+			GameOver message;
+			//message.position = m_position;
+			gMessageManager().sendMessage(&message);
+		}
+	 }else{
 
-	    setPosition(Physics::toVec(m_body->GetPosition()));
+		--visible;
+	
+	 }
 
+
+    }
+
+    void BabyHero::setInvisible(int time){
+	if(visible <= 0 && munition > 0){
+		visible = time;
+		--munition;
+		gf::Log::info("munition : %d\n", munition);
+	}
     }
 	
 }

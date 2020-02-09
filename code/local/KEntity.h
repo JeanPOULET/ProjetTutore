@@ -9,6 +9,7 @@ namespace KGB {
 		public:
 
 			virtual int getEntityType() = 0;
+			//virtual bool toBeRemoved() = false;
 
 	};
 }

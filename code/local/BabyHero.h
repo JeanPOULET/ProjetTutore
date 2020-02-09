@@ -48,12 +48,13 @@ namespace KGB{
             void updatePhysics_set();
             void updatePhysics_correction();
             int getEntityType() { return DataType::Main_Type::BABY; }
+	    void setInvisible(int time);
 
         private:
             Dynamics dynamics;
             Graphics graphics;
             
-            int munition = 3;
+            int munition = 1;
 		
             enum class Status {
                 Walking,
@@ -62,7 +63,11 @@ namespace KGB{
             };
 
             Status m_status;
-			b2Body *m_body;
+	    b2Body *m_body;
+
+	    std::vector<int> m_ennemycontact;
+	
+	    int visible = 0;
     };
 }
 
