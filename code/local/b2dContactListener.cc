@@ -89,7 +89,7 @@ namespace KGB{
     }
 
     void b2dContactListener::EndContact(b2Contact* contact) {
-		/*
+		
 		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		
@@ -140,6 +140,6 @@ namespace KGB{
 		   	}
 			
 		}
-  */
+ 
     }
 }

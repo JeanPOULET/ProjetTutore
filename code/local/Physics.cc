@@ -46,7 +46,7 @@ namespace KGB{
 		m_bonus2.updatePhysics_set();
 		m_bonus3.updatePhysics_set();
 
-        m_world.Step(1/80.0, 8, 3);
+        m_world.Step(1/60.0, 8, 3);
 
         m_baby.updatePhysics_correction();
         m_vilain1.updatePhysics_correction();

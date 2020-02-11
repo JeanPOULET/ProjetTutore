@@ -35,7 +35,7 @@
 #include "local/BackgroundMusic.h"
 #include "local/Objects.h"
 
-#define FRAME 80.0
+#define FRAME 60.0
 
 enum GameState{
 	INTRO,
@@ -190,7 +190,6 @@ int main() {
 	skip.setContinuous();
 	introAction.addAction(skip);
 
-
 	gf::ActionContainer actions;
 
 	gf::Action closeWindowAction("Close window");
@@ -235,6 +234,11 @@ int main() {
 	downAction.addGamepadAxisControl(gf::AnyGamepad, gf::GamepadAxis::LeftY, gf::GamepadAxisDirection::Positive);
 	downAction.setContinuous();
 	actions.addAction(downAction);
+
+	gf::Action invisibleDiapers("Invisible Diapers");
+	invisibleDiapers.addScancodeKeyControl(gf::Scancode::X);
+	invisibleDiapers.setContinuous();
+	actions.addAction(invisibleDiapers);
 
 	//Physics
 	KGB::Physics physics(objs,layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
@@ -387,6 +391,12 @@ int main() {
 			while (window.pollEvent(event)) {
 				actions.processEvent(event);
 				views.processEvent(event);
+			}
+
+			if(invisibleDiapers.isActive()){ 
+	
+				bebeHero.setInvisible(3*FRAME);
+
 			}
 
 			if(closeWindowAction.isActive()){
