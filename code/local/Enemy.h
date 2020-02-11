@@ -41,7 +41,7 @@ namespace KGB{
                 Waiting,
             };
 
-            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance);
+            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance, float speed);
 
             void setVelocity(gf::Vector2f velocity);
             void update(gf::Time time);
@@ -57,17 +57,20 @@ namespace KGB{
             void viewCone();
             virtual void startContact(int contactwith);
             virtual void endContact(int contactwith);
-            Graphics graphics;
-            gf::Vector2f m_spawn;
-	   	 	void setBodyPhysics(b2World& world);
+            void setBodyPhysics(b2World& world);
 	    	void updatePhysics_set();
 	    	void updatePhysics_correction();
 	    	int getEntityType() { return DataType::Main_Type::ENEMY; }
+
+            Graphics graphics;
+            gf::Vector2f m_spawn;
+	   	 	
 
         private:
             
             Dynamics dynamics;
             
+            float m_speed;
             float m_distance;
             gf::Polygon m_cone;
 

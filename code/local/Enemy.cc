@@ -3,13 +3,14 @@
 
 namespace KGB{
   
-	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance)
+	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance, float speed)
         : m_spawn(position)
 		, m_path(path)
 		, m_status(status)
 		, m_body(nullptr)
 		, m_cone(nullptr)
 		, m_distance(distance)
+		, m_speed(speed)
         {
 		
 		dynamics.m_position = position;
@@ -38,37 +39,37 @@ namespace KGB{
 	void Enemy::round(){
 		if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::East;
-			dynamics.m_velocity = gf::Vector2f(50.0,0);
+			dynamics.m_velocity = gf::Vector2f(m_speed,0);
 		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::North;
-			dynamics.m_velocity = gf::Vector2f(0,-50.0);
+			dynamics.m_velocity = gf::Vector2f(0,-m_speed);
 		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::West;
-			dynamics.m_velocity = gf::Vector2f(-50.0,0);
+			dynamics.m_velocity = gf::Vector2f(-m_speed,0);
 		}else if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::South;
-			dynamics.m_velocity = gf::Vector2f(0,50.0);
+			dynamics.m_velocity = gf::Vector2f(0,m_speed);
 		}
 	}
 
 	void Enemy::lineH(){
 		if(dynamics.m_position.x <= m_spawn.x){
 			graphics.m_orientation = gf::Orientation::East;
-			dynamics.m_velocity = gf::Vector2f(50.0,0);
+			dynamics.m_velocity = gf::Vector2f(m_speed,0);
 			
 		}else if(dynamics.m_position.x >= m_spawn.x + m_distance){
 			graphics.m_orientation = gf::Orientation::West;
-			dynamics.m_velocity = gf::Vector2f(-50.0,0);
+			dynamics.m_velocity = gf::Vector2f(-m_speed,0);
 		}
 	}
 
 	void Enemy::lineV(){
 		if(dynamics.m_position.y >= m_spawn.y + m_distance){
 			graphics.m_orientation = gf::Orientation::North;
-			dynamics.m_velocity = gf::Vector2f(0,-50.0);
+			dynamics.m_velocity = gf::Vector2f(0,-m_speed);
 		}else if(dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::South;
-			dynamics.m_velocity = gf::Vector2f(0,50.0);
+			dynamics.m_velocity = gf::Vector2f(0,m_speed);
 		}
 	}
 
@@ -183,22 +184,18 @@ namespace KGB{
 
     void Enemy::startContact(int contactwith) {
 		switch (contactwith){
-			
-			default: 	gf::Log::info("garde debut\n");
-						break;
-				
+			default: 	
+				gf::Log::info("garde debut\n");
+			break;	
 		}
-		
     }
+
     void Enemy::endContact(int contactwith) { 
-		
 		switch (contactwith){
-			
-			default: 	gf::Log::info("garde fin\n");
-						break;
-				
-		}
-		
+			default: 	
+				gf::Log::info("garde fin\n");
+			break;		
+		}	
 	}
 	
 	void Enemy::setBodyPhysics(b2World& world){
@@ -207,10 +204,6 @@ namespace KGB{
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position = Physics::fromVec(this->getPosition());
 		m_body = world.CreateBody(&bodyDef);
-
-		/*DataType::BodyUserData enemy;
-		enemy.entity = this;
-		enemy.main_type = DataType::Main_Type::ENEMY;*/
 
 		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
@@ -274,9 +267,7 @@ namespace KGB{
     }
 
     void Enemy::updatePhysics_correction(){
-
-	setPosition(Physics::toVec(m_body->GetPosition()));
-
+		setPosition(Physics::toVec(m_body->GetPosition()));
     }
 
 }

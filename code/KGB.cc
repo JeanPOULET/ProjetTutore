@@ -149,11 +149,12 @@ int main() {
 	static constexpr gf::Vector2u posEnemy4(32*71, 32*22);
 	static constexpr gf::Vector2u posEnemy5(32*48, 32*15.45);
 
-	KGB::Enemy Vilain(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0);
-	KGB::Enemy Vilain2(posEnemy2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
-	KGB::Enemy Vilain3(posEnemy3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
-	KGB::Enemy Vilain4(posEnemy4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
-	KGB::Enemy Vilain5(posEnemy5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
+
+	KGB::Enemy Vilain(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0, 50.0);
+	KGB::Enemy Vilain2(posEnemy2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0, 70.0);
+	KGB::Enemy Vilain3(posEnemy3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0, 30.0);
+	KGB::Enemy Vilain4(posEnemy4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0, 0.0);
+	KGB::Enemy Vilain5(posEnemy5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0, 0.0);
 
 	mainEntities.addEntity(Vilain);
 	mainEntities.addEntity(Vilain2);
@@ -370,11 +371,11 @@ int main() {
 
 			if(intro == 3 && currentString == "K.G.B."){
 				timer(clock, 2);
-				mainView.setSize(ViewSizeJeu);
+				//mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
 			}
 			if(intro > 3){
-				mainView.setSize(ViewSizeJeu);
+				//mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
 			}
 		}
