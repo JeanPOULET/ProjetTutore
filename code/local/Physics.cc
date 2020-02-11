@@ -14,8 +14,8 @@ namespace KGB{
     }
 	
 	b2Vec2 Physics::fromVec(gf::Vector2f vec) {
-            return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
-        }
+        return { vec.x * PHYSICSCALE, vec.y * PHYSICSCALE };
+    }
 
     gf::Vector2f Physics::toVec(b2Vec2 vec) {
             return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
@@ -47,6 +47,22 @@ namespace KGB{
 		m_bonus3.updatePhysics_set();
 
         m_world.Step(1/60.0, 8, 3);
+        int tp=0;
+        std::vector<int> toDelete;
+
+
+
+        for(auto& ob : m_objs){
+            if(!ob.alive){
+                m_world.DestroyBody(ob.m_body);
+                toDelete.push_back(tp);
+            }
+            tp++;
+        }
+        for(auto i : toDelete){
+            m_objs.erase(m_objs.begin()+i);
+        }
+
 
         m_baby.updatePhysics_correction();
         m_vilain1.updatePhysics_correction();
@@ -62,18 +78,14 @@ namespace KGB{
 
     }
 
-     /*
-
-                    TENTATIVE POUR LES MURS -> MAP
-
-     */   
 
     class PhysicsMaker : public gf::TmxVisitor {
 
         public:
-            PhysicsMaker(b2World& world, Objects& objs)
+            PhysicsMaker(b2World& world, std::vector<Object>& objs,std::vector<Entry>& entries)
             : m_world(world)
             , m_objs(objs)
+            , m_entries(entries)
             {
 
             }
@@ -93,13 +105,13 @@ namespace KGB{
                 for (auto& cell : layer.cells) {
                     auto tile = cell;
                     auto gid = cell.gid;
+                    int i = k % map.mapSize.width;
+                    int j = k / map.mapSize.width;
+                    gf::Vector2f position = gf::Vector2f((i*32)+16,(j*32)+16);
                 
                     if (layer.name == "Murs"|| layer.name == "Déco") {
                         if(gid!=0){
-                            int i = k % map.mapSize.width;
-                            int j = k / map.mapSize.width;
-                            //gf::Log::info("i=%d\tj=%d\n",(i*32),j);
-                            gf::Vector2f position = gf::Vector2f((i*32)+16,(j*32)+16);
+
 
                             b2BodyDef bodyDef;
                             bodyDef.type = b2_staticBody;
@@ -114,13 +126,28 @@ namespace KGB{
                             fixtureDef.friction = 0.0f;
                             fixtureDef.restitution = 0.0f;
                             fixtureDef.shape = &shape;
-                            fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
-
                             body->CreateFixture(&fixtureDef);
+                            if(layer.name == "Entree"){
+                                
+                                //fixtureDef.filter.categoryBits = DataType::Main_Type::ENTRY;
+                            }else{
+                                fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
+                                
+                            }
+                            
                             
                         }
-                        k++;
+                        
+                    }else if(layer.name == "Entree"){
+                        if(gid!=0){
+
+                            Entry entr(position);
+                            entr.setObjectBody(m_world,position);
+                            m_entries.push_back(entr);
+                            gf::Log::debug("return = %d",entr.getEntityType());
+                        }
                     }
+                    k++;
                 }
             }
 
@@ -138,19 +165,19 @@ namespace KGB{
                     auto tile = static_cast<gf::TmxTileObject *>(object.get());
 
                     gf::Vector2f position = tile->position;
-
-                    m_objs.setObjectBody(numObject,m_world,position);
+                    m_objs[numObject].setObjectBody(m_world,position);
                     numObject++;
                 }
             }
 
         private:
-        b2World& m_world;
-        Objects& m_objs;
+            b2World& m_world;
+            std::vector<Object>& m_objs;
+            std::vector<Entry>& m_entries;
         };
 
 
-    Physics::Physics(Objects& objs,const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
+    Physics::Physics(std::vector<Entry>& entries,std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
         , m_vilain1(policier1)
@@ -162,32 +189,32 @@ namespace KGB{
 		, m_bonus2(bon2)
 		, m_bonus3(bon3)
         , m_objs(objs)
+        , m_entries(entries)
         {
         
-        //MAP
-        PhysicsMaker maker(m_world,m_objs);
-        layers.visitLayers(maker);
-        
-        
-        m_world.SetContactListener(&m_contactListener);
-        
-         //BABY
-        
-		m_baby.setBodyPhysics(m_world);
+            //MAP
+            m_world.SetContactListener(&m_contactListener);
+            PhysicsMaker maker(m_world,m_objs,m_entries);
+            layers.visitLayers(maker);
 
-        //ENEMIES
-			
-		m_vilain1.setBodyPhysics(m_world);
-		m_vilain2.setBodyPhysics(m_world);
-		m_vilain3.setBodyPhysics(m_world);
-		m_vilain4.setBodyPhysics(m_world);
-		m_vilain5.setBodyPhysics(m_world);
-			
-		m_bonus1.setBodyPhysics(m_world);
-		m_bonus2.setBodyPhysics(m_world);
-		m_bonus3.setBodyPhysics(m_world);
+            
+            //BABY
+            
+            m_baby.setBodyPhysics(m_world);
 
-    }
+            //ENEMIES
+                
+            m_vilain1.setBodyPhysics(m_world);
+            m_vilain2.setBodyPhysics(m_world);
+            m_vilain3.setBodyPhysics(m_world);
+            m_vilain4.setBodyPhysics(m_world);
+            m_vilain5.setBodyPhysics(m_world);
+                
+            m_bonus1.setBodyPhysics(m_world);
+            m_bonus2.setBodyPhysics(m_world);
+            m_bonus3.setBodyPhysics(m_world);
+
+        }
 
     b2World& Physics::getWorld(){
         return m_world;

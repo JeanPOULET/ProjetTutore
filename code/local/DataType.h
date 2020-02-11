@@ -19,10 +19,11 @@ namespace KGB {
 
 		enum Main_Type{
 
-			BABY = 0x0001,
-        	ENEMY = 0x0004,
-        	OTHER = 0x0010,
-        	HARVESTABLE = 0x0014,
+			BABY 			= 0x0001,
+        	ENEMY 			= 0x0004,
+        	OTHER 			= 0x0010,
+        	HARVESTABLE 	= 0x0014,
+			ENTRY			= 0x0016,
 
 		};
 

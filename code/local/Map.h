@@ -10,13 +10,13 @@
 #include <gf/Tmx.h>
 
 #include "Messages.h"
-#include "Objects.h"
+#include "Object.h"
 
 namespace KGB {
 
 	struct MapGraphicsData {
 
-		MapGraphicsData(const gf::TmxLayers& layers, Objects& objs);
+		MapGraphicsData(const gf::TmxLayers& layers, std::vector<Object>& objs);
 		std::vector<gf::TileLayer> tiles;
 		std::vector<gf::Sprite> sprites;
 		

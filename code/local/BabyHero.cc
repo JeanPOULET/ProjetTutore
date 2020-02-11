@@ -9,7 +9,7 @@
 #include <gf/Font.h>
 
 namespace KGB{
-  
+	
     BabyHero::BabyHero(gf::Vector2f position)
         : m_status(Status::Waiting)
 		, m_body(nullptr)
@@ -28,6 +28,7 @@ namespace KGB{
         loadAnimation(graphics.m_waitEast, 5);
         loadAnimation(graphics.m_waitWest, 6);
         loadAnimation(graphics.m_waitNorth, 7);
+		
     }
 
 
@@ -155,14 +156,29 @@ namespace KGB{
 				
 			case  DataType::Main_Type::ENEMY:
 				m_ennemycontact.push_back(0);
-				break;
+			break;
+
+			case  DataType::Main_Type::ENTRY:
+				if(libre){
+					Victory message;
+					//message.position = m_position;
+					gMessageManager().sendMessage(&message);
+					gf::Log::debug("LA VICTOIRE ");
+				}
+			break;
+
+			case  ObjectType::CLEF:
+				gf::Log::debug("Je peux sortir\n");
+				libre=true;
+			break;
+
 			case  DataType::Main_Type::HARVESTABLE :
 				++munition;
 				gf::Log::debug("Munition %d:\n", munition);
-				break;
+			break;
 			default:
 			
-				break;
+			break;
 				
 		}
 	
@@ -173,9 +189,11 @@ namespace KGB{
 			
 			case  DataType::Main_Type::ENEMY:
 				m_ennemycontact.pop_back();
-				break;
-			default: 	gf::Log::debug("FUIT");
-						break;
+			break;
+			
+			default:
+				gf::Log::debug("FUIT");
+			break;
 				
 		}
 	
@@ -195,7 +213,7 @@ namespace KGB{
 		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
 		b2PolygonShape shapeBaby;
-			shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
+		shapeBaby.SetAsBox(13.0f*Physics::getPhysicScale(), 12.0f*Physics::getPhysicScale());
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.density = 1.0f;
@@ -217,19 +235,19 @@ namespace KGB{
 
     void BabyHero::updatePhysics_correction(){
 	
-   	 setPosition(Physics::toVec(m_body->GetPosition()));
-	 if(visible <= 0){
-		if(m_ennemycontact.size() > 0){
-			gf::Log::debug("JE T'AI VU\n");
-			GameOver message;
-			//message.position = m_position;
-			gMessageManager().sendMessage(&message);
-		}
-	 }else{
+		setPosition(Physics::toVec(m_body->GetPosition()));
+		if(visible <= 0){
+			if(m_ennemycontact.size() > 0){
+				gf::Log::debug("JE T'AI VU\n");
+				GameOver message;
+				//message.position = m_position;
+				gMessageManager().sendMessage(&message);
+			}
+		}else{
 
-		--visible;
-	
-	 }
+			--visible;
+		
+		}
 
 
     }

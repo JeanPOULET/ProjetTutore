@@ -13,7 +13,7 @@ namespace KGB {
 
     class LayersMaker : public gf::TmxVisitor {
     public:
-      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, Objects& objs)
+      LayersMaker(std::vector<gf::TileLayer>& layers, std::vector<gf::Sprite>& sprites, std::vector<Object>& objs)
       : m_layers(layers)
       , m_sprites(sprites)
       , m_objs(objs)
@@ -71,15 +71,15 @@ namespace KGB {
       }
 
 	virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
-		gf::Log::info("Parsing object layer '%s'\n", layer.name.c_str());
+		gf::Log::info("Parsing Object& layer '%s'\n", layer.name.c_str());
 
 
-		for (auto& object : layer.objects) {
-			if (object->kind != gf::TmxObject::Tile) {
+		for (auto& Object : layer.objects) {
+			if (Object->kind != gf::TmxObject::Tile) {
 				continue;
 			}
 
-			auto tile = static_cast<gf::TmxTileObject *>(object.get());
+			auto tile = static_cast<gf::TmxTileObject *>(Object.get());
 
 			auto tileset = map.getTileSetFromGID(tile->gid);
 			assert(tileset);
@@ -88,7 +88,14 @@ namespace KGB {
 
 			auto lid = tile->gid - tileset->firstGid;
 			auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
+			
+			constexpr gf::Vector2f vecclef_posRandom0 = {2646,63};
+			constexpr gf::Vector2f vecclef_posRandom1 = {2344,801};
+			constexpr gf::Vector2f vecclef_posRandom2 = {1460,75};
+			std::vector<gf::Vector2f> randomClefPositions ={vecclef_posRandom0,vecclef_posRandom1,vecclef_posRandom2};
+			
 			gf::Vector2f position = tile->position;
+			
 			//position.x += subTexture.getWidth() / 2;
 			//position.y -= subTexture.getHeight() / 2;
 			if(layer.name == "Objets"){
@@ -96,14 +103,18 @@ namespace KGB {
 				gf::RectF textureRect = texture.computeTextureCoords(subTexture);
 
 				gf::Sprite sprite(texture, textureRect);
+				ObjectType type;
 				switch(lid){
-					case 1055 :
-            			m_objs.addObject(ObjectType::CLEF,position,sprite);
+					case 1055 : //CLEF
+                   		position = randomClefPositions[gRandom().computeUniformInteger(0,2)];
+            			type = ObjectType::CLEF;
 					break;
 					default :
-						m_objs.addObject(ObjectType::CLEF,position,sprite);
+						type = ObjectType::OTHER;
 					break;
 				}
+				KGB::Object ob(type,position,sprite);
+				m_objs.push_back(ob);
 				gf::Log::debug("lid = %d\n",lid);
 
 			}else{
@@ -123,11 +134,11 @@ namespace KGB {
     private:
       std::vector<gf::TileLayer>& m_layers;
       std::vector<gf::Sprite>& m_sprites;
-      Objects& m_objs;
+      std::vector<Object>& m_objs;
     };
   }
 
-  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, Objects& objs)
+  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, std::vector<Object>& objs)
   {
     LayersMaker maker(tiles, sprites,objs);
     layers.visitLayers(maker);

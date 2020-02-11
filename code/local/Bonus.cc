@@ -18,7 +18,8 @@ namespace KGB{
             break;
             
             default :
-            	break;
+            
+            break;
         }
 
         graphics.m_currentAnimation = &graphics.m_waitSouth;	
@@ -29,7 +30,7 @@ namespace KGB{
 
     void Bonus::setVelocity(gf::Vector2f velocity) {
 
-	dynamics.m_velocity = velocity; 
+	    dynamics.m_velocity = velocity; 
  
     }
 
@@ -68,13 +69,13 @@ namespace KGB{
     }
 
     void Bonus::updatePhysics_correction(){
-	  if(remove){
-	    m_body->DestroyFixture(m_fixture);
-	    m_fixture = nullptr;
+        if(remove){
+            m_body->DestroyFixture(m_fixture);
+            m_fixture = nullptr;
             remove = false;
-	    removed = true;
-	  }
-	    setPosition(Physics::toVec(m_body->GetPosition()));
+            removed = true;
+        }
+        setPosition(Physics::toVec(m_body->GetPosition()));
 
     }
 
@@ -93,17 +94,16 @@ namespace KGB{
 
     void Bonus::render(gf::RenderTarget& target){
 
-	if(!removed){
-		gf::AnimatedSprite animated;
-		animated.setAnimation(*graphics.m_currentAnimation);
-		animated.setScale(0.4f);
-		animated.setPosition(dynamics.m_position);
-		animated.setAnchor(gf::Anchor::Center);
-		target.draw(animated);
-	}
+        if(!removed){
+            gf::AnimatedSprite animated;
+            animated.setAnimation(*graphics.m_currentAnimation);
+            animated.setScale(0.4f);
+            animated.setPosition(dynamics.m_position);
+            animated.setAnchor(gf::Anchor::Center);
+            target.draw(animated);
+        }
     }
     
-
     gf::Vector2f Bonus::getPosition(){
         return dynamics.m_position;
     }
@@ -129,7 +129,7 @@ namespace KGB{
 		switch (contactwith){
 				
 			case  DataType::Main_Type::BABY:
-    				remove = true;
+    			remove = true;
 			break;
 			
 			default:
@@ -143,8 +143,9 @@ namespace KGB{
 		
 		switch (contactwith){
 			
-			default: 	gf::Log::debug("OH NO");
-						break;
+			default:
+             	gf::Log::debug("OH NO");
+			break;
 				
 		}
 	

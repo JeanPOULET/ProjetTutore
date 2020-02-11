@@ -17,7 +17,7 @@ find_package(Box2D REQUIRED)
 find_package(SFML 2.4.2 COMPONENTS audio REQUIRED)
 add_executable(KGB
   code/local/BackgroundMusic.cc
-  code/local/Objects.cc
+  code/local/Object.cc
   code/KGB.cc
   code/local/ResourceManager.cc
   code/local/Singletons.cc
@@ -25,6 +25,7 @@ add_executable(KGB
   code/local/BabyHero.cc
   code/local/Enemy.cc
   code/local/Physics.cc
+  code/local/Entry.cc
   code/local/b2dContactListener.cc
   code/local/Bonus.cc
 )

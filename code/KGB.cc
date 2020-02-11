@@ -33,7 +33,8 @@
 #include "local/Enemy.h"
 #include "local/Physics.h"
 #include "local/BackgroundMusic.h"
-#include "local/Objects.h"
+#include "local/Object.h"
+#include "local/Entry.h"
 
 #define FRAME 60.0
 
@@ -55,12 +56,11 @@ void timer(gf::Clock clock, float seconds){
 
 int main() {
 	
-	//Mettre le b2body dans la classe square
 	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSizeIntro(2048, 1024); 
-	static constexpr gf::Vector2f ViewSizeJeu(420, 420); 
+	static constexpr gf::Vector2f ViewSizeJeu(600, 600); 
 	static constexpr gf::Vector2f ViewSizeIntroTitre(1024, 512);
   	static constexpr gf::Vector2f ViewCenter(0, 0); 
 	// initialization
@@ -75,6 +75,7 @@ int main() {
 	
 	gf::SingletonStorage<gf::MessageManager> storageForMessageManager(KGB::gMessageManager);
 	gf::SingletonStorage<KGB::ResourceManager> storageForResourceManager(KGB::gResourceManager);
+	gf::SingletonStorage<gf::Random> storageForRandom(KGB::gRandom);
 	KGB::gResourceManager().addSearchDir(KGB_DATA_DIR);
 
 	// views
@@ -99,7 +100,7 @@ int main() {
 	KGB::gMessageManager().registerHandler<KGB::GameOver>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::GameOver::type);
 		gf::unused(type, msg);
-		state = GameState::GAMEOVER;
+		//state = GameState::GAMEOVER;
 		gf::Log::debug("Je me meursssss");
 		return gf::MessageStatus::Die;
   	});
@@ -107,8 +108,8 @@ int main() {
 	KGB::gMessageManager().registerHandler<KGB::Clef>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::Clef::type);
 		gf::unused(type, msg);
-		gf::Log::debug("Je winnzzzz");
-		return gf::MessageStatus::Die;
+		gf::Log::debug("Clef recupérée");
+		return gf::MessageStatus::Keep;
   	});
 
 	KGB::gMessageManager().registerHandler<KGB::Victory>([&state](gf::Id type, gf::Message *msg) {
@@ -130,13 +131,16 @@ int main() {
     	gf::Log::error("Impossible de charger la carte !\n");
     	return EXIT_FAILURE;
   	}
-	KGB::Objects objs;
+	std::vector<KGB::Object> objs;
+	std::vector<KGB::Entry> entries;
   	
 	KGB::MapGraphicsData data(layers,objs);
-  	KGB::Map map( data);
+  	KGB::Map map(data);
 
 	mainEntities.addEntity(map);
-	mainEntities.addEntity(objs);
+	/*for(auto ob : objs){
+		mainEntities.addEntity(ob);
+	}*/
 
 	static constexpr gf::Vector2u initialPosition(32*51,32*4);
 	KGB::BabyHero bebeHero(initialPosition);
@@ -240,7 +244,7 @@ int main() {
 	actions.addAction(invisibleDiapers);
 
 	//Physics
-	KGB::Physics physics(objs,layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
+	KGB::Physics physics(entries,objs,layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
 
 	// game loop
 	gf::Clock clock;
@@ -461,8 +465,15 @@ int main() {
 			Couche1.render(renderer);
 			Couche2.render(renderer);
 			Couche3.render(renderer);
+			int tp=0;
+			for(auto& obj :objs){
+				//gf::Log::info("tp = %d\n",tp);
+				obj.render(renderer);
+				tp++;
+			}
+
+
 			
-			objs.render(renderer);
 			if(debugPhysics){
 				debug.render(renderer);
 			}

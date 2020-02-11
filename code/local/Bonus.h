@@ -56,10 +56,10 @@ namespace KGB{
             Dynamics dynamics;
             Graphics graphics;
             Status m_status;
-	    b2Body *m_body;
-	    b2Fixture *m_fixture;
-	    bool remove = false;
-	    bool removed = false;
+            b2Body *m_body;
+            b2Fixture *m_fixture;
+            bool remove = false;
+            bool removed = false;
     };
 }
 

@@ -7,12 +7,16 @@ namespace KGB{
 		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		
+		
+		
 		if(dataA && dataB){
-			
+
 			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
 			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
-			
+
+			gf::Log::debug("avant entA\n");
 			int entityTypeA = dataTypeA->getEntityType();
+			gf::Log::debug("après ent A\n");
 			int entityTypeB = dataTypeB->getEntityType();
 
 			
@@ -44,11 +48,19 @@ namespace KGB{
 
 			if(entityTypeA == ObjectType::CLEF) {
 		
-				object* obj = static_cast<object*>(dataTypeA);
+				Object* obj = static_cast<Object*>(dataTypeA);
 				if(obj){
 					obj->startContact(entityTypeB);
 				}
 		   	}
+			if(entityTypeA == DataType::Main_Type::ENTRY ){
+				gf::Log::debug("Enti A\n");
+				Entry* ent = static_cast<Entry*>(dataTypeA);
+				if(ent){
+					ent->startContact(entityTypeB);
+				}								
+
+			}
 			
 			//Element B
 			
@@ -70,9 +82,9 @@ namespace KGB{
 
 			if(entityTypeB == ObjectType::CLEF) {
 		
-				object* obj = static_cast<object*>(dataTypeB);
+				Object* obj = static_cast<Object*>(dataTypeB);
 				if(obj){
-					obj->startContact(entityTypeA);
+					obj->startContact(entityTypeA );
 				}
 		   	} 
 			
@@ -82,7 +94,16 @@ namespace KGB{
 				if(bonus){
 					bonus->startContact(entityTypeA);
 				}
-		   	} 
+		   	}
+
+			if(entityTypeB == DataType::Main_Type::ENTRY ){
+				gf::Log::debug("Enti B\n");
+				Entry* ent = static_cast<Entry*>(dataTypeB);
+				if(ent){
+					ent->startContact(entityTypeA);
+				}								
+
+			}
 			   
 		}
 		
@@ -90,7 +111,7 @@ namespace KGB{
 
     void b2dContactListener::EndContact(b2Contact* contact) {
 		
-		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		/*void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		
 		if(dataA && dataB){
@@ -140,6 +161,6 @@ namespace KGB{
 		   	}
 			
 		}
- 
+*/
     }
 }
