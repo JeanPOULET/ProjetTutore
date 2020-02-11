@@ -25,7 +25,8 @@ namespace KGB{
 
     enum ObjectType {
         CLEF  = 1,
-        OTHER = 2
+        OTHER = 2,
+        ENTRY = 3,
     };
 
     class Object : public gf::Entity, public KGB::KEntity {

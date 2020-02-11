@@ -25,7 +25,6 @@ add_executable(KGB
   code/local/BabyHero.cc
   code/local/Enemy.cc
   code/local/Physics.cc
-  code/local/Entry.cc
   code/local/b2dContactListener.cc
   code/local/Bonus.cc
 )

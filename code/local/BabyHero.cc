@@ -158,7 +158,7 @@ namespace KGB{
 				m_ennemycontact.push_back(0);
 			break;
 
-			case  DataType::Main_Type::ENTRY:
+			case  ObjectType::ENTRY:
 				if(libre){
 					Victory message;
 					//message.position = m_position;
@@ -206,10 +206,6 @@ namespace KGB{
 		bodyDef.position = Physics::fromVec(this->getPosition());
 		m_body = world.CreateBody(&bodyDef);
 
-		/*DataType::BodyUserData hero;
-		hero.entity = this;
-		hero.main_type = DataType::Main_Type::BABY;*/
-
 		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
 		b2PolygonShape shapeBaby;
@@ -240,7 +236,6 @@ namespace KGB{
 			if(m_ennemycontact.size() > 0){
 				gf::Log::debug("JE T'AI VU\n");
 				GameOver message;
-				//message.position = m_position;
 				gMessageManager().sendMessage(&message);
 			}
 		}else{

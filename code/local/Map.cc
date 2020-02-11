@@ -22,52 +22,52 @@ namespace KGB {
       }
 
       virtual void visitTileLayer(const gf::TmxLayers& map, const gf::TmxTileLayer& layer) override {
-        if (!layer.visible) {
-          return;
-        }
+			if (!layer.visible) {
+				return;
+			}
 
-        assert(map.orientation == gf::TmxOrientation::Orthogonal);
+			assert(map.orientation == gf::TmxOrientation::Orthogonal);
 
-        gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Orthogonal);
+			gf::TileLayer tileLayer(map.mapSize, gf::TileLayer::Orthogonal);
 
-        gf::Log::info("Parsing layer '%s'\n", layer.name.c_str());
+			gf::Log::info("Parsing layer '%s'\n", layer.name.c_str());
 
-        tileLayer.setTileSize(map.tileSize);
+			tileLayer.setTileSize(map.tileSize);
 
-        int k = 0;
+			int k = 0;
 
-        for (auto& cell : layer.cells) {
-          int i = k % map.mapSize.width;
-          int j = k / map.mapSize.width;
-          assert(j < map.mapSize.height);
+			for (auto& cell : layer.cells) {
+				int i = k % map.mapSize.width;
+				int j = k / map.mapSize.width;
+				assert(j < map.mapSize.height);
 
-          int gid = cell.gid;
+				int gid = cell.gid;
+		
 
+				if (gid != 0) {
+					auto tileset = map.getTileSetFromGID(gid);
+					assert(tileset);
+					tileLayer.setTilesetTileSize(tileset->tileSize);
+					tileLayer.setOffset(tileset->offset);
+					tileLayer.setMargin(tileset->margin);
+					tileLayer.setSpacing(tileset->spacing);
+					gid = gid - tileset->firstGid;
+					tileLayer.setTile({ i, j }, gid, cell.flip);
 
-          if (gid != 0) {
-            auto tileset = map.getTileSetFromGID(gid);
-            assert(tileset);
-            tileLayer.setTilesetTileSize(tileset->tileSize);
-            tileLayer.setOffset(tileset->offset);
-            tileLayer.setMargin(tileset->margin);
-            tileLayer.setSpacing(tileset->spacing);
-            gid = gid - tileset->firstGid;
-            tileLayer.setTile({ i, j }, gid, cell.flip);
+					if (!tileLayer.hasTexture()) {
+						assert(tileset->image);
+						const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
+						tileLayer.setTexture(texture);
+					} else {
+						assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
+					}
 
-            if (!tileLayer.hasTexture()) {
-				assert(tileset->image);
-				const gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
-				tileLayer.setTexture(texture);
-            } else {
-				assert(&gResourceManager().getTexture(tileset->image->source) == &tileLayer.getTexture());
-            }
+				}
 
-          }
+					k++;
+			}
 
-          k++;
-        }
-
-        m_layers.push_back(std::move(tileLayer));
+			m_layers.push_back(std::move(tileLayer));
       }
 
 	virtual void visitObjectLayer(const gf::TmxLayers& map, const gf::TmxObjectLayer& layer) override {
@@ -109,6 +109,15 @@ namespace KGB {
                    		position = randomClefPositions[gRandom().computeUniformInteger(0,2)];
             			type = ObjectType::CLEF;
 					break;
+					case 552 : 
+						type = ObjectType::ENTRY;
+					break;
+					case 553 : 
+						type = ObjectType::ENTRY;
+					break;
+					case 554 : 
+						type = ObjectType::ENTRY;
+					break;
 					default :
 						type = ObjectType::OTHER;
 					break;
@@ -131,37 +140,37 @@ namespace KGB {
 		}
     }
 
-    private:
-      std::vector<gf::TileLayer>& m_layers;
-      std::vector<gf::Sprite>& m_sprites;
-      std::vector<Object>& m_objs;
-    };
-  }
+		private:
+			std::vector<gf::TileLayer>& m_layers;
+			std::vector<gf::Sprite>& m_sprites;
+			std::vector<Object>& m_objs;
+		};
+	}
 
-  MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, std::vector<Object>& objs)
-  {
-    LayersMaker maker(tiles, sprites,objs);
-    layers.visitLayers(maker);
-  }
+	MapGraphicsData::MapGraphicsData(const gf::TmxLayers& layers, std::vector<Object>& objs)
+	{
+		LayersMaker maker(tiles, sprites,objs);
+		layers.visitLayers(maker);
+	}
 
-  Map::Map(MapGraphicsData& data)
-  : gf::Entity(0)
-  , m_data(data)
-  {
-     //gMessageManager().registerHandler<HeroPosition>(&Map::onHeroPosition, this);
-  }
+	Map::Map(MapGraphicsData& data)
+	: gf::Entity(0)
+	, m_data(data)
+	{
 
-  void Map::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+	}
 
-      for (auto& layer : m_data.tiles) {
-        target.draw(layer,states);
-      }
-      
-      for (auto& sprite : m_data.sprites) {
-        target.draw(sprite,states);
+	void Map::render(gf::RenderTarget& target, const gf::RenderStates& states) {
 
-      }
-    
-  }
+		for (auto& layer : m_data.tiles) {
+			target.draw(layer,states);
+		}
+		
+		for (auto& sprite : m_data.sprites) {
+			target.draw(sprite,states);
+
+		}
+		
+	}
 
 }

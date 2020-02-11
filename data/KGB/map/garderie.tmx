@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="9">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="left-up" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="15">
  <tileset firstgid="1" source="tileSet.tsx"/>
  <layer name="Sol" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -13,7 +13,7 @@
  </layer>
  <layer name="Entree" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztw7EJADAIADDxFUf//8/REywlgUT8p3Jzr3MDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALxuACfvAPc=
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
   </data>
  </layer>
  <layer name="Déco" width="100" height="100">
@@ -28,11 +28,14 @@
  </layer>
  <layer name="Déco+" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt271OwlAUAGAS1NfwGXgABx/Dn4ndx3LkAUQd1End1MTBSY2TGifdNJYAWm9uSy3FIv2+hBRKb2nP6enpHWi1AADg7+y16z4CABZJP9VXDvUY/oE71ynUpp9RfwfqEijovj18MR9u5AMAAAAAYGZ2C65b/8X4XvnDIaVTYH0vsl1sXFb+0ttn/R5x4+s8K26xOiiS04G1UkdEqKprWm3EDe7/Yjx/wr7cyfluEv28ep3I+7w459VGbF/E5cUnHf90jXRyxhWtjbznL8QHAACAerz4XwKUcq12ABbCo/t5IxwleT5LXg/t7/fU4zgV+2d5qN35KAenyfJEPgAAAODL5WiefJUsnyJz5tuK5tEbwX66qc9bwXc7DZy7rywNl/vJuV9Mcf7j/TAbSzXHN6yVRVc23ulxbw2L2ayFPWE5yNGke9DHlPnoyufUXmcYw7DXM7SaUxfvFcWsaf2hSp6d6lWm1xcdM5hT5M0rNhtYN2Hfppm2M679sCY8dwEAAAAAAAAA/PQJ1yoyPg==
+   eJzt2ztOw0AQANAoCVwDASfIASg4Bp8qPcei5AD8CqACOkCioAJEBYgKOhCOwses1o5xHBni9yTLiZN17BmPx1uk1Zo+8+1WayFZFtt1HwkAAKHtTt1HAMA02Un1lX09hn/gxnUKtdnJqL89dQkUdNsZLvwNV/IBAAAAADAxmwW3Lf9i/Fb5wyGlV2D7VuR7sXFZ+Ut/P+v3iPu8zrPiFquDIjkdWCp1RISquqbVRtzg/i/Gf0/Yl3s5n42in1evF3mdF+e82ojti7i8+KTjn66RXs64orWR9/yF+AAAAFCPJ/9LgFIu1Q7AVLh3P2+EgyTPJ8ly1/l+TT0OU7F/lIfanX7k4DhZH8kHAAAAfDn/mCdfJOuHyJz5uqJ59Eqwn37q/Vrw2UYD5+6z3eF6Nzn3szHO/3M/TEa35viGtTLtysY7Pe6lYTGbtLAnzAQ5GnUPehszH335HNvzBGMY9nqG5nLq4rWimDWtP1TJs1O9yvT6omMGc4q8ecVqA+sm7Ns003rGtR/WhOcuAAAAAAAAAICf3gFq2jKq
   </data>
  </layer>
- <objectgroup name="Objets" offsetx="4.66667" offsety="10">
+ <objectgroup name="Objets">
   <object id="6" gid="1056" x="1460.33" y="75.667" width="27.3333" height="29.3333"/>
   <object id="8" gid="755" x="1993.33" y="111" width="32" height="32"/>
+  <object id="10" gid="553" x="1695.98" y="63.9375" width="32" height="32"/>
+  <object id="11" gid="555" x="1759.96" y="63.9167" width="32" height="32"/>
+  <object id="13" gid="554" x="1727.94" y="63.9375" width="32" height="32"/>
  </objectgroup>
 </map>

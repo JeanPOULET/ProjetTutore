@@ -80,10 +80,9 @@ namespace KGB{
     class PhysicsMaker : public gf::TmxVisitor {
 
         public:
-            PhysicsMaker(b2World& world, std::vector<Object>& objs,std::vector<Entry>& entries)
+            PhysicsMaker(b2World& world, std::vector<Object>& objs)
             : m_world(world)
             , m_objs(objs)
-            , m_entries(entries)
             {
 
             }
@@ -125,25 +124,13 @@ namespace KGB{
                             fixtureDef.restitution = 0.0f;
                             fixtureDef.shape = &shape;
                             body->CreateFixture(&fixtureDef);
-                            if(layer.name == "Entree"){
+                            fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
                                 
-                                //fixtureDef.filter.categoryBits = DataType::Main_Type::ENTRY;
-                            }else{
-                                fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
-                                
-                            }
+                            
                             
                             
                         }
                         
-                    }else if(layer.name == "Entree"){
-                        if(gid!=0){
-
-                            Entry entr(position);
-                            entr.setObjectBody(m_world,position);
-                            m_entries.push_back(entr);
-                            gf::Log::debug("return = %d",entr.getEntityType());
-                        }
                     }
                     k++;
                 }
@@ -171,11 +158,10 @@ namespace KGB{
         private:
             b2World& m_world;
             std::vector<Object>& m_objs;
-            std::vector<Entry>& m_entries;
         };
 
 
-    Physics::Physics(std::vector<Entry>& entries,std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, std::vector<Enemy>& vilains, Bonus& bon1, Bonus& bon2, Bonus& bon3)
+    Physics::Physics(std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, std::vector<Enemy>& vilains, Bonus& bon1, Bonus& bon2, Bonus& bon3)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
         , m_vilains(vilains)
@@ -183,11 +169,10 @@ namespace KGB{
 		, m_bonus2(bon2)
 		, m_bonus3(bon3)
         , m_objs(objs)
-        , m_entries(entries)
         {
             
             //MAP
-            PhysicsMaker maker(m_world,m_objs,m_entries);
+            PhysicsMaker maker(m_world,m_objs);
             layers.visitLayers(maker);
             
             

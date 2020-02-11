@@ -33,7 +33,7 @@
 #include "local/Physics.h"
 #include "local/BackgroundMusic.h"
 #include "local/Object.h"
-#include "local/Entry.h"
+
 
 #define FRAME 60.0
 
@@ -131,15 +131,14 @@ int main() {
     	return EXIT_FAILURE;
   	}
 	std::vector<KGB::Object> objs;
-	std::vector<KGB::Entry> entries;
   	
 	KGB::MapGraphicsData data(layers,objs);
   	KGB::Map map(data);
 
 	mainEntities.addEntity(map);
-	/*for(auto ob : objs){
+	for(auto ob : objs){
 		mainEntities.addEntity(ob);
-	}*/
+	}
 
 	static constexpr gf::Vector2u initialPosition(32*51,32*4);
 	KGB::BabyHero bebeHero(initialPosition);
@@ -295,7 +294,8 @@ int main() {
 	actions.addAction(invisibleDiapers);
 
 	//Physics
-	KGB::Physics physics(entries,objs,layers,bebeHero, vilains, Couche1, Couche2, Couche3);
+	KGB::Physics physics(objs,layers,bebeHero, vilains, Couche1, Couche2, Couche3);
+
 
 	// game loop
 	gf::Clock clock;

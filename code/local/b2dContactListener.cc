@@ -53,14 +53,6 @@ namespace KGB{
 					obj->startContact(entityTypeB);
 				}
 		   	}
-			if(entityTypeA == DataType::Main_Type::ENTRY ){
-				gf::Log::debug("Enti A\n");
-				Entry* ent = static_cast<Entry*>(dataTypeA);
-				if(ent){
-					ent->startContact(entityTypeB);
-				}								
-
-			}
 			
 			//Element B
 			
@@ -95,15 +87,6 @@ namespace KGB{
 					bonus->startContact(entityTypeA);
 				}
 		   	}
-
-			if(entityTypeB == DataType::Main_Type::ENTRY ){
-				gf::Log::debug("Enti B\n");
-				Entry* ent = static_cast<Entry*>(dataTypeB);
-				if(ent){
-					ent->startContact(entityTypeA);
-				}								
-
-			}
 			   
 		}
 		

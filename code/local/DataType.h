@@ -23,14 +23,13 @@ namespace KGB {
         	ENEMY 			= 0x0004,
         	OTHER 			= 0x0010,
         	HARVESTABLE 	= 0x0014,
-			ENTRY			= 0x0016,
 
 		};
 
 		enum Item_Type{
 
-			BONUS = 		1,
-			MALUS = 		2,
+			BONUS 			= 1,
+			MALUS 			= 2,
 
 		};
 

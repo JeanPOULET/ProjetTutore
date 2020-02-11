@@ -13,7 +13,6 @@ namespace KGB{
         static const gf::Id type = "GameOver"_id;
     };
 
-
     struct Victory: public gf::Message {
         static const gf::Id type = "Victory"_id;
     };

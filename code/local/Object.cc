@@ -29,23 +29,33 @@ namespace KGB{
     }
 
 	void Object::setObjectBody(b2World& world, gf::Vector2f position){
+		float physicScale = Physics::getPhysicScale();
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
 		bodyDef.position = Physics::fromVec(m_position);
 		
 		auto body = world.CreateBody(&bodyDef);
-		
-		b2CircleShape shape;
-		shape.m_radius = 10.0f * Physics::getPhysicScale();
-
 		b2FixtureDef fixtureDef;
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.0f;
 		fixtureDef.restitution = 0.0f;
-		fixtureDef.shape = &shape;
-		fixtureDef.filter.categoryBits = ObjectType::CLEF;
+
+		if(m_objectType ==ObjectType::CLEF ){
+			b2CircleShape shape;
+			shape.m_radius = 10.0f * Physics::getPhysicScale();
+			fixtureDef.shape = &shape;
+			fixtureDef.filter.categoryBits = m_objectType;
+			body->CreateFixture(&fixtureDef);
+		}else{
+
+			b2PolygonShape shape;
+            shape.SetAsBox(16.0f * physicScale,16.0f*physicScale);
+			fixtureDef.shape = &shape;
+			fixtureDef.filter.categoryBits = m_objectType;
+			body->CreateFixture(&fixtureDef);
+		}
+		
 		body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
-		body->CreateFixture(&fixtureDef);
 		
 		m_body = body;
 
@@ -53,12 +63,12 @@ namespace KGB{
 
 	void Object::startContact(int contactwith) {
 		
-		switch (m_objectType){
-			case ObjectType::CLEF: 
+		switch (contactwith){
+			case  DataType::Main_Type::BABY:
 	
-				switch(contactwith){
+				switch(m_objectType){
 				
-					case  DataType::Main_Type::BABY:
+					case  ObjectType::CLEF :
 						gf::Log::debug("LA CLEF\n");
 						Clef message;
 						//message.position = m_position;
@@ -66,6 +76,7 @@ namespace KGB{
 						alive=false;
 										
 					break;
+
 
 					default: 
 						return;
