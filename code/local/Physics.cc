@@ -36,11 +36,10 @@ namespace KGB{
     void Physics::update() {
 
        	m_baby.updatePhysics_set();
-		m_vilain1.updatePhysics_set();
-		m_vilain2.updatePhysics_set();
-		m_vilain3.updatePhysics_set();
-		m_vilain4.updatePhysics_set();
-		m_vilain5.updatePhysics_set();
+        
+        for(size_t i = 0; i < m_vilains.size(); i++){
+            m_vilains[i].updatePhysics_set();
+        }
 
 		m_bonus1.updatePhysics_set();
 		m_bonus2.updatePhysics_set();
@@ -65,12 +64,11 @@ namespace KGB{
 
 
         m_baby.updatePhysics_correction();
-        m_vilain1.updatePhysics_correction();
-  		m_vilain2.updatePhysics_correction();
-		m_vilain3.updatePhysics_correction();
-		m_vilain4.updatePhysics_correction();
-		m_vilain5.updatePhysics_correction();
-        
+
+        for(size_t i = 0; i < m_vilains.size(); i++){
+            m_vilains[i].updatePhysics_correction();
+        }
+
 		m_bonus1.updatePhysics_correction();
 		m_bonus2.updatePhysics_correction();
 		m_bonus3.updatePhysics_correction();
@@ -177,43 +175,39 @@ namespace KGB{
         };
 
 
-    Physics::Physics(std::vector<Entry>& entries,std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3)
+    Physics::Physics(std::vector<Entry>& entries,std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, std::vector<Enemy>& vilains, Bonus& bon1, Bonus& bon2, Bonus& bon3)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
-        , m_vilain1(policier1)
-        , m_vilain2(policier2)
-        , m_vilain3(policier3)
-        , m_vilain4(policier4)
-        , m_vilain5(policier5)
+        , m_vilains(vilains)
 		, m_bonus1(bon1)
 		, m_bonus2(bon2)
 		, m_bonus3(bon3)
         , m_objs(objs)
         , m_entries(entries)
         {
-        
+            
             //MAP
-            m_world.SetContactListener(&m_contactListener);
             PhysicsMaker maker(m_world,m_objs,m_entries);
             layers.visitLayers(maker);
-
+            
+            
+            m_world.SetContactListener(&m_contactListener);
             
             //BABY
             
             m_baby.setBodyPhysics(m_world);
 
             //ENEMIES
-                
-            m_vilain1.setBodyPhysics(m_world);
-            m_vilain2.setBodyPhysics(m_world);
-            m_vilain3.setBodyPhysics(m_world);
-            m_vilain4.setBodyPhysics(m_world);
-            m_vilain5.setBodyPhysics(m_world);
-                
+            
+            for(size_t i = 0; i < m_vilains.size(); i++){
+                m_vilains[i].setBodyPhysics(m_world);
+            }
+
+            //BONUS
+
             m_bonus1.setBodyPhysics(m_world);
             m_bonus2.setBodyPhysics(m_world);
-            m_bonus3.setBodyPhysics(m_world);
-
+            m_bonus3.setBodyPhysics(m_world);       
         }
 
     b2World& Physics::getWorld(){

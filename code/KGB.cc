@@ -16,7 +16,6 @@
 #include <gf/Window.h>
 #include <gf/Sprite.h>
 #include <gf/Tmx.h>
-#include <gf/Log.h>
 
 #include <iostream>
 #include <cassert>
@@ -150,21 +149,73 @@ int main() {
 	static constexpr gf::Vector2u posEnemy1(32*71, 32*5);
 	static constexpr gf::Vector2u posEnemy2(32*54, 32*12);
 	static constexpr gf::Vector2u posEnemy3(32*45, 32*9);
-	static constexpr gf::Vector2u posEnemy4(32*71, 32*22);
+	static constexpr gf::Vector2u posEnemy4(32*70.5, 32*21);
 	static constexpr gf::Vector2u posEnemy5(32*48, 32*15.45);
+	static constexpr gf::Vector2u posEnemy6(32*29.5, 32*28);
+	static constexpr gf::Vector2u posEnemy7(32*26, 32*35);
+	static constexpr gf::Vector2u posEnemy8(32*86.5, 32*29);
+	static constexpr gf::Vector2u posEnemy9(32*24, 32*43);
+	static constexpr gf::Vector2u posEnemy10(32*23, 32*50);
+	static constexpr gf::Vector2u posEnemy11(32*44.5, 32*49);
+	static constexpr gf::Vector2u posEnemy12(32*51.5, 32*49);
+	static constexpr gf::Vector2u posEnemy13(32*70, 32*49);
+	static constexpr gf::Vector2u posEnemy14(32*30, 32*73);
+	static constexpr gf::Vector2u posEnemy15(32*54.5, 32*50);
+	static constexpr gf::Vector2u posEnemy16(32*55, 32*81);
 
-	KGB::Enemy Vilain(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0);
-	KGB::Enemy Vilain2(posEnemy2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0);
-	KGB::Enemy Vilain3(posEnemy3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0);
-	KGB::Enemy Vilain4(posEnemy4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0);
-	KGB::Enemy Vilain5(posEnemy5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0);
+	std::vector<gf::Orientation> noRotation;
+	std::vector<gf::Orientation> rotaEnemy4;
+	rotaEnemy4.push_back(gf::Orientation::East);
+	rotaEnemy4.push_back(gf::Orientation::South);
+	rotaEnemy4.push_back(gf::Orientation::West);
 
-	mainEntities.addEntity(Vilain);
-	mainEntities.addEntity(Vilain2);
-	mainEntities.addEntity(Vilain3);
-	mainEntities.addEntity(Vilain4);
-	mainEntities.addEntity(Vilain5);
-	
+	std::vector<gf::Orientation> rotaEnemy6;
+	rotaEnemy6.push_back(gf::Orientation::East);
+	rotaEnemy6.push_back(gf::Orientation::South);
+	rotaEnemy6.push_back(gf::Orientation::North);
+
+	std::vector<gf::Orientation> rotaEnemy8;
+	rotaEnemy8.push_back(gf::Orientation::West);
+	rotaEnemy8.push_back(gf::Orientation::North);
+
+	//salle de classe
+	KGB::Enemy Vilain(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::South, KGB::Enemy::Status::Walking, 380.0, 50.0, noRotation);
+	// couloir au dessus fontaine
+	KGB::Enemy Vilain2(posEnemy2, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 700.0, 70.0, noRotation);
+	//couloir sous spawn
+	KGB::Enemy Vilain3(posEnemy3, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 500.0, 30.0, noRotation);
+	//croisement couloir biblio
+	KGB::Enemy Vilain4(posEnemy4, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0, 0.0, rotaEnemy4);
+	//salle des thunes
+	KGB::Enemy Vilain5(posEnemy5, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0, 0.0, noRotation);
+	//piece au dessus jardin
+	KGB::Enemy Vilain6(posEnemy6, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0, 0.0, rotaEnemy6);
+	//jardin
+	KGB::Enemy Vilain7(posEnemy7, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::East, KGB::Enemy::Status::Walking, 600.0, 60.0, noRotation);
+	//biblio
+	KGB::Enemy Vilain8(posEnemy8, KGB::Enemy::PathType::Static, gf::Orientation::North, KGB::Enemy::Status::Waiting, 0.0, 0.0, rotaEnemy8);
+	//couloir chambre -- jardin
+	KGB::Enemy Vilain9(posEnemy9, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::East, KGB::Enemy::Status::Walking, 1400.0, 85.0, noRotation);
+	//couloir bas gauche
+	KGB::Enemy Vilain10(posEnemy10, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 950.0, 70.0, noRotation);
+	//chambre
+	KGB::Enemy Vilain11(posEnemy11, KGB::Enemy::PathType::Static, gf::Orientation::East, KGB::Enemy::Status::Waiting, 0.0, 0.0, noRotation);
+	KGB::Enemy Vilain12(posEnemy12, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0, 0.0, noRotation);
+	//cuisine
+	KGB::Enemy Vilain13(posEnemy13, KGB::Enemy::PathType::Static, gf::Orientation::West, KGB::Enemy::Status::Waiting, 0.0, 0.0, noRotation);
+	//salle de jeu
+	KGB::Enemy Vilain14(posEnemy14, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::East, KGB::Enemy::Status::Walking, 700.0, 50.0, noRotation);
+	//couloir salle de jeu --  batiment H
+	KGB::Enemy Vilain15(posEnemy15, KGB::Enemy::PathType::VerticalLine, gf::Orientation::South, KGB::Enemy::Status::Walking, 560.0, 65.0, noRotation);
+	//couloir bas droite
+	KGB::Enemy Vilain16(posEnemy16, KGB::Enemy::PathType::HorizontalLine, gf::Orientation::East, KGB::Enemy::Status::Walking, 560.0, 65.0, noRotation);
+	//salle de classe bis
+	KGB::Enemy Vilain17(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::North, KGB::Enemy::Status::Walking, 380.0, 50.0, noRotation);
+
+	std::vector<KGB::Enemy> vilains = {Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Vilain6, Vilain7, Vilain8, Vilain9, Vilain10, Vilain11, Vilain12, Vilain13, Vilain14, Vilain15, Vilain16, Vilain17};
+	for(size_t i = 0; i < vilains.size(); i++){
+		mainEntities.addEntity(vilains[i]);
+	}
 	
 	static constexpr gf::Vector2u posBonus1(33*51,32*4);
 	static constexpr gf::Vector2u posBonus2(34*51,32*4);
@@ -244,7 +295,7 @@ int main() {
 	actions.addAction(invisibleDiapers);
 
 	//Physics
-	KGB::Physics physics(entries,objs,layers,bebeHero, Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Couche1, Couche2, Couche3);
+	KGB::Physics physics(entries,objs,layers,bebeHero, vilains, Couche1, Couche2, Couche3);
 
 	// game loop
 	gf::Clock clock;
@@ -457,11 +508,11 @@ int main() {
 
 			mainEntities.render(renderer);
 			bebeHero.render(renderer);
-			Vilain.render(renderer);
-			Vilain2.render(renderer);
-			Vilain3.render(renderer);
-			Vilain4.render(renderer);
-			Vilain5.render(renderer);
+
+			for(size_t i = 0; i < vilains.size(); i++){
+				vilains[i].render(renderer);
+			}
+
 			Couche1.render(renderer);
 			Couche2.render(renderer);
 			Couche3.render(renderer);

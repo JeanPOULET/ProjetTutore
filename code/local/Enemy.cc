@@ -3,20 +3,39 @@
 
 namespace KGB{
   
-	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance)
+	void Enemy::timer(float seconds){
+		m_clock.restart();
+		gf::Time actualTime = gf::seconds(0);
+		gf::Time timeToWait = gf::seconds(seconds);
+		while(actualTime<timeToWait){
+			actualTime = m_clock.getElapsedTime();
+		}
+	}
+
+	Enemy::Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance, float speed, std::vector<gf::Orientation> rota)
         : m_spawn(position)
 		, m_path(path)
 		, m_status(status)
 		, m_body(nullptr)
 		, m_cone(nullptr)
-		, m_distance(distance)
         {
 		
+		if(!rota.empty()){
+			m_rotation = rota;
+		}
+		dynamics.m_speed = speed;
+		dynamics.m_distance = distance;
 		dynamics.m_position = position;
         dynamics.m_velocity = gf::Vector2f(0, 0);
         graphics.m_texture = &gResourceManager().getTexture("Image/Polizei_animation.png");
         graphics.m_orientation = ori;
+		graphics.m_originaleOrientation = ori;
         graphics.m_currentAnimation = nullptr;
+
+		if(m_path == PathType::Round){
+			defRoundStart();
+		}
+
         loadAnimation(graphics.m_moveSouth, 0);
         loadAnimation(graphics.m_moveEast, 1);
         loadAnimation(graphics.m_moveWest, 2);
@@ -35,41 +54,56 @@ namespace KGB{
         dynamics.m_velocity = velocity;
     }
 
+	void Enemy::defRoundStart(){
+		if(graphics.m_orientation == gf::Orientation::North){
+			dynamics.m_position.x = m_spawn.x + dynamics.m_distance;
+			dynamics.m_position.y = m_spawn.y + dynamics.m_distance;
+		}else if(graphics.m_orientation == gf::Orientation::East){
+			dynamics.m_position.y = m_spawn.y + dynamics.m_distance;
+		}else if(graphics.m_orientation == gf::Orientation::West){
+			dynamics.m_position.x = m_spawn.x + dynamics.m_distance;
+		}
+	}
+
 	void Enemy::round(){
-		if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y >= m_spawn.y + m_distance){
+		if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y >= m_spawn.y + dynamics.m_distance){
 			graphics.m_orientation = gf::Orientation::East;
-			dynamics.m_velocity = gf::Vector2f(50.0,0);
-		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y >= m_spawn.y + m_distance){
+			dynamics.m_velocity = gf::Vector2f(dynamics.m_speed,0);
+		}else if(dynamics.m_position.x >= m_spawn.x + dynamics.m_distance && dynamics.m_position.y >= m_spawn.y + dynamics.m_distance){
 			graphics.m_orientation = gf::Orientation::North;
-			dynamics.m_velocity = gf::Vector2f(0,-50.0);
-		}else if(dynamics.m_position.x >= m_spawn.x + m_distance && dynamics.m_position.y <= m_spawn.y){
+			dynamics.m_velocity = gf::Vector2f(0,-dynamics.m_speed);
+		}else if(dynamics.m_position.x >= m_spawn.x + dynamics.m_distance && dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::West;
-			dynamics.m_velocity = gf::Vector2f(-50.0,0);
+			dynamics.m_velocity = gf::Vector2f(-dynamics.m_speed,0);
 		}else if(dynamics.m_position.x <= m_spawn.x && dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::South;
-			dynamics.m_velocity = gf::Vector2f(0,50.0);
-		}
+			dynamics.m_velocity = gf::Vector2f(0,dynamics.m_speed);
+		}		
 	}
 
 	void Enemy::lineH(){
 		if(dynamics.m_position.x <= m_spawn.x){
 			graphics.m_orientation = gf::Orientation::East;
-			dynamics.m_velocity = gf::Vector2f(50.0,0);
+			dynamics.m_velocity = gf::Vector2f(dynamics.m_speed,0);
 			
-		}else if(dynamics.m_position.x >= m_spawn.x + m_distance){
+		}else if(dynamics.m_position.x >= m_spawn.x + dynamics.m_distance){
 			graphics.m_orientation = gf::Orientation::West;
-			dynamics.m_velocity = gf::Vector2f(-50.0,0);
+			dynamics.m_velocity = gf::Vector2f(-dynamics.m_speed,0);
 		}
 	}
 
 	void Enemy::lineV(){
-		if(dynamics.m_position.y >= m_spawn.y + m_distance){
+		if(dynamics.m_position.y >= m_spawn.y + dynamics.m_distance){
 			graphics.m_orientation = gf::Orientation::North;
-			dynamics.m_velocity = gf::Vector2f(0,-50.0);
+			dynamics.m_velocity = gf::Vector2f(0,-dynamics.m_speed);
 		}else if(dynamics.m_position.y <= m_spawn.y){
 			graphics.m_orientation = gf::Orientation::South;
-			dynamics.m_velocity = gf::Vector2f(0,50.0);
+			dynamics.m_velocity = gf::Vector2f(0,dynamics.m_speed);
 		}
+	}
+
+	void Enemy::rotation(){
+		graphics.m_orientation = m_rotation[rand()%m_rotation.size()];
 	}
 
     void Enemy::update(gf::Time time) {
@@ -82,6 +116,14 @@ namespace KGB{
 			lineV();
 		}else if(m_path == PathType::HorizontalLine){
 			lineH();
+		}else if(m_path == PathType::Static && !m_rotation.empty()){
+			if(cpt == 100){
+				cpt = 0;
+				rotation();
+			}else{
+				cpt++;
+			}
+			
 		}
 		if(m_status == Status::Walking){
 			switch (graphics.m_orientation) {
@@ -105,7 +147,6 @@ namespace KGB{
 			switch (graphics.m_orientation) {
 				case gf::Orientation::South:
 					graphics.m_currentAnimation = &graphics.m_waitSouth;
-					
 				break;
 				case gf::Orientation::North:
 					graphics.m_currentAnimation = &graphics.m_waitNorth;
@@ -183,22 +224,18 @@ namespace KGB{
 
     void Enemy::startContact(int contactwith) {
 		switch (contactwith){
-			
-			default: 	gf::Log::info("garde debut\n");
-						break;
-				
+			default: 	
+				gf::Log::info("garde debut\n");
+			break;	
 		}
-		
     }
+
     void Enemy::endContact(int contactwith) { 
-		
 		switch (contactwith){
-			
-			default: 	gf::Log::info("garde fin\n");
-						break;
-				
-		}
-		
+			default: 	
+				gf::Log::info("garde fin\n");
+			break;		
+		}	
 	}
 	
 	void Enemy::setBodyPhysics(b2World& world){
@@ -207,10 +244,6 @@ namespace KGB{
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position = Physics::fromVec(this->getPosition());
 		m_body = world.CreateBody(&bodyDef);
-
-		/*DataType::BodyUserData enemy;
-		enemy.entity = this;
-		enemy.main_type = DataType::Main_Type::ENEMY;*/
 
 		m_body->SetUserData((void*) static_cast<KGB::KEntity*>(this));
 
@@ -274,9 +307,7 @@ namespace KGB{
     }
 
     void Enemy::updatePhysics_correction(){
-
-	setPosition(Physics::toVec(m_body->GetPosition()));
-
+		setPosition(Physics::toVec(m_body->GetPosition()));
     }
 
 }

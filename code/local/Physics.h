@@ -48,7 +48,8 @@ namespace KGB {
 	class Physics : public gf::Model {
 		
 		public:
-			Physics(std::vector<Entry>& entries,std::vector<Object>& objs, const gf::TmxLayers& layers, BabyHero& player, Enemy& policier1, Enemy& policier2, Enemy& policier3, Enemy& policier4, Enemy& policier5, Bonus& bon1, Bonus& bon2, Bonus& bon3);
+			
+			Physics(std::vector<Entry>& entries,std::vector<Object>& objs, const gf::TmxLayers& layers, BabyHero& player, std::vector<Enemy>& vilains, Bonus& bon1, Bonus& bon2, Bonus& bon3);
 			void setPhysicCone(int vilain);
 			static float getAngle();
 			static float getPhysicScale();
@@ -63,13 +64,7 @@ namespace KGB {
 			std::vector<Object>& m_objs;
 			std::vector<Entry>&  m_entries;
 			BabyHero& m_baby;
-			
-			Enemy& m_vilain1;
-			Enemy& m_vilain2;
-			Enemy& m_vilain3;
-			Enemy& m_vilain4;
-			Enemy& m_vilain5;
-		
+			std::vector<Enemy>& m_vilains;
 			Bonus& m_bonus1;
 			Bonus& m_bonus2;
 			Bonus& m_bonus3;
