@@ -9,6 +9,7 @@ namespace KGB {
     struct Graphics {
         gf::Texture *m_texture;
         gf::Orientation m_orientation;
+        gf::Orientation m_originaleOrientation;
 
         //Animation
         gf::Animation *m_currentAnimation;

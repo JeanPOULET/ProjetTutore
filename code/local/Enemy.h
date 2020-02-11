@@ -1,6 +1,8 @@
 #ifndef KGB_Enemy_H
 #define KGB_Enemy_H
 
+#include <vector>
+
 #include <gf/Entity.h>
 #include <gf/Clock.h>
 #include <gf/Event.h>
@@ -41,7 +43,7 @@ namespace KGB{
                 Waiting,
             };
 
-            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance, float speed);
+            Enemy(gf::Vector2f position, PathType path, gf::Orientation ori, Status status, float distance, float speed, std::vector<gf::Orientation> rotation);
 
             void setVelocity(gf::Vector2f velocity);
             void update(gf::Time time);
@@ -51,9 +53,12 @@ namespace KGB{
             gf::Vector2f getVelocity();
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
+            void defRoundStart();
             void round();
             void lineH();
             void lineV();
+            void rotation();
+            void timer(float seconds);
             void viewCone();
             virtual void startContact(int contactwith);
             virtual void endContact(int contactwith);
@@ -70,8 +75,8 @@ namespace KGB{
             
             Dynamics dynamics;
             
-            float m_speed;
-            float m_distance;
+            size_t cpt = 0;
+            std::vector<gf::Orientation> m_rotation;
             gf::Polygon m_cone;
 
             Status m_status;
