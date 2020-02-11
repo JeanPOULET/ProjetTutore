@@ -74,7 +74,7 @@ namespace KGB{
         private:
             
             Dynamics dynamics;
-            
+            gf::Clock m_clock;
             size_t cpt = 0;
             std::vector<gf::Orientation> m_rotation;
             gf::Polygon m_cone;

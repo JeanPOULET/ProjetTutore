@@ -4,11 +4,11 @@
 namespace KGB{
   
 	void Enemy::timer(float seconds){
-		gf::Clock clock;
+		m_clock.restart();
 		gf::Time actualTime = gf::seconds(0);
 		gf::Time timeToWait = gf::seconds(seconds);
 		while(actualTime<timeToWait){
-			actualTime = clock.getElapsedTime();
+			actualTime = m_clock.getElapsedTime();
 		}
 	}
 
@@ -55,12 +55,12 @@ namespace KGB{
     }
 
 	void Enemy::defRoundStart(){
-		if(graphics.m_originaleOrientation == gf::Orientation::North){
+		if(graphics.m_orientation == gf::Orientation::North){
 			dynamics.m_position.x = m_spawn.x + dynamics.m_distance;
 			dynamics.m_position.y = m_spawn.y + dynamics.m_distance;
-		}else if(graphics.m_originaleOrientation == gf::Orientation::East){
+		}else if(graphics.m_orientation == gf::Orientation::East){
 			dynamics.m_position.y = m_spawn.y + dynamics.m_distance;
-		}else if(graphics.m_originaleOrientation == gf::Orientation::West){
+		}else if(graphics.m_orientation == gf::Orientation::West){
 			dynamics.m_position.x = m_spawn.x + dynamics.m_distance;
 		}
 	}
