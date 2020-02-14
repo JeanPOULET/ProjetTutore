@@ -89,15 +89,15 @@ namespace KGB {
 			auto lid = tile->gid - tileset->firstGid;
 			auto subTexture = tileset->getSubTexture(lid, tileset->image->size);
 			
-			constexpr gf::Vector2f vecclef_posRandom0 = {2646,63};
-			constexpr gf::Vector2f vecclef_posRandom1 = {2344,801};
-			constexpr gf::Vector2f vecclef_posRandom2 = {1460,75};
+			constexpr gf::Vector2f vecclef_posRandom0 = {2240,2012}; //Salle à manger
+			constexpr gf::Vector2f vecclef_posRandom1 = {1025,2213}; //Salle de jeu
+			constexpr gf::Vector2f vecclef_posRandom2 = {2569,222};  //Bibliothèque
 			std::vector<gf::Vector2f> randomClefPositions ={vecclef_posRandom0,vecclef_posRandom1,vecclef_posRandom2};
 			
 			gf::Vector2f position = tile->position;
 			
-			//position.x += subTexture.getWidth() / 2;
-			//position.y -= subTexture.getHeight() / 2;
+			position.x += subTexture.getWidth() / 2;
+			position.y -= subTexture.getHeight() / 2;
 			if(layer.name == "Objets"){
 				gf::Texture& texture = gResourceManager().getTexture(tileset->image->source);
 				gf::RectF textureRect = texture.computeTextureCoords(subTexture);

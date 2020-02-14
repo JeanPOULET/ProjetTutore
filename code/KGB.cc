@@ -99,7 +99,7 @@ int main() {
 	KGB::gMessageManager().registerHandler<KGB::GameOver>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::GameOver::type);
 		gf::unused(type, msg);
-		//state = GameState::GAMEOVER;
+		state = GameState::GAMEOVER;
 		gf::Log::debug("Je me meursssss");
 		return gf::MessageStatus::Die;
   	});

@@ -32,7 +32,7 @@
   </data>
  </layer>
  <objectgroup name="Objets">
-  <object id="6" gid="1056" x="1460.33" y="75.667" width="27.3333" height="29.3333"/>
+  <object id="6" gid="1056" x="2569.75" y="222.425" width="27.3333" height="29.3333"/>
   <object id="8" gid="755" x="1993.33" y="111" width="32" height="32"/>
   <object id="10" gid="553" x="1695.98" y="63.9375" width="32" height="32"/>
   <object id="11" gid="555" x="1759.96" y="63.9167" width="32" height="32"/>
