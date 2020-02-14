@@ -47,22 +47,22 @@ namespace KGB{
 	}
 
     void BabyHero::updateOrientation(int orientation){
-      switch(orientation){
-        case 0:
-          	graphics.m_orientation =  gf::Orientation::South;
-        break;
-        case 1:
-          	graphics.m_orientation =  gf::Orientation::North;
-        break;
-        case 2:
-         	graphics.m_orientation =  gf::Orientation::East;
-        break;
-        case 3:
-          	graphics.m_orientation =  gf::Orientation::West;
-          break;
-        default:
-        break;
-      }
+		switch(orientation){
+			case 0:
+				graphics.m_orientation =  gf::Orientation::South;
+			break;
+			case 1:
+				graphics.m_orientation =  gf::Orientation::North;
+			break;
+			case 2:
+				graphics.m_orientation =  gf::Orientation::East;
+			break;
+			case 3:
+				graphics.m_orientation =  gf::Orientation::West;
+			break;
+			default:
+			break;
+		}
     }
 
     void BabyHero::update(gf::Time time) {
@@ -71,7 +71,7 @@ namespace KGB{
         
         if(dynamics.m_velocity.x == 0 && dynamics.m_velocity.y == 0){
           	m_status = Status::Waiting;
-			m_WalkingSound.stop();
+			//m_WalkingSound.stop();
         }else{
           	m_status = Status::Walking;
 			if(tempoSound>=30){ //toutes les demi-seconde
@@ -96,8 +96,8 @@ namespace KGB{
 					graphics.m_currentAnimation = &graphics.m_moveWest;
 				break;
 				default:
-				// assert(false);
-            break;
+
+            	break;
           }
         }else if(m_status == Status::Waiting){
 			switch (graphics.m_orientation) {
@@ -114,7 +114,7 @@ namespace KGB{
 					graphics.m_currentAnimation = &graphics.m_waitWest;
 				break;
 				default:
-				// assert(false);
+
 				break;
          	}
         }else if(m_status == Status::Immolate){
@@ -128,19 +128,19 @@ namespace KGB{
     void BabyHero::render(gf::RenderTarget& target){
         gf::AnimatedSprite animated;
         animated.setAnimation(*graphics.m_currentAnimation);
-	if(timeout > 0){
-		if(invi_active){
-			animated.setColor({1, 1, 1, 0.5});
+		if(timeout > 0){
+			if(invi_active){
+				animated.setColor({1, 1, 1, 0.5});
+			}
+			if(speed_active){
+				animated.setColor({0, 0.6, 1.0, 1});
+			}
+		}else{
+				speed_active = false;
+				invi_active = false;
+			
 		}
-		if(speed_active){
-			animated.setColor({0, 0.6, 1.0, 1});
-		}
-	}else{
-			speed_active = false;
-			invi_active = false;
-		
-	}
-        animated.setScale(0.75f);
+		animated.setScale(0.75f);
         animated.setPosition(dynamics.m_position);
         animated.setAnchor(gf::Anchor::Center);
         target.draw(animated);
