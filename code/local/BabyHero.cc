@@ -9,10 +9,14 @@
 #include <gf/Font.h>
 
 namespace KGB{
+
+	static constexpr float SoundVolume = 100.0f;
 	
     BabyHero::BabyHero(gf::Vector2f position)
         : m_status(Status::Waiting)
 		, m_body(nullptr)
+		, m_WalkingSound(gResourceManager().getSound("sounds/walkingSound.wav"))
+		, tempoSound(0)
     {
 			
         dynamics.m_position = position;
@@ -28,6 +32,8 @@ namespace KGB{
         loadAnimation(graphics.m_waitEast, 5);
         loadAnimation(graphics.m_waitWest, 6);
         loadAnimation(graphics.m_waitNorth, 7);
+
+		m_WalkingSound.setVolume(SoundVolume);
 		
     }
 
@@ -61,12 +67,19 @@ namespace KGB{
 
     void BabyHero::update(gf::Time time) {
         dynamics.m_position += time.asSeconds() * dynamics.m_velocity;
+		tempoSound++;
         
         if(dynamics.m_velocity.x == 0 && dynamics.m_velocity.y == 0){
           	m_status = Status::Waiting;
+			m_WalkingSound.stop();
         }else{
           	m_status = Status::Walking;
-        }
+			if(tempoSound>=30){ //toutes les demi-seconde
+				m_WalkingSound.play();
+				tempoSound=0;
+			}
+
+		}
 
         if(m_status == Status::Walking){
 			switch (graphics.m_orientation) {
@@ -115,9 +128,9 @@ namespace KGB{
     void BabyHero::render(gf::RenderTarget& target){
         gf::AnimatedSprite animated;
         animated.setAnimation(*graphics.m_currentAnimation);
-	if(visible > 0){
-		animated.setColor({100, 100, 100, 0.5});
-	}
+		if(visible > 0){
+			animated.setColor({100, 100, 100, 0.5});
+		}
         animated.setScale(0.75f);
         animated.setPosition(dynamics.m_position);
         animated.setAnchor(gf::Anchor::Center);

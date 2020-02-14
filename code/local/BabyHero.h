@@ -65,6 +65,8 @@ namespace KGB{
 
             Status m_status;
 	        b2Body *m_body;
+            sf::Sound m_WalkingSound;
+            int tempoSound;
 
 	        std::vector<int> m_ennemycontact;
 	

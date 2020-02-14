@@ -505,7 +505,6 @@ int main() {
 			renderer.clear(gf::Color::White);
 			renderer.setView(mainView);
 
-
 			mainEntities.render(renderer);
 			bebeHero.render(renderer);
 
@@ -516,18 +515,15 @@ int main() {
 			Couche1.render(renderer);
 			Couche2.render(renderer);
 			Couche3.render(renderer);
-			int tp=0;
+
 			for(auto& obj :objs){
-				//gf::Log::info("tp = %d\n",tp);
 				obj.render(renderer);
-				tp++;
 			}
 
-
-			
 			if(debugPhysics){
 				debug.render(renderer);
 			}
+
 			renderer.setView(hudView);
 			renderer.display();
 			actions.reset();
