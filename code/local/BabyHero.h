@@ -48,23 +48,22 @@ namespace KGB{
             void updatePhysics_set();
             void updatePhysics_correction();
             int getEntityType() { return DataType::Main_Type::BABY; }
-	    int getSecondType() { return 0; }
-            gf::MessageStatus onHarvestSupply(gf::Id id, gf::Message *msg);
-	    void setInvisible(int time);
-	    void setSpeed(int time);
-	    int getNbProjectile();
-	    bool getSpeedActive();
+            int getSecondType() { return 0; }
+            void setInvisible(int time);
+            void setSpeed(int time);
+            int getNbProjectile();
+            bool getSpeedActive();
 
         private:
             Dynamics dynamics;
             Graphics graphics;
             bool libre =false;
             int invi_muni = 1;
-	    int speed_muni = 1;
-	    int proj_muni = 1;
+            int speed_muni = 1;
+            int proj_muni = 1;
 
-	    bool invi_active = false;
-	    bool speed_active = false;
+            bool invi_active = false;
+            bool speed_active = false;
 		
             enum class Status {
                 Walking,
@@ -74,6 +73,8 @@ namespace KGB{
 
             Status m_status;
 	        b2Body *m_body;
+            sf::Sound m_WalkingSound;
+            int tempoSound;
 
 	        std::vector<int> m_ennemycontact;
 	
