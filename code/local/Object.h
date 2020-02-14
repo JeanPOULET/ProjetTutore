@@ -38,6 +38,7 @@ namespace KGB{
             gf::Sprite m_sprite;
             void startContact(int contactwith);
             int getEntityType(){return m_objectType;};
+	    int getSecondType(){return 0;};
             void setObjectBody(b2World& world, gf::Vector2f position);
             void render(gf::RenderTarget& target);
             void update(gf::Time time) override;

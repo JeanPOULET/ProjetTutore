@@ -9,14 +9,10 @@
 #include <gf/Font.h>
 
 namespace KGB{
-
-	static constexpr float SoundVolume = 100.0f;
 	
     BabyHero::BabyHero(gf::Vector2f position)
         : m_status(Status::Waiting)
 		, m_body(nullptr)
-		, m_WalkingSound(gResourceManager().getSound("sounds/walkingSound.wav"))
-		, tempoSound(0)
     {
 			
         dynamics.m_position = position;
@@ -32,8 +28,6 @@ namespace KGB{
         loadAnimation(graphics.m_waitEast, 5);
         loadAnimation(graphics.m_waitWest, 6);
         loadAnimation(graphics.m_waitNorth, 7);
-
-		m_WalkingSound.setVolume(SoundVolume);
 		
     }
 
@@ -67,19 +61,12 @@ namespace KGB{
 
     void BabyHero::update(gf::Time time) {
         dynamics.m_position += time.asSeconds() * dynamics.m_velocity;
-		tempoSound++;
         
         if(dynamics.m_velocity.x == 0 && dynamics.m_velocity.y == 0){
           	m_status = Status::Waiting;
-			m_WalkingSound.stop();
         }else{
           	m_status = Status::Walking;
-			if(tempoSound>=30){ //toutes les demi-seconde
-				m_WalkingSound.play();
-				tempoSound=0;
-			}
-
-		}
+        }
 
         if(m_status == Status::Walking){
 			switch (graphics.m_orientation) {
@@ -128,9 +115,18 @@ namespace KGB{
     void BabyHero::render(gf::RenderTarget& target){
         gf::AnimatedSprite animated;
         animated.setAnimation(*graphics.m_currentAnimation);
-		if(visible > 0){
-			animated.setColor({100, 100, 100, 0.5});
+	if(timeout > 0){
+		if(invi_active){
+			animated.setColor({1, 1, 1, 0.5});
 		}
+		if(speed_active){
+			animated.setColor({0, 0.6, 1.0, 1});
+		}
+	}else{
+			speed_active = false;
+			invi_active = false;
+		
+	}
         animated.setScale(0.75f);
         animated.setPosition(dynamics.m_position);
         animated.setAnchor(gf::Anchor::Center);
@@ -163,7 +159,7 @@ namespace KGB{
         
     }
 
-    void BabyHero::startContact(int contactwith) {
+    void BabyHero::startContact(int contactwith, int filter) {
 		
 		switch (contactwith){
 				
@@ -186,8 +182,24 @@ namespace KGB{
 			break;
 
 			case  DataType::Main_Type::HARVESTABLE :
-				++munition;
-				gf::Log::debug("Munition %d:\n", munition);
+				switch(filter){
+					case DataType::Bonus_Type::STUNNING_DIAPERS:
+						++proj_muni;
+						gf::Log::debug("Projectile %d:\n", invi_muni);
+						break;
+					case DataType::Bonus_Type::INVISIBLE_DIAPERS:
+						++invi_muni;
+						gf::Log::debug("Invisible %d:\n", invi_muni);
+						break;
+					case DataType::Bonus_Type::SPEED_DIAPERS:
+						++speed_muni;
+						gf::Log::debug("Projectile %d:\n", invi_muni);
+						break;
+					default : 
+						++proj_muni;
+						gf::Log::debug("(Default) Projectile : %d:\n", invi_muni);
+						break;
+				}
 			break;
 			default:
 			
@@ -196,7 +208,7 @@ namespace KGB{
 		}
 	
     }
-    void BabyHero::endContact(int contactwith) { 
+    void BabyHero::endContact(int contactwith, int filter) { 
 		
 		switch (contactwith){
 			
@@ -244,28 +256,49 @@ namespace KGB{
 
     void BabyHero::updatePhysics_correction(){
 	
-		setPosition(Physics::toVec(m_body->GetPosition()));
-		if(visible <= 0){
-			if(m_ennemycontact.size() > 0){
+		if(timeout > 0){
+			
+			--timeout;
+			
+		}else{
+			invi_active = false;
+			speed_active = false;
+			
+		}
+			if(m_ennemycontact.size() > 0 && !invi_active){
 				gf::Log::debug("JE T'AI VU\n");
 				GameOver message;
 				gMessageManager().sendMessage(&message);
 			}
-		}else{
-
-			--visible;
-		
-		}
-
 
     }
+	
+	bool BabyHero::getSpeedActive(){
+		return speed_active;
+	}
+	
+	int BabyHero::getNbProjectile(){
+		return proj_muni;
+	}
+	
+	void BabyHero::setSpeed(int time){
+		if(timeout <= 0 && speed_muni > 0){
+			speed_active = true;
+			invi_active = false;
+			timeout = time;
+			--speed_muni;
+			gf::Log::info("munition : %d\n", invi_muni);
+		}
+	}
 
     void BabyHero::setInvisible(int time){
-	if(visible <= 0 && munition > 0){
-		visible = time;
-		--munition;
-		gf::Log::info("munition : %d\n", munition);
-	}
+		if(timeout <= 0 && invi_muni > 0){
+			invi_active = true;
+			speed_active = false;
+			timeout = time;
+			--invi_muni;
+			gf::Log::info("munition : %d\n", invi_muni);
+		}
     }
 	
 }

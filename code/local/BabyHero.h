@@ -42,20 +42,29 @@ namespace KGB{
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
             std::string getClassName();
-            virtual void startContact(int contactwith);
-            virtual void endContact(int contactwith);
+            virtual void startContact(int contactwith, int filter);
+            virtual void endContact(int contactwith, int filter);
             void setBodyPhysics(b2World& world);
             void updatePhysics_set();
             void updatePhysics_correction();
             int getEntityType() { return DataType::Main_Type::BABY; }
+	    int getSecondType() { return 0; }
             gf::MessageStatus onHarvestSupply(gf::Id id, gf::Message *msg);
-	        void setInvisible(int time);
+	    void setInvisible(int time);
+	    void setSpeed(int time);
+	    int getNbProjectile();
+	    bool getSpeedActive();
 
         private:
             Dynamics dynamics;
             Graphics graphics;
             bool libre =false;
-            int munition = 1;
+            int invi_muni = 1;
+	    int speed_muni = 1;
+	    int proj_muni = 1;
+
+	    bool invi_active = false;
+	    bool speed_active = false;
 		
             enum class Status {
                 Walking,
@@ -65,12 +74,10 @@ namespace KGB{
 
             Status m_status;
 	        b2Body *m_body;
-            sf::Sound m_WalkingSound;
-            int tempoSound;
 
 	        std::vector<int> m_ennemycontact;
 	
-	        int visible = 0;
+	        int timeout = 0;
     };
 }
 

@@ -50,6 +50,7 @@ namespace KGB{
             void startContact(int contactwith);
             void endContact(int contactwith);
             int getEntityType() { return DataType::Main_Type::HARVESTABLE;};
+	    int getSecondType() { return m_type; };
             
         private:
 
@@ -60,6 +61,7 @@ namespace KGB{
             b2Fixture *m_fixture;
             bool remove = false;
             bool removed = false;
+	    int m_type;
     };
 }
 

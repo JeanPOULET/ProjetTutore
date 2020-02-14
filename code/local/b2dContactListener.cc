@@ -14,11 +14,11 @@ namespace KGB{
 			KGB::KEntity *dataTypeA = static_cast<KGB::KEntity*>(dataA);
 			KGB::KEntity *dataTypeB = static_cast<KGB::KEntity*>(dataB);
 
-			gf::Log::debug("avant entA\n");
 			int entityTypeA = dataTypeA->getEntityType();
-			gf::Log::debug("après ent A\n");
 			int entityTypeB = dataTypeB->getEntityType();
 
+			int secondTypeA = dataTypeA->getSecondType();
+			int secondTypeB = dataTypeB->getSecondType();
 			
 			//Element A
 			
@@ -26,7 +26,7 @@ namespace KGB{
 		
 				BabyHero* bb = static_cast<BabyHero*>(dataTypeA);
 				if(bb){
-					bb->startContact(entityTypeB);
+					bb->startContact(entityTypeB, secondTypeB);
 				}
 		   	}
 			   
@@ -60,7 +60,7 @@ namespace KGB{
 		
 				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
 				if(bb){
-					bb->startContact(entityTypeA);
+					bb->startContact(entityTypeA, secondTypeA);
 				}
 		   	}
 			

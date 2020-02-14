@@ -35,8 +35,10 @@ namespace KGB {
 
 		enum Bonus_Type {
 
-            STUNNING_DIAPERS = 	1,
-        
+            		STUNNING_DIAPERS = 	1,
+			INVISIBLE_DIAPERS = 	2,
+			SPEED_DIAPERS 	=	3        
+
 		};
 
 	private:

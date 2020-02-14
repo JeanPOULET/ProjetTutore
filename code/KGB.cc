@@ -292,6 +292,11 @@ int main() {
 	invisibleDiapers.addScancodeKeyControl(gf::Scancode::X);
 	invisibleDiapers.setContinuous();
 	actions.addAction(invisibleDiapers);
+	
+	gf::Action speedDiapers("Speed Diapers");
+	speedDiapers.addScancodeKeyControl(gf::Scancode::C);
+	speedDiapers.setContinuous();
+	actions.addAction(speedDiapers);
 
 	//Physics
 	KGB::Physics physics(objs,layers,bebeHero, vilains, Couche1, Couche2, Couche3);
@@ -305,6 +310,7 @@ int main() {
 	mainEntities.addEntity(debug);
 
 	static constexpr float Vitesse = 10.0f;
+	static constexpr float VitesseMax = 80.0f;
 	gf::Vector2d velocity(0,0);
 
 	bool debugPhysics = false;
@@ -452,6 +458,12 @@ int main() {
 				bebeHero.setInvisible(3*FRAME);
 
 			}
+			
+			if(speedDiapers.isActive()){ 
+	
+				bebeHero.setSpeed(3*FRAME);
+
+			}
 
 			if(closeWindowAction.isActive()){
 				window.close();
@@ -467,13 +479,30 @@ int main() {
 			}
 
 			if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
-				if(velocity.x > -50){
-					velocity.x -= Vitesse;
+				if(bebeHero.getSpeedActive()){
+					if(velocity.x > -VitesseMax*2){
+						velocity.x -= Vitesse;
+					}
+				}else{
+					if(velocity.x > -VitesseMax){
+						velocity.x -= Vitesse;
+					}else{
+						velocity.x = -VitesseMax;	
+					}
 				}
 				bebeHero.updateOrientation(3);
 			}else if(rightAction.isActive()&& !downAction.isActive() && !upAction.isActive()){
-				if(velocity.x < 50){
-					velocity.x += Vitesse;
+				
+				if(bebeHero.getSpeedActive()){
+					if(velocity.x < VitesseMax*2){
+						velocity.x += Vitesse;
+					}
+				}else{
+					if(velocity.x < VitesseMax){
+						velocity.x += Vitesse;
+					}else{
+						velocity.x = VitesseMax;	
+					}
 				}
 				bebeHero.updateOrientation(2);
 			}else{
@@ -481,13 +510,29 @@ int main() {
 			}
 
 			if(downAction.isActive()){
-				if(velocity.y < 50){
-					velocity.y += Vitesse;
+				if(bebeHero.getSpeedActive()){
+					if(velocity.y < VitesseMax*2){
+						velocity.y += Vitesse;
+					}
+				}else{
+					if(velocity.y < VitesseMax){
+						velocity.y += Vitesse;
+					}else{
+						velocity.y = VitesseMax;	
+					}
 				}
 				bebeHero.updateOrientation(0);
 			}else if(upAction.isActive()){
-				if(velocity.y > -50){
-					velocity.y -= Vitesse;
+				if(bebeHero.getSpeedActive()){
+					if(velocity.y > -VitesseMax*2){
+						velocity.y -= Vitesse;
+					}
+				}else{
+					if(velocity.y > -VitesseMax){
+						velocity.y -= Vitesse;
+					}else{
+						velocity.y = -VitesseMax;	
+					}
 				}
 				bebeHero.updateOrientation(1);
 			}else{
