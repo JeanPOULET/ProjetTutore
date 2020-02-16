@@ -40,10 +40,10 @@ namespace KGB{
         for(size_t i = 0; i < m_vilains.size(); i++){
             m_vilains[i].updatePhysics_set();
         }
-
-		m_bonus1.updatePhysics_set();
-		m_bonus2.updatePhysics_set();
-		m_bonus3.updatePhysics_set();
+		
+		for(size_t i = 0; i < m_bonus.size(); i++){
+            m_bonus[i].updatePhysics_set();
+        }
 
         m_world.Step(1/60.0, 8, 3);
         int tp=0;
@@ -69,11 +69,10 @@ namespace KGB{
             m_vilains[i].updatePhysics_correction();
         }
 
-		m_bonus1.updatePhysics_correction();
-		m_bonus2.updatePhysics_correction();
-		m_bonus3.updatePhysics_correction();
-
-
+		for(size_t i = 0; i < m_bonus.size(); i++){
+            m_bonus[i].updatePhysics_correction();
+		}
+		
     }
 
 
@@ -161,13 +160,11 @@ namespace KGB{
         };
 
 
-    Physics::Physics(std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, std::vector<Enemy>& vilains, Bonus& bon1, Bonus& bon2, Bonus& bon3)
+    Physics::Physics(std::vector<Object>& objs,const gf::TmxLayers& layers,BabyHero& baby, std::vector<Enemy>& vilains, std::vector<Bonus>& bonus)
         : m_world({ 0.0f, 0.0f })
         , m_baby(baby)
         , m_vilains(vilains)
-		, m_bonus1(bon1)
-		, m_bonus2(bon2)
-		, m_bonus3(bon3)
+		, m_bonus(bonus)
         , m_objs(objs)
         {
             
@@ -189,10 +186,11 @@ namespace KGB{
             }
 
             //BONUS
-
-            m_bonus1.setBodyPhysics(m_world);
-            m_bonus2.setBodyPhysics(m_world);
-            m_bonus3.setBodyPhysics(m_world);       
+			
+			for(size_t i = 0; i < m_bonus.size(); i++){
+                m_bonus[i].setBodyPhysics(m_world);
+            }
+			
         }
 
     b2World& Physics::getWorld(){

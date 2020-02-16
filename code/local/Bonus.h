@@ -61,7 +61,7 @@ namespace KGB{
             b2Fixture *m_fixture;
             bool remove = false;
             bool removed = false;
-	    int m_type;
+	    	int m_type;
     };
 }
 

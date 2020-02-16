@@ -7,22 +7,13 @@ namespace KGB {
 	class DataType {
 	public:
 
-		struct BodyUserData{
-		
-			gf::Entity *entity;
-			int main_type;
-			int sub_type1 = 0;
-			int sub_type2 = 0;
-			int sub_type3 = 0;
-
-		};
-
 		enum Main_Type{
 
 			BABY 			= 0x0001,
-        	ENEMY 			= 0x0004,
-        	OTHER 			= 0x0010,
-        	HARVESTABLE 	= 0x0014,
+        		ENEMY 			= 0x0004,
+        		OTHER 			= 0x0010,
+        		HARVESTABLE 		= 0x0014,
+			PROJECTILE 		= 0x0020,
 
 		};
 
@@ -35,9 +26,15 @@ namespace KGB {
 
 		enum Bonus_Type {
 
-            STUNNING_DIAPERS    = 	1,
+            		STUNNING_DIAPERS    = 	1,
 			INVISIBLE_DIAPERS   = 	2,
 			SPEED_DIAPERS 	    =	3        
+
+		};
+
+		enum Projectile_Type {
+
+            		HERO_STUN    = 	1,
 
 		};
 

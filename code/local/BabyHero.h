@@ -51,7 +51,8 @@ namespace KGB{
             int getSecondType() { return 0; }
             void setInvisible(int time);
             void setSpeed(int time);
-            int getNbProjectile();
+			void setStun();
+            int getNbStunning();
             bool getSpeedActive();
 
         private:
@@ -60,7 +61,7 @@ namespace KGB{
             bool libre =false;
             int invi_muni = 1;
             int speed_muni = 1;
-            int proj_muni = 1;
+            int stun_muni = 1;
 
             bool invi_active = false;
             bool speed_active = false;

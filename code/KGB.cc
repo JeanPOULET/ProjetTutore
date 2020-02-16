@@ -212,7 +212,7 @@ int main() {
 	KGB::Enemy Vilain17(posEnemy1, KGB::Enemy::PathType::Round, gf::Orientation::North, KGB::Enemy::Status::Walking, 380.0, 50.0, noRotation);
 
 	std::vector<KGB::Enemy> vilains = {Vilain, Vilain2, Vilain3, Vilain4, Vilain5, Vilain6, Vilain7, Vilain8, Vilain9, Vilain10, Vilain11, Vilain12, Vilain13, Vilain14, Vilain15, Vilain16, Vilain17};
-	for(size_t i = 0; i < vilains.size(); i++){
+	for(std::size_t i = 0; i < vilains.size(); i++){
 		mainEntities.addEntity(vilains[i]);
 	}
 	
@@ -225,9 +225,11 @@ int main() {
 	KGB::Bonus Couche2(posBonus2, KGB::DataType::Bonus_Type::INVISIBLE_DIAPERS);
 	KGB::Bonus Couche3(posBonus3, KGB::DataType::Bonus_Type::SPEED_DIAPERS);
 
-	mainEntities.addEntity(Couche1);
-	mainEntities.addEntity(Couche2);
-	mainEntities.addEntity(Couche3);
+	std::vector<KGB::Bonus> bonus = {Couche1, Couche2, Couche3};
+	
+	for(std::size_t i = 0; i < bonus.size(); i++){
+		mainEntities.addEntity(bonus[i]);	
+	}
 
 	// controls
 	
@@ -298,8 +300,13 @@ int main() {
 	speedDiapers.setContinuous();
 	actions.addAction(speedDiapers);
 
+	gf::Action stunningDiapers("Stunning Diapers");
+	stunningDiapers.addScancodeKeyControl(gf::Scancode::V);
+	stunningDiapers.setContinuous();
+	actions.addAction(stunningDiapers);
+
 	//Physics
-	KGB::Physics physics(objs,layers,bebeHero, vilains, Couche1, Couche2, Couche3);
+	KGB::Physics physics(objs,layers,bebeHero, vilains, bonus);
 
 
 	// game loop
@@ -452,19 +459,7 @@ int main() {
 				actions.processEvent(event);
 				views.processEvent(event);
 			}
-
-			if(invisibleDiapers.isActive()){ 
-	
-				bebeHero.setInvisible(3*FRAME);
-
-			}
 			
-			if(speedDiapers.isActive()){ 
-	
-				bebeHero.setSpeed(3*FRAME);
-
-			}
-
 			if(closeWindowAction.isActive()){
 				window.close();
 			}
@@ -477,7 +472,19 @@ int main() {
 			if (toogleMuteAction.isActive()) {
 				music.toggleMute();
 			}
+			
+			if(invisibleDiapers.isActive()){ 
+	
+				bebeHero.setInvisible(3*FRAME);
 
+			}
+
+			if(speedDiapers.isActive()){ 
+	
+				bebeHero.setSpeed(3*FRAME);
+
+			}
+			
 			if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
 				if(bebeHero.getSpeedActive()){
 					if(velocity.x > -VitesseMax*2){
@@ -542,6 +549,14 @@ int main() {
 			
 			bebeHero.setVelocity(velocity);
 			
+			/*if(stunningDiapers.isActive() && bebeHero.getNbStunning() > 0){	
+				
+				bebeHero.setStun();
+				KGB::Projectile stun(bebeHero.getPosition(), DataType::Projectile_Type::STUNNING_DIAPERS, velocity);
+				physics.addProjectile(stun);
+			
+			}*/
+			
 			gf::Time time = clock.restart();
 			mainEntities.update(time);
 			physics.update();
@@ -556,11 +571,11 @@ int main() {
 			for(size_t i = 0; i < vilains.size(); i++){
 				vilains[i].render(renderer);
 			}
-
-			Couche1.render(renderer);
-			Couche2.render(renderer);
-			Couche3.render(renderer);
-
+			
+			for(size_t i = 0; i < bonus.size(); i++){
+				bonus[i].render(renderer);
+			}
+			
 			for(auto& obj :objs){
 				obj.render(renderer);
 			}

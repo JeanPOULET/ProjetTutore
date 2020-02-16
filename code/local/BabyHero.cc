@@ -197,7 +197,7 @@ namespace KGB{
 			case  DataType::Main_Type::HARVESTABLE :
 				switch(filter){
 					case DataType::Bonus_Type::STUNNING_DIAPERS:
-						++proj_muni;
+						++stun_muni;
 						gf::Log::debug("Projectile %d:\n", invi_muni);
 						break;
 					case DataType::Bonus_Type::INVISIBLE_DIAPERS:
@@ -209,7 +209,7 @@ namespace KGB{
 						gf::Log::debug("Projectile %d:\n", invi_muni);
 						break;
 					default : 
-						++proj_muni;
+						++stun_muni;
 						gf::Log::debug("(Default) Projectile : %d:\n", invi_muni);
 						break;
 				}
@@ -291,8 +291,15 @@ namespace KGB{
 		return speed_active;
 	}
 	
-	int BabyHero::getNbProjectile(){
-		return proj_muni;
+	int BabyHero::getNbStunning(){
+		return stun_muni;
+	}
+	
+	void BabyHero::setStun(){
+		
+			--stun_muni;
+			gf::Log::info("munition : %d\n", stun_muni);
+
 	}
 	
 	void BabyHero::setSpeed(int time){
