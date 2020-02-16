@@ -222,8 +222,8 @@ int main() {
 	
 	
 	KGB::Bonus Couche1(posBonus1, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
-	KGB::Bonus Couche2(posBonus2, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
-	KGB::Bonus Couche3(posBonus3, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
+	KGB::Bonus Couche2(posBonus2, KGB::DataType::Bonus_Type::INVISIBLE_DIAPERS);
+	KGB::Bonus Couche3(posBonus3, KGB::DataType::Bonus_Type::SPEED_DIAPERS);
 
 	mainEntities.addEntity(Couche1);
 	mainEntities.addEntity(Couche2);
@@ -310,7 +310,7 @@ int main() {
 	mainEntities.addEntity(debug);
 
 	static constexpr float Vitesse = 10.0f;
-	static constexpr float VitesseMax = 80.0f;
+	static constexpr float VitesseMax = 50.0f;
 	gf::Vector2d velocity(0,0);
 
 	bool debugPhysics = false;

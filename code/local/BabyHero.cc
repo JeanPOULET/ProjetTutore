@@ -269,6 +269,7 @@ namespace KGB{
 
     void BabyHero::updatePhysics_correction(){
 	
+		setPosition(Physics::toVec(m_body->GetPosition()));
 		if(timeout > 0){
 			
 			--timeout;
