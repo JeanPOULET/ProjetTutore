@@ -94,7 +94,7 @@ namespace KGB{
 
     void b2dContactListener::EndContact(b2Contact* contact) {
 		
-		/*void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+		void* dataA = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 		
 		if(dataA && dataB){
@@ -104,6 +104,9 @@ namespace KGB{
 			
 			int entityTypeA = dataTypeA->getEntityType();
 			int entityTypeB = dataTypeB->getEntityType();
+
+			int secondTypeA = dataTypeA->getSecondType();
+			int secondTypeB = dataTypeB->getSecondType();
 			
 			//Element A
 			
@@ -111,7 +114,7 @@ namespace KGB{
 		
 				BabyHero* bb = static_cast<BabyHero*>(dataTypeA);
 				if(bb){
-					bb->endContact(entityTypeB);
+					bb->endContact(entityTypeB,secondTypeB);
 				}
 		   	}
 			   
@@ -122,8 +125,6 @@ namespace KGB{
 					enemy->endContact(entityTypeB);
 				}
 		   	}
-			   
-			  
 			
 			//Element B
 			
@@ -131,7 +132,7 @@ namespace KGB{
 		
 				BabyHero* bb = static_cast<BabyHero*> (dataTypeB);
 				if(bb){
-					bb->endContact(entityTypeA);
+					bb->endContact(entityTypeA,secondTypeA);
 				}
 		   	}
 			
@@ -144,6 +145,6 @@ namespace KGB{
 		   	}
 			
 		}
-*/
+
     }
 }

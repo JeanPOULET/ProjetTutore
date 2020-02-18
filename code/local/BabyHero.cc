@@ -16,6 +16,8 @@ namespace KGB{
         : m_status(Status::Waiting)
 		, m_body(nullptr)
 		, m_WalkingSound(gResourceManager().getSound("sounds/walkingSound.wav"))
+		, m_TakingSound(gResourceManager().getSound("sounds/takingSound.wav"))
+		, m_SpeedBonusSound(gResourceManager().getSound("sounds/speedBonusSound.wav"))
 		, tempoSound(0)
     {
 			
@@ -33,8 +35,9 @@ namespace KGB{
         loadAnimation(graphics.m_waitWest, 6);
         loadAnimation(graphics.m_waitNorth, 7);
 
-		m_WalkingSound.setVolume(SoundVolume);
-		
+		m_WalkingSound.setVolume(SoundVolume/2);
+		m_TakingSound.setVolume(SoundVolume);
+		m_SpeedBonusSound.setVolume(SoundVolume);
     }
 
 
@@ -190,11 +193,13 @@ namespace KGB{
 			break;
 
 			case  ObjectType::CLEF:
+				m_TakingSound.play();
 				gf::Log::debug("Je peux sortir\n");
 				libre=true;
 			break;
 
 			case  DataType::Main_Type::HARVESTABLE :
+				m_TakingSound.play();
 				switch(filter){
 					case DataType::Bonus_Type::STUNNING_DIAPERS:
 						++stun_muni;
@@ -230,7 +235,6 @@ namespace KGB{
 			break;
 			
 			default:
-				gf::Log::debug("FUIT");
 			break;
 				
 		}
@@ -303,6 +307,7 @@ namespace KGB{
 	}
 	
 	void BabyHero::setSpeed(int time){
+		m_SpeedBonusSound.play();
 		if(timeout <= 0 && speed_muni > 0){
 			speed_active = true;
 			invi_active = false;

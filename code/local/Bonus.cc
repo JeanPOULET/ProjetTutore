@@ -4,8 +4,8 @@ namespace KGB{
   
     Bonus::Bonus(gf::Vector2f position, DataType::Bonus_Type type)
         : m_body(nullptr)
-	, m_status(Status::Waiting)
-	, m_type(type)
+        , m_status(Status::Waiting)
+        , m_type(type)
     {
 	
         dynamics.m_position = position;
@@ -18,11 +18,11 @@ namespace KGB{
                 graphics.m_texture = &gResourceManager().getTexture("Image/Projectile_animation.png");
             break;
 
-	    case DataType::Bonus_Type::INVISIBLE_DIAPERS :
+	        case DataType::Bonus_Type::INVISIBLE_DIAPERS :
                 graphics.m_texture = &gResourceManager().getTexture("Image/Invisible_animation.png");
             break;
 
-	    case DataType::Bonus_Type::SPEED_DIAPERS :
+	        case DataType::Bonus_Type::SPEED_DIAPERS :
                 graphics.m_texture = &gResourceManager().getTexture("Image/Speed_animation.png");
             break;
             
