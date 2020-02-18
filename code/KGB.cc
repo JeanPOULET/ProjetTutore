@@ -44,8 +44,9 @@ enum GameState{
 	GAMEOVER
 };
 
-void timer(gf::Clock clock, float seconds){
-	clock.restart();
+void timer(gf::Clock clockss, float seconds){
+	gf::Clock clock;
+
 	gf::Time actualTime = gf::seconds(0);
 	gf::Time timeToWait = gf::seconds(seconds);
 	while(actualTime<timeToWait){
