@@ -618,7 +618,7 @@ int main() {
 			}
 				if(cmd){
 					gf::Text affCommandsActive("z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite", font);
-					affCommandsActive.setCharacterSize(10);
+					affCommandsActive.setCharacterSize(12);
 					affCommandsActive.setColor(gf::Color::Black);
 					gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
 					affCommandsActive.setPosition(posCommands);
@@ -628,7 +628,7 @@ int main() {
 					renderer.draw(affCommandsActive);
 				}else{
 					gf::Text affCommands("c: Afficher les commandes", font);
-					affCommands.setCharacterSize(10);
+					affCommands.setCharacterSize(12);
 					affCommands.setColor(gf::Color::Black);
 					gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
 					affCommands.setPosition(posCommands);
