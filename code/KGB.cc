@@ -364,7 +364,6 @@ int main() {
 	gf::Sprite backgroundSprite(background);
 	backgroundSprite.setPosition(backgroundPosition);
 	while (window.isOpen()) {
-		
 		if(state == GameState::INTRO){
 			gf::Event event;
 			while (window.pollEvent(event)) {
@@ -411,7 +410,7 @@ int main() {
 				dialogs.playCramer();
 				
 			}else if(intro == 2){
-				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite, il faut que je trouve la clef pour m'échapper";
+				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite, il faut que je trouve la clef pour m'echapper";
 				currentString = CompleteString.substr(0, nbCharToSelect);
 				
 			}else if(intro == 3){
@@ -602,6 +601,15 @@ int main() {
 				debug.render(renderer);
 			}
 
+			gf::Text textBasIntro("c : afficher les commandes", font);
+			textBasIntro.setCharacterSize(7);
+			textBasIntro.setColor(gf::Color::Red);
+			gf::Vector2f pos(bebeHero.getPosition().x - 310, bebeHero.getPosition().y - 290);
+			textBasIntro.setPosition(pos);
+			textBasIntro.setParagraphWidth(1000.0f);
+			textBasIntro.setAlignment(gf::Alignment::Center);
+			textBasIntro.setAnchor(gf::Anchor::Center);
+			renderer.draw(textBasIntro);
 			renderer.setView(hudView);
 			renderer.display();
 			actions.reset();
@@ -611,7 +619,7 @@ int main() {
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text textGameOver("Tu t'es fait choppé !!", font);
+			gf::Text textGameOver("Tu t'es fait chopper !!", font);
 			textGameOver.setCharacterSize(20);
 			textGameOver.setColor(gf::Color::Black);
 			textGameOver.setPosition(introPos);
