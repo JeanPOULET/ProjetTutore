@@ -66,7 +66,7 @@ namespace KGB{
 	    	void updatePhysics_set();
 	    	void updatePhysics_correction();
 	    	int getEntityType() { return DataType::Main_Type::ENEMY; }
-		int getSecondType() { return 0; }
+		    int getSecondType() { return 0; }
 
             Graphics graphics;
             gf::Vector2f m_spawn;

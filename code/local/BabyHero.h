@@ -41,7 +41,6 @@ namespace KGB{
             void setPosition(gf::Vector2f position);
             void loadAnimation(gf::Animation &animation, int line);
             void updateOrientation(int orientation);
-            std::string getClassName();
             virtual void startContact(int contactwith, int filter);
             virtual void endContact(int contactwith, int filter);
             void setBodyPhysics(b2World& world);
@@ -77,6 +76,7 @@ namespace KGB{
             sf::Sound m_WalkingSound;
             sf::Sound m_TakingSound;
             sf::Sound m_SpeedBonusSound;
+            sf::Sound m_InvisibleBonusSound;
             int tempoSound;
 
 	        std::vector<int> m_ennemycontact;

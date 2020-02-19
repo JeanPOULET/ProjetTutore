@@ -16,6 +16,7 @@ find_package(gf REQUIRED)
 find_package(Box2D REQUIRED)
 find_package(SFML 2.4.2 COMPONENTS audio REQUIRED)
 add_executable(KGB
+  code/local/Dialogs.cc
   code/local/BackgroundMusic.cc
   code/local/Object.cc
   code/KGB.cc

@@ -18,6 +18,7 @@ namespace KGB{
 		, m_WalkingSound(gResourceManager().getSound("sounds/walkingSound.wav"))
 		, m_TakingSound(gResourceManager().getSound("sounds/takingSound.wav"))
 		, m_SpeedBonusSound(gResourceManager().getSound("sounds/speedBonusSound.wav"))
+		, m_InvisibleBonusSound(gResourceManager().getSound("sounds/invisibleBonusSound.wav"))
 		, tempoSound(0)
     {
 			
@@ -38,6 +39,7 @@ namespace KGB{
 		m_WalkingSound.setVolume(SoundVolume/2);
 		m_TakingSound.setVolume(SoundVolume);
 		m_SpeedBonusSound.setVolume(SoundVolume);
+		m_InvisibleBonusSound.setVolume(SoundVolume);
     }
 
 
@@ -74,7 +76,6 @@ namespace KGB{
         
         if(dynamics.m_velocity.x == 0 && dynamics.m_velocity.y == 0){
           	m_status = Status::Waiting;
-			//m_WalkingSound.stop();
         }else{
           	m_status = Status::Walking;
 			if(tempoSound>=30){ //toutes les demi-seconde
@@ -159,10 +160,6 @@ namespace KGB{
         dynamics.m_position = position;
     }
 
-    std::string BabyHero::getClassName(){
-      	return "BabyHero";
-    }
-
     void BabyHero::loadAnimation(gf::Animation &animation, int line) {
         static constexpr gf::Vector2f TextureSize = { 256.0f, 512.0f };
         static constexpr gf::Vector2f FrameSize = { 64.0f, 64.0f };
@@ -188,7 +185,7 @@ namespace KGB{
 					Victory message;
 					//message.position = m_position;
 					gMessageManager().sendMessage(&message);
-					gf::Log::debug("LA VICTOIRE ");
+					gf::Log::debug("LA VICTOIRE\n");
 				}
 			break;
 
@@ -300,15 +297,16 @@ namespace KGB{
 	}
 	
 	void BabyHero::setStun(){
-		
-			--stun_muni;
-			gf::Log::info("munition : %d\n", stun_muni);
+	
+		--stun_muni;
+		gf::Log::info("munition : %d\n", stun_muni);
 
 	}
 	
 	void BabyHero::setSpeed(int time){
-		m_SpeedBonusSound.play();
+		
 		if(timeout <= 0 && speed_muni > 0){
+			m_SpeedBonusSound.play();
 			speed_active = true;
 			invi_active = false;
 			timeout = time;
@@ -318,7 +316,9 @@ namespace KGB{
 	}
 
     void BabyHero::setInvisible(int time){
+		
 		if(timeout <= 0 && invi_muni > 0){
+			m_InvisibleBonusSound.play();
 			invi_active = true;
 			speed_active = false;
 			timeout = time;
