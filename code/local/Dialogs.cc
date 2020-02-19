@@ -27,6 +27,11 @@ namespace KGB {
     void Dialogs::playFranchement(){
         m_dialogFranchement.play();
     }
+
+    void Dialogs::stopFranchement(){
+        m_dialogFranchement.stop();
+    }
+
     void Dialogs::playTiensTiens(){
         m_dialogTiensTiens.play();
     }

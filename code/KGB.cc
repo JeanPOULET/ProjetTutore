@@ -132,9 +132,9 @@ int main() {
   	});
 
 	//Sound
-
-	KGB::BackgroundMusic music;
 	KGB::Dialogs dialogs;
+	KGB::BackgroundMusic music;
+	
 
 	//map
 
@@ -363,6 +363,7 @@ int main() {
 	gf::Texture background("../data/KGB/Image/intro1.png");
 	gf::Sprite backgroundSprite(background);
 	backgroundSprite.setPosition(backgroundPosition);
+	dialogs.playFranchement();
 	while (window.isOpen()) {
 		
 		if(state == GameState::INTRO){
@@ -379,6 +380,7 @@ int main() {
 			if(space.isActive()){
 				nbCharToSelect = 0;
 				if(spaceisActiveOneTime){
+					dialogs.stopFranchement();
 					intro++;
 					spaceisActiveOneTime = false;
 				}
@@ -404,14 +406,14 @@ int main() {
 			if(intro == 0){
 				CompleteString  = "Franchement je perds mon temps a surveiller ces mioches...\nT'as vu les nouvelles reformes pour les enfants etrangers ?";
 				currentString = CompleteString.substr(0, nbCharToSelect);
-				dialogs.playFranchement();
+				
+				dialogs.playCramer();
 			}else if(intro == 1){
 				CompleteString  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pas les yeux verts et qui ont un poids inferieur a 3,75kg.";
 				currentString = CompleteString.substr(0, nbCharToSelect);
-				dialogs.playCramer();
 				
 			}else if(intro == 2){
-				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite, il faut que je trouve la clef pour m'échapper";
+				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite, il faut que je trouve la clef pour m'echapper";
 				currentString = CompleteString.substr(0, nbCharToSelect);
 				
 			}else if(intro == 3){
@@ -611,7 +613,7 @@ int main() {
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text textGameOver("Tu t'es fait choppé !!", font);
+			gf::Text textGameOver("Tu t'es fait chopper !!", font);
 			textGameOver.setCharacterSize(20);
 			textGameOver.setColor(gf::Color::Black);
 			textGameOver.setPosition(introPos);
