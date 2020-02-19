@@ -33,6 +33,7 @@
 #include "local/Physics.h"
 #include "local/BackgroundMusic.h"
 #include "local/Object.h"
+#include "local/Dialogs.h"
 
 
 #define FRAME 60.0
@@ -56,7 +57,6 @@ void timer(gf::Clock clockss, float seconds){
 
 int main() {
 	
-	//SetOrigin (rectangleshape, setanchor)
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSizeIntro(2048, 1024); 
@@ -101,7 +101,7 @@ int main() {
 		assert(type == KGB::GameOver::type);
 		gf::unused(type, msg);
 		state = GameState::GAMEOVER;
-		gf::Log::debug("Je me meursssss");
+		gf::Log::debug("J'ai perdu");
 		return gf::MessageStatus::Die;
   	});
 
@@ -116,13 +116,14 @@ int main() {
 		assert(type == KGB::Victory::type);
 		gf::unused(type, msg);
 		state = GameState::VICTORY;
-		gf::Log::debug("Je winnzzzz");
+		gf::Log::debug("J'ai gagné");
 		return gf::MessageStatus::Die;
   	});
 
 	//Sound
 
 	KGB::BackgroundMusic music;
+	KGB::Dialogs dialogs;
 
 	//map
 
@@ -351,7 +352,6 @@ int main() {
 	gf::Texture background("../data/KGB/Image/intro1.png");
 	gf::Sprite backgroundSprite(background);
 	backgroundSprite.setPosition(backgroundPosition);
-	
 	while (window.isOpen()) {
 		
 		if(state == GameState::INTRO){
@@ -375,6 +375,7 @@ int main() {
 
 			if(skip.isActive()){
 				intro = 4;
+				dialogs.muteAll();
 			}
 			
 			std::string CompleteString;
@@ -392,13 +393,18 @@ int main() {
 			if(intro == 0){
 				CompleteString  = "Franchement je perds mon temps a surveiller ces mioches...\nT'as vu les nouvelles reformes pour les enfants etrangers ?";
 				currentString = CompleteString.substr(0, nbCharToSelect);
+				dialogs.playFranchement();
 			}else if(intro == 1){
 				CompleteString  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pas les yeux verts et qui ont un poids inferieur a 3,75kg.";
 				currentString = CompleteString.substr(0, nbCharToSelect);
+				dialogs.playCramer();
+				
 			}else if(intro == 2){
 				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite...";
 				currentString = CompleteString.substr(0, nbCharToSelect);
+				
 			}else if(intro == 3){
+				dialogs.muteAll();
 				mainView.setSize(ViewSizeIntroTitre);
 				renderer.setView(mainView);
 
@@ -594,7 +600,7 @@ int main() {
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text textGameOver("T'es mort kek", font);
+			gf::Text textGameOver("Tu t'es fait choppé !!", font);
 			textGameOver.setCharacterSize(20);
 			textGameOver.setColor(gf::Color::Black);
 			textGameOver.setPosition(introPos);
@@ -609,7 +615,7 @@ int main() {
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
-			gf::Text textVictoire("Free Jacob", font);
+			gf::Text textVictoire("Bravo ! Le petit Jacob est libre", font);
 			textVictoire.setCharacterSize(20);
 			textVictoire.setColor(gf::Color::Black);
 			textVictoire.setPosition(introPos);

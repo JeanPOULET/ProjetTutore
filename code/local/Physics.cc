@@ -18,19 +18,15 @@ namespace KGB{
     }
 
     gf::Vector2f Physics::toVec(b2Vec2 vec) {
-            return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
+        return { vec.x / PHYSICSCALE, vec.y / PHYSICSCALE };
      }
 
 	float Physics::getPhysicScale(){
-		
 		return PHYSICSCALE;
-		
 	}
 
     float Physics::getAngle(){
-		
 		return ANGLE;
-		
 	}
 
     void Physics::update() {
@@ -49,8 +45,6 @@ namespace KGB{
         int tp=0;
         std::vector<int> toDelete;
 
-
-
         for(auto& ob : m_objs){
             if(!ob.alive){
                 m_world.DestroyBody(ob.m_body);
@@ -58,10 +52,10 @@ namespace KGB{
             }
             tp++;
         }
+        
         for(auto i : toDelete){
             m_objs.erase(m_objs.begin()+i);
         }
-
 
         m_baby.updatePhysics_correction();
 
@@ -107,8 +101,6 @@ namespace KGB{
                 
                     if (layer.name == "Murs"|| layer.name == "Déco") {
                         if(gid!=0){
-
-
                             b2BodyDef bodyDef;
                             bodyDef.type = b2_staticBody;
                             bodyDef.position = Physics::fromVec(position);
@@ -124,10 +116,7 @@ namespace KGB{
                             fixtureDef.shape = &shape;
                             body->CreateFixture(&fixtureDef);
                             fixtureDef.filter.categoryBits = DataType::Main_Type::OTHER;
-                                
-                            
-                            
-                            
+  
                         }
                         
                     }
