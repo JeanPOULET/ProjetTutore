@@ -15,8 +15,10 @@ namespace KGB {
         void playHeinz();
         void playFranchement();
         void playCramer();
+        void stopFranchement();
         void playTiensTiens();
         void muteAll();
+
 
     private:
         sf::Sound m_dialogHeinz;

@@ -281,7 +281,7 @@ namespace KGB{
 			
 		}
 			if(m_ennemycontact.size() > 0 && !invi_active){
-				gf::Log::debug("JE T'AI VU\n");
+				gf::Log::debug("Un garde m'a repéré!\n");
 				GameOver message;
 				gMessageManager().sendMessage(&message);
 			}
@@ -311,7 +311,7 @@ namespace KGB{
 			invi_active = false;
 			timeout = time;
 			--speed_muni;
-			gf::Log::info("munition : %d\n", invi_muni);
+			gf::Log::info("munition : %d\n", speed_muni);
 		}
 	}
 
