@@ -109,6 +109,17 @@ int main() {
 		assert(type == KGB::Clef::type);
 		gf::unused(type, msg);
 		gf::Log::debug("Clef recupérée");
+		/*gf::Text textClef;
+		gf::Vector2f posTexte();	
+		textClef.setPosition(posTexte);
+		gf::Font font("../data/KGB/Pokemon_Classic.ttf");
+		textClef.setFont(font);
+		textClef.setParagraphWidth(1700.0f);
+		textClef.setAlignment(gf::Alignment::Center);
+		textClef.setAnchor(gf::Anchor::Center);
+		textClef.setCharacterSize(30);
+		textClef.setColor(gf::Color::Black);
+		renderer.draw(textClef)*/
 		return gf::MessageStatus::Keep;
   	});
 
@@ -292,12 +303,12 @@ int main() {
 	actions.addAction(downAction);
 
 	gf::Action invisibleDiapers("Invisible Diapers");
-	invisibleDiapers.addScancodeKeyControl(gf::Scancode::X);
+	invisibleDiapers.addMouseButtonControl(gf::MouseButton::Right);
 	invisibleDiapers.setContinuous();
 	actions.addAction(invisibleDiapers);
 	
 	gf::Action speedDiapers("Speed Diapers");
-	speedDiapers.addScancodeKeyControl(gf::Scancode::C);
+	speedDiapers.addMouseButtonControl(gf::MouseButton::Left);
 	speedDiapers.setContinuous();
 	actions.addAction(speedDiapers);
 
@@ -396,7 +407,7 @@ int main() {
 				CompleteString  = "Ouais faut cramer ceux qui naissent chauves, qui n'ont pas les yeux verts et qui ont un poids inferieur a 3,75kg.";
 				currentString = CompleteString.substr(0, nbCharToSelect);
 			}else if(intro == 2){
-				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite...";
+				CompleteString  = "Mmmhhh... De ce que je comprends, je vais devoir partir au plus vite, il faut que je trouve la clef pour m'échapper";
 				currentString = CompleteString.substr(0, nbCharToSelect);
 			}else if(intro == 3){
 				mainView.setSize(ViewSizeIntroTitre);

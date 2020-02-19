@@ -145,7 +145,7 @@ namespace KGB{
 		}
 		animated.setScale(0.75f);
         animated.setPosition(dynamics.m_position);
-        animated.setAnchor(gf::Anchor::Center);
+        animated.setAnchor(gf::Anchor::Center);		
         target.draw(animated);
         
     }
