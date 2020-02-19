@@ -389,6 +389,7 @@ int main() {
 			if(skip.isActive()){
 				intro = 4;
 				dialogs.muteAll();
+				music.toggleMute();
 			}
 			
 			std::string CompleteString;
@@ -418,6 +419,7 @@ int main() {
 				
 			}else if(intro == 3){
 				dialogs.muteAll();
+				
 				mainView.setSize(ViewSizeIntroTitre);
 				renderer.setView(mainView);
 
@@ -436,6 +438,7 @@ int main() {
 				textIntro.setAlignment(gf::Alignment::Left);
 				textIntro.setCharacterSize(140);
 				textIntro.setPosition(textKBGPosition);
+				music.toggleMute();
 			}
 			
 			textIntro.setString(currentString);
