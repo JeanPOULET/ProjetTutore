@@ -320,8 +320,10 @@ int main() {
 
 	gf::Action commands("Commands");
 	commands.addScancodeKeyControl(gf::Scancode::C);
-	commands.setContinuous();
+	commands.setInstantaneous();
 	actions.addAction(commands);
+
+	bool cmd = false;
 
 	//Physics
 	KGB::Physics physics(objs,layers,bebeHero, vilains, bonus);
@@ -608,26 +610,34 @@ int main() {
 			}
 
 			if(commands.isActive()){
-			gf::Text affCommandsActive("z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite", font);
-				affCommandsActive.setCharacterSize(10);
-				affCommandsActive.setColor(gf::Color::Black);
-				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
-				affCommandsActive.setPosition(posCommands);
-				affCommandsActive.setParagraphWidth(1000.0f);
-				affCommandsActive.setAlignment(gf::Alignment::Left);
-				affCommandsActive.setAnchor(gf::Anchor::TopLeft);
-				renderer.draw(affCommandsActive);
-			}else{
-				gf::Text affCommands("c: Afficher les commandes", font);
-				affCommands.setCharacterSize(10);
-				affCommands.setColor(gf::Color::Black);
-				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
-				affCommands.setPosition(posCommands);
-				affCommands.setParagraphWidth(1000.0f);
-				affCommands.setAlignment(gf::Alignment::Left);
-				affCommands.setAnchor(gf::Anchor::TopLeft);
-				renderer.draw(affCommands);
+				if(!cmd){
+					cmd = true;
+				}else{
+					cmd = false;
+				}
 			}
+				if(cmd){
+					gf::Text affCommandsActive("z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite", font);
+					affCommandsActive.setCharacterSize(10);
+					affCommandsActive.setColor(gf::Color::Black);
+					gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
+					affCommandsActive.setPosition(posCommands);
+					affCommandsActive.setParagraphWidth(1000.0f);
+					affCommandsActive.setAlignment(gf::Alignment::Left);
+					affCommandsActive.setAnchor(gf::Anchor::TopLeft);
+					renderer.draw(affCommandsActive);
+				}else{
+					gf::Text affCommands("c: Afficher les commandes", font);
+					affCommands.setCharacterSize(10);
+					affCommands.setColor(gf::Color::Black);
+					gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
+					affCommands.setPosition(posCommands);
+					affCommands.setParagraphWidth(1000.0f);
+					affCommands.setAlignment(gf::Alignment::Left);
+					affCommands.setAnchor(gf::Anchor::TopLeft);
+					renderer.draw(affCommands);
+				}
+			
 			renderer.setView(hudView);
 			renderer.display();
 			actions.reset();
