@@ -9,7 +9,6 @@ namespace KGB {
 	{
 		m_music.setLoop(true);
 		m_music.setVolume(DefaultMusicVolume);
-		m_music.play();
 	}
 
 	void BackgroundMusic::toggleMute() {
