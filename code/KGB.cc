@@ -318,6 +318,11 @@ int main() {
 	stunningDiapers.setContinuous();
 	actions.addAction(stunningDiapers);
 
+	gf::Action commands("Commands");
+	commands.addScancodeKeyControl(gf::Scancode::C);
+	commands.setContinuous();
+	actions.addAction(commands);
+
 	//Physics
 	KGB::Physics physics(objs,layers,bebeHero, vilains, bonus);
 
@@ -493,17 +498,13 @@ int main() {
 			}
 			
 			if(invisibleDiapers.isActive()){ 
-	
 				bebeHero.setInvisible(3*FRAME);
-
 			}
 
 			if(speedDiapers.isActive()){ 
-	
 				bebeHero.setSpeed(3*FRAME);
-
 			}
-			
+					
 			if(leftAction.isActive() && !downAction.isActive() && !upAction.isActive()){
 				if(bebeHero.getSpeedActive()){
 					if(velocity.x > -VitesseMax*2){
@@ -603,15 +604,27 @@ int main() {
 				debug.render(renderer);
 			}
 
-			gf::Text textBasIntro("c : afficher les commandes", font);
-			textBasIntro.setCharacterSize(7);
-			textBasIntro.setColor(gf::Color::Red);
-			gf::Vector2f pos(bebeHero.getPosition().x - 310, bebeHero.getPosition().y - 290);
-			textBasIntro.setPosition(pos);
-			textBasIntro.setParagraphWidth(1000.0f);
-			textBasIntro.setAlignment(gf::Alignment::Center);
-			textBasIntro.setAnchor(gf::Anchor::Center);
-			renderer.draw(textBasIntro);
+			if(commands.isActive()){
+			gf::Text affCommandsActive("z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite", font);
+				affCommandsActive.setCharacterSize(10);
+				affCommandsActive.setColor(gf::Color::Black);
+				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
+				affCommandsActive.setPosition(posCommands);
+				affCommandsActive.setParagraphWidth(1000.0f);
+				affCommandsActive.setAlignment(gf::Alignment::Left);
+				affCommandsActive.setAnchor(gf::Anchor::TopLeft);
+				renderer.draw(affCommandsActive);
+			}else{
+				gf::Text affCommands("c: Afficher les commandes", font);
+				affCommands.setCharacterSize(10);
+				affCommands.setColor(gf::Color::Black);
+				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
+				affCommands.setPosition(posCommands);
+				affCommands.setParagraphWidth(1000.0f);
+				affCommands.setAlignment(gf::Alignment::Left);
+				affCommands.setAnchor(gf::Anchor::TopLeft);
+				renderer.draw(affCommands);
+			}
 			renderer.setView(hudView);
 			renderer.display();
 			actions.reset();
