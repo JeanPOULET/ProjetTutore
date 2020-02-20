@@ -161,7 +161,6 @@ namespace KGB{
             PhysicsMaker maker(m_world,m_objs);
             layers.visitLayers(maker);
             
-            
             m_world.SetContactListener(&m_contactListener);
             
             //BABY
