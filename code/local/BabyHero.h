@@ -53,6 +53,8 @@ namespace KGB{
 			void setStun();
             int getNbStunning();
             bool getSpeedActive();
+            int getInvi();
+            int getSpeed();
 
         private:
             Dynamics dynamics;
