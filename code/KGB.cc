@@ -20,6 +20,7 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <string>
 
 #include <SFML/Audio.hpp>
 
@@ -324,8 +325,10 @@ int main() {
 
 	gf::Action commands("Commands");
 	commands.addScancodeKeyControl(gf::Scancode::C);
-	commands.setContinuous();
+	commands.setInstantaneous();
 	actions.addAction(commands);
+
+	bool cmd = false;
 
 	//Physics
 	KGB::Physics physics(objs,layers,bebeHero, vilains, bonus);
@@ -373,6 +376,8 @@ int main() {
 	gf::Sprite backgroundSprite(background);
 	backgroundSprite.setPosition(backgroundPosition);
 	dialogs.playFranchement();
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+    
 	while (window.isOpen()) {
 		if(state == GameState::INTRO){
 			gf::Event event;
@@ -475,16 +480,19 @@ int main() {
 				timer(clock, 2);
 				mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
+				start = std::chrono::system_clock::now();
 			}
 			if(intro > 3){
 				mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
+				start = std::chrono::system_clock::now();
 			}
 		}
 
 		
 		//Début du jeu
 		if(state == GameState::PLAYING){
+			
 			gf::Event event;
 			while (window.pollEvent(event)) {
 				actions.processEvent(event);
@@ -612,8 +620,16 @@ int main() {
 			}
 
 			if(commands.isActive()){
-			gf::Text affCommandsActive("z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite", font);
-				affCommandsActive.setCharacterSize(10);
+				if(!cmd){
+					cmd = true;
+				}else{
+					cmd = false;
+				}
+			}
+			if(cmd){
+				std::string str = "z: Avancer\ns: Reculer\nq: Gauche\nd: Droite\nclic gauche: Sprint\nclic droit: Invisibilite";
+				gf::Text affCommandsActive(str, font);
+				affCommandsActive.setCharacterSize(12);
 				affCommandsActive.setColor(gf::Color::Black);
 				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
 				affCommandsActive.setPosition(posCommands);
@@ -623,7 +639,7 @@ int main() {
 				renderer.draw(affCommandsActive);
 			}else{
 				gf::Text affCommands("c: Afficher les commandes", font);
-				affCommands.setCharacterSize(10);
+				affCommands.setCharacterSize(12);
 				affCommands.setColor(gf::Color::Black);
 				gf::Vector2f posCommands(bebeHero.getPosition().x - 390, bebeHero.getPosition().y - 290);
 				affCommands.setPosition(posCommands);
@@ -632,6 +648,32 @@ int main() {
 				affCommands.setAnchor(gf::Anchor::TopLeft);
 				renderer.draw(affCommands);
 			}
+
+			/*std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+			std::string s(30, '\0');
+			std::strftime(&s[0], s.size(), "%Y-%m-%d %H:%M:%S\n", std::localtime(&now));*/
+
+			end = std::chrono::system_clock::now();
+
+			int milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
+			//int elapsed_time2 = std::chrono::duration_cast<std::chrono::seconds>(end-start).count();
+			int seconds = milliseconds / 1000;
+			milliseconds %= 1000;
+
+			int minutes = seconds / 60;
+			seconds %= 60;
+			std::string timer = "Temps : " + std::to_string(minutes) + "min" + std::to_string(seconds) + "sec" + "\nnb invi: "+ std::to_string(bebeHero.getInvi())+"\nnb speed: "+std::to_string(bebeHero.getSpeed());
+			gf::Text affTimer(timer.c_str(), font);
+			affTimer.setCharacterSize(12);
+			affTimer.setColor(gf::Color::Red);
+			gf::Vector2f posCommands(bebeHero.getPosition().x + 390, bebeHero.getPosition().y - 290);
+			affTimer.setPosition(posCommands);
+			affTimer.setParagraphWidth(1000.0f);
+			affTimer.setAlignment(gf::Alignment::Right);
+			affTimer.setAnchor(gf::Anchor::TopRight);
+			renderer.draw(affTimer);
+			
 			renderer.setView(hudView);
 			renderer.display();
 			actions.reset();

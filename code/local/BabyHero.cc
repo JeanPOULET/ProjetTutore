@@ -42,6 +42,13 @@ namespace KGB{
 		m_InvisibleBonusSound.setVolume(SoundVolume);
     }
 
+	int BabyHero::getInvi(){
+		return speed_muni;
+	}
+
+	int BabyHero::getSpeed(){
+		return invi_muni;
+	}
 
     void BabyHero::setVelocity(gf::Vector2f velocity) {
         dynamics.m_velocity = velocity;  
