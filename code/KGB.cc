@@ -45,6 +45,7 @@ enum GameState{
 	GAMEOVER
 };
 
+
 void timer(gf::Clock clockss, float seconds){
 	gf::Clock clock;
 
@@ -96,6 +97,7 @@ int main() {
 	//Messages handlers
 
 	GameState state = GameState::INTRO;
+	bool clef = false;
 
 	KGB::gMessageManager().registerHandler<KGB::GameOver>([&state](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::GameOver::type);
@@ -105,10 +107,12 @@ int main() {
 		return gf::MessageStatus::Die;
   	});
 
-	KGB::gMessageManager().registerHandler<KGB::Clef>([&state](gf::Id type, gf::Message *msg) {
+	KGB::gMessageManager().registerHandler<KGB::Clef>([&state,&clef](gf::Id type, gf::Message *msg) {
 		assert(type == KGB::Clef::type);
+		clef=true;
 		gf::unused(type, msg);
 		gf::Log::debug("Clef recupérée");
+		
 		/*gf::Text textClef;
 		gf::Vector2f posTexte();	
 		textClef.setPosition(posTexte);
