@@ -47,15 +47,30 @@ enum GameState{
 };
 
 
-void timer(gf::Clock clockss, float seconds){
+void timer(float seconds){
 	gf::Clock clock;
-
 	gf::Time actualTime = gf::seconds(0);
 	gf::Time timeToWait = gf::seconds(seconds);
 	while(actualTime<timeToWait){
 		actualTime = clock.getElapsedTime();
 	}
 }
+
+void timerStart(std::chrono::time_point<std::chrono::system_clock>&startTimer){
+	startTimer = std::chrono::system_clock::now();
+}
+
+bool timerEnd(int timeWait, std::chrono::time_point<std::chrono::system_clock>&startTimer, std::chrono::time_point<std::chrono::system_clock>&endTimer, gf::Action &closeWindowAction, gf::Window &window){
+	endTimer = std::chrono::system_clock::now();
+	int actual = std::chrono::duration_cast<std::chrono::seconds>(endTimer-startTimer).count();
+	if(closeWindowAction.isActive()){
+		actual = timeWait;
+
+	}
+	return actual == timeWait;
+
+}
+
 
 int main() {
 	
@@ -94,6 +109,8 @@ int main() {
 	// entity
 	gf::EntityContainer mainEntities;
 
+	std::chrono::time_point<std::chrono::system_clock> startTimer, endTimer;
+	int launchTimer = 0;
 
 	//Messages handlers
 
@@ -113,18 +130,6 @@ int main() {
 		clef=true;
 		gf::unused(type, msg);
 		gf::Log::debug("Clef recupérée");
-		
-		/*gf::Text textClef;
-		gf::Vector2f posTexte();	
-		textClef.setPosition(posTexte);
-		gf::Font font("../data/KGB/Pokemon_Classic.ttf");
-		textClef.setFont(font);
-		textClef.setParagraphWidth(1700.0f);
-		textClef.setAlignment(gf::Alignment::Center);
-		textClef.setAnchor(gf::Anchor::Center);
-		textClef.setCharacterSize(30);
-		textClef.setColor(gf::Color::Black);
-		renderer.draw(textClef)*/
 		return gf::MessageStatus::Keep;
   	});
 
@@ -437,7 +442,7 @@ int main() {
 				renderer.setView(mainView);
 
 				if(nbCharToSelect >= 2){
-					timer(clock, 1.0);
+					timer(1.0);
 				}
 				
 				CompleteString  = "K.G.B.";
@@ -466,7 +471,7 @@ int main() {
 			renderer.draw(textIntro);
 			renderer.draw(textBasIntro);
 			renderer.display();
-			timer(clock, 0.04);
+			timer(0.04);
 			introAction.reset();
 			
 			if(!space.isActive()){
@@ -477,7 +482,7 @@ int main() {
 			}
 
 			if(intro == 3 && currentString == "K.G.B."){
-				timer(clock, 2);
+				timer(2.0);
 				mainView.setSize(ViewSizeJeu);
 				state = GameState::PLAYING;
 				start = std::chrono::system_clock::now();
@@ -619,6 +624,30 @@ int main() {
 				debug.render(renderer);
 			}
 
+			if(clef){
+				
+				if(launchTimer == 0){
+					timerStart(startTimer);
+					launchTimer = 1;
+				}
+				gf::Text textClef("Oui j'ai la clef ! Elle devrait ouvrir la grille a cote du grand panneau !", font);
+				gf::Vector2f posTexte(bebeHero.getPosition().x, bebeHero.getPosition().y + 200);	
+				textClef.setPosition(posTexte);
+				gf::Font font("../data/KGB/Pokemon_Classic.ttf");
+				textClef.setParagraphWidth(1000.0f);
+				textClef.setAlignment(gf::Alignment::Center);
+				textClef.setAnchor(gf::Anchor::Center);
+				textClef.setCharacterSize(12);
+				textClef.setColor(gf::Color::Black);
+
+				renderer.draw(textClef);
+				
+				if(timerEnd(3, startTimer, endTimer, closeWindowAction,window)){
+					clef = false;
+					launchTimer = 0;
+				}
+			}
+
 			if(commands.isActive()){
 				if(!cmd){
 					cmd = true;
@@ -649,20 +678,13 @@ int main() {
 				renderer.draw(affCommands);
 			}
 
-			/*std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
-			std::string s(30, '\0');
-			std::strftime(&s[0], s.size(), "%Y-%m-%d %H:%M:%S\n", std::localtime(&now));*/
-
 			end = std::chrono::system_clock::now();
-
 			int milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
-			//int elapsed_time2 = std::chrono::duration_cast<std::chrono::seconds>(end-start).count();
 			int seconds = milliseconds / 1000;
 			milliseconds %= 1000;
-
 			int minutes = seconds / 60;
 			seconds %= 60;
+
 			std::string timer = "Temps : " + std::to_string(minutes) + "min" + std::to_string(seconds) + "sec" + "\nnb invi: "+ std::to_string(bebeHero.getInvi())+"\nnb speed: "+std::to_string(bebeHero.getSpeed());
 			gf::Text affTimer(timer.c_str(), font);
 			affTimer.setCharacterSize(12);
@@ -680,6 +702,15 @@ int main() {
 		}
 
 		if(state == GameState::GAMEOVER){
+			gf::Event event;
+			while (window.pollEvent(event)) {
+				actions.processEvent(event);
+				views.processEvent(event);
+			}
+			if(launchTimer == 0){
+				timerStart(startTimer);
+				launchTimer = 1;
+			}
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
@@ -692,9 +723,20 @@ int main() {
 			textGameOver.setAnchor(gf::Anchor::Center);
 			renderer.draw(textGameOver);
 			renderer.display();
-			timer(clock, 3.0);
-			break;
+			if(timerEnd(3, startTimer, endTimer, closeWindowAction, window)){
+				break;
+			}
+			actions.reset();
 		}else if(state == GameState::VICTORY){
+			gf::Event event;
+			while (window.pollEvent(event)) {
+				actions.processEvent(event);
+				views.processEvent(event);
+			}
+			if(launchTimer == 0){
+				timerStart(startTimer);
+				launchTimer = 1;
+			}
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
 			renderer.clear();
@@ -707,8 +749,12 @@ int main() {
 			textVictoire.setAnchor(gf::Anchor::Center);
 			renderer.draw(textVictoire);
 			renderer.display();
-			timer(clock, 3.0);
-			break;
+			if(timerEnd(3, startTimer, endTimer, closeWindowAction, window)){
+				break;
+			}
+				
+			actions.reset();
+
 		}
 
 	}
