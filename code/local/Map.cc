@@ -114,16 +114,16 @@ namespace KGB {
                    		position = randomClefPositions[gRandom().computeUniformInteger(0,2)];
             			type = ObjectType::CLEF;
 					break;
-					case 552 : 
+					case 552 :  //Grille
 						type = ObjectType::ENTRY;
 					break;
-					case 553 : 
+					case 553 :  //Grille
 						type = ObjectType::ENTRY;
 					break;
-					case 554 : 
+					case 554 :  //Grille
 						type = ObjectType::ENTRY;
 					break;
-					default :
+					default :   //Autre
 						type = ObjectType::OTHER;
 					break;
 				}

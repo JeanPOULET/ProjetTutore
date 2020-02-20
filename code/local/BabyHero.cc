@@ -190,7 +190,6 @@ namespace KGB{
 			case  ObjectType::ENTRY:
 				if(libre){
 					Victory message;
-					//message.position = m_position;
 					gMessageManager().sendMessage(&message);
 					gf::Log::debug("LA VICTOIRE\n");
 				}
@@ -208,19 +207,19 @@ namespace KGB{
 					case DataType::Bonus_Type::STUNNING_DIAPERS:
 						++stun_muni;
 						gf::Log::debug("Projectile %d:\n", invi_muni);
-						break;
+					break;
 					case DataType::Bonus_Type::INVISIBLE_DIAPERS:
 						++invi_muni;
 						gf::Log::debug("Invisible %d:\n", invi_muni);
-						break;
+					break;
 					case DataType::Bonus_Type::SPEED_DIAPERS:
 						++speed_muni;
 						gf::Log::debug("Projectile %d:\n", invi_muni);
-						break;
+					break;
 					default : 
 						++stun_muni;
 						gf::Log::debug("(Default) Projectile : %d:\n", invi_muni);
-						break;
+					break;
 				}
 			break;
 			default:
@@ -279,19 +278,17 @@ namespace KGB{
 	
 		setPosition(Physics::toVec(m_body->GetPosition()));
 		if(timeout > 0){
-			
 			--timeout;
-			
 		}else{
 			invi_active = false;
 			speed_active = false;
-			
 		}
-			if(m_ennemycontact.size() > 0 && !invi_active){
-				gf::Log::debug("Un garde m'a repéré!\n");
-				GameOver message;
-				gMessageManager().sendMessage(&message);
-			}
+
+		if(m_ennemycontact.size() > 0 && !invi_active){
+			gf::Log::debug("Un garde m'a repéré!\n");
+			GameOver message;
+			gMessageManager().sendMessage(&message);
+		}
 
     }
 	
@@ -306,7 +303,7 @@ namespace KGB{
 	void BabyHero::setStun(){
 	
 		--stun_muni;
-		gf::Log::info("munition : %d\n", stun_muni);
+		gf::Log::info("munition stun : %d\n", stun_muni);
 
 	}
 	
@@ -318,7 +315,7 @@ namespace KGB{
 			invi_active = false;
 			timeout = time;
 			--speed_muni;
-			gf::Log::info("munition : %d\n", speed_muni);
+			gf::Log::info("munition speed : %d\n", speed_muni);
 		}
 	}
 
@@ -330,7 +327,7 @@ namespace KGB{
 			speed_active = false;
 			timeout = time;
 			--invi_muni;
-			gf::Log::info("munition : %d\n", invi_muni);
+			gf::Log::info("munition inv : %d\n", invi_muni);
 		}
     }
 	
