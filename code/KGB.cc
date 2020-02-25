@@ -73,7 +73,7 @@ bool timerEnd(int timeWait, std::chrono::time_point<std::chrono::system_clock>&s
 
 
 int main() {
-	
+	int img = 1;
 	
 	static constexpr gf::Vector2u ScreenSize(1024, 768);
 	static constexpr gf::Vector2f ViewSizeIntro(2048, 1024); 
@@ -700,8 +700,9 @@ int main() {
 			renderer.display();
 			actions.reset();
 		}
-
+		
 		if(state == GameState::GAMEOVER){
+			
 			gf::Event event;
 			while (window.pollEvent(event)) {
 				actions.processEvent(event);
@@ -711,19 +712,43 @@ int main() {
 				timerStart(startTimer);
 				launchTimer = 1;
 			}
+			mainView.setSize(ViewSizeIntro);
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
-			renderer.clear();
-			gf::Text textGameOver("Tu t'es fait chopper !!", font);
+			renderer.clear(gf::Color::Black);
+			
+			gf::Sprite backgroundSpriteEnd;
+			std::string nameImg;
+			if(img == 1){
+				nameImg = "../data/KGB/Image/game_over1.png";
+			}else if(img == 2){
+				nameImg = "../data/KGB/Image/game_over2.png";
+			}else if(img ==3){
+				nameImg = "../data/KGB/Image/game_over3.png";
+			}
+			gf::Texture backgroundEnd(nameImg);
+			backgroundSpriteEnd.setTexture(backgroundEnd);
+			backgroundSpriteEnd.setPosition(backgroundPosition);
+			
+			
+
+			/*gf::Text textGameOver("Tu t'es fait chopper !!", font);
 			textGameOver.setCharacterSize(20);
 			textGameOver.setColor(gf::Color::Black);
 			textGameOver.setPosition(introPos);
 			textGameOver.setParagraphWidth(1000.0f);
 			textGameOver.setAlignment(gf::Alignment::Center);
 			textGameOver.setAnchor(gf::Anchor::Center);
-			renderer.draw(textGameOver);
+			renderer.draw(textGameOver);*/
+			renderer.draw(backgroundSpriteEnd);
 			renderer.display();
-			if(timerEnd(3, startTimer, endTimer, closeWindowAction, window)){
+
+			if(img == 3){
+				img = 1;
+			}else{
+				img++;
+			}
+			if(timerEnd(8, startTimer, endTimer, closeWindowAction, window)){
 				break;
 			}
 			actions.reset();
