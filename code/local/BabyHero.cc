@@ -43,11 +43,11 @@ namespace KGB{
     }
 
 	int BabyHero::getInvi(){
-		return speed_muni;
+		return invi_muni;
 	}
 
 	int BabyHero::getSpeed(){
-		return invi_muni;
+		return speed_muni;
 	}
 
     void BabyHero::setVelocity(gf::Vector2f velocity) {
