@@ -239,16 +239,20 @@ int main() {
 		mainEntities.addEntity(vilains[i]);
 	}
 	
-	static constexpr gf::Vector2u posBonus1(33*51,32*4);
-	static constexpr gf::Vector2u posBonus2(34*51,32*4);
-	static constexpr gf::Vector2u posBonus3(35*51,32*4);
+	//static constexpr gf::Vector2u posBonus1(997,32*4);
+	static constexpr gf::Vector2u posBonusInvisible1(997,1612);  //Chambre 1
+	static constexpr gf::Vector2u posBonusInvisible2(1409,2430); //Salle de jeux
+	static constexpr gf::Vector2u posBonusSpeed1(1954,2208);     //Salle à pots 
+	static constexpr gf::Vector2u posBonusSpeed2(2130,1072);     //Salle a droite de la fontaine 
 	
-	
-	KGB::Bonus Couche1(posBonus1, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
-	KGB::Bonus Couche2(posBonus2, KGB::DataType::Bonus_Type::INVISIBLE_DIAPERS);
-	KGB::Bonus Couche3(posBonus3, KGB::DataType::Bonus_Type::SPEED_DIAPERS);
+	//KGB::Bonus Couche1(posBonus1, KGB::DataType::Bonus_Type::STUNNING_DIAPERS);
+	KGB::Bonus CoucheInvisible1(posBonusInvisible1, KGB::DataType::Bonus_Type::INVISIBLE_DIAPERS);
+	KGB::Bonus CoucheInvisible2(posBonusInvisible2, KGB::DataType::Bonus_Type::INVISIBLE_DIAPERS);
 
-	std::vector<KGB::Bonus> bonus = {Couche1, Couche2, Couche3};
+	KGB::Bonus CoucheSpeed1(posBonusSpeed1, KGB::DataType::Bonus_Type::SPEED_DIAPERS);
+	KGB::Bonus CoucheSpeed2(posBonusSpeed2, KGB::DataType::Bonus_Type::SPEED_DIAPERS);
+
+	std::vector<KGB::Bonus> bonus = {CoucheInvisible1,CoucheInvisible2, CoucheSpeed1, CoucheSpeed2};
 	
 	for(std::size_t i = 0; i < bonus.size(); i++){
 		mainEntities.addEntity(bonus[i]);	
