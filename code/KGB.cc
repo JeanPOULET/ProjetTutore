@@ -734,16 +734,17 @@ int main() {
 			backgroundSpriteEnd.setTexture(backgroundEnd);
 			backgroundSpriteEnd.setPosition(backgroundPosition);
 			
-			
+			static constexpr gf::Vector2u gameOverPos(32*51,32*12);
 
-			/*gf::Text textGameOver("Tu t'es fait chopper !!", font);
-			textGameOver.setCharacterSize(20);
-			textGameOver.setColor(gf::Color::Black);
-			textGameOver.setPosition(introPos);
+			gf::Text textGameOver("Tu t'es fait chopper !!", font);
+			textGameOver.setCharacterSize(50);
+			textGameOver.setColor(gf::Color::White);
+			textGameOver.setPosition(gameOverPos);
 			textGameOver.setParagraphWidth(1000.0f);
 			textGameOver.setAlignment(gf::Alignment::Center);
 			textGameOver.setAnchor(gf::Anchor::Center);
-			renderer.draw(textGameOver);*/
+
+			renderer.draw(textGameOver);
 			renderer.draw(backgroundSpriteEnd);
 			renderer.display();
 
@@ -752,7 +753,7 @@ int main() {
 			}else{
 				img++;
 			}
-			if(timerEnd(8, startTimer, endTimer, closeWindowAction, window)){
+			if(timerEnd(5, startTimer, endTimer, closeWindowAction, window)){
 				break;
 			}
 			actions.reset();
@@ -766,24 +767,36 @@ int main() {
 				timerStart(startTimer);
 				launchTimer = 1;
 			}
+			mainView.setSize(ViewSizeIntro);
 			mainView.setCenter(introPos);
 			renderer.setView(mainView);
-			renderer.clear();
+			renderer.clear(gf::Color::Black);
+
+			gf::Sprite backgroundSpriteEnd;
+			gf::Texture backgroundEnd("../data/KGB/Image/victoire.png");
+			backgroundSpriteEnd.setTexture(backgroundEnd);
+			backgroundSpriteEnd.setPosition(backgroundPosition);
+
+			static constexpr gf::Vector2u victoryPos(32*51,32*12);
+
 			gf::Text textVictoire("Bravo ! Le petit Jacob est libre", font);
-			textVictoire.setCharacterSize(20);
-			textVictoire.setColor(gf::Color::Black);
-			textVictoire.setPosition(introPos);
+			textVictoire.setCharacterSize(50);
+			textVictoire.setColor(gf::Color::White);
+			textVictoire.setPosition(victoryPos);
 			textVictoire.setParagraphWidth(1000.0f);
 			textVictoire.setAlignment(gf::Alignment::Center);
 			textVictoire.setAnchor(gf::Anchor::Center);
+
+			renderer.draw(backgroundSpriteEnd);
 			renderer.draw(textVictoire);
 			renderer.display();
-			if(timerEnd(3, startTimer, endTimer, closeWindowAction, window)){
+
+			if(timerEnd(5, startTimer, endTimer, closeWindowAction, window)){
 				break;
 			}
 				
 			actions.reset();
-
+				
 		}
 
 	}
