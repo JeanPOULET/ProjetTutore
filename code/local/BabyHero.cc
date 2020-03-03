@@ -206,7 +206,7 @@ namespace KGB{
 				switch(filter){
 					case DataType::Bonus_Type::STUNNING_DIAPERS:
 						++stun_muni;
-						gf::Log::debug("Projectile %d:\n", invi_muni);
+						gf::Log::debug("Projectile %d:\n", stun_muni);
 					break;
 					case DataType::Bonus_Type::INVISIBLE_DIAPERS:
 						++invi_muni;
@@ -214,11 +214,11 @@ namespace KGB{
 					break;
 					case DataType::Bonus_Type::SPEED_DIAPERS:
 						++speed_muni;
-						gf::Log::debug("Projectile %d:\n", invi_muni);
+						gf::Log::debug("Projectile %d:\n", speed_muni);
 					break;
 					default : 
 						++stun_muni;
-						gf::Log::debug("(Default) Projectile : %d:\n", invi_muni);
+						gf::Log::debug("(Default) Projectile : %d:\n", stun_muni);
 					break;
 				}
 			break;

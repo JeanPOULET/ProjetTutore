@@ -121,7 +121,7 @@ int main() {
 		assert(type == KGB::GameOver::type);
 		gf::unused(type, msg);
 		state = GameState::GAMEOVER;
-		gf::Log::debug("J'ai perdu");
+		gf::Log::debug("J'ai perdu\n");
 		return gf::MessageStatus::Die;
   	});
 
@@ -129,7 +129,7 @@ int main() {
 		assert(type == KGB::Clef::type);
 		clef=true;
 		gf::unused(type, msg);
-		gf::Log::debug("Clef recupérée");
+		gf::Log::debug("Clef recupérée\n");
 		return gf::MessageStatus::Keep;
   	});
 
@@ -137,7 +137,7 @@ int main() {
 		assert(type == KGB::Victory::type);
 		gf::unused(type, msg);
 		state = GameState::VICTORY;
-		gf::Log::debug("J'ai gagné");
+		gf::Log::debug("J'ai gagné\n");
 		return gf::MessageStatus::Die;
   	});
 
