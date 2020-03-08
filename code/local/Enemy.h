@@ -60,8 +60,8 @@ namespace KGB{
             void rotation();
             void timer(float seconds);
             void viewCone();
-            virtual void startContact(int contactwith);
-            virtual void endContact(int contactwith);
+            void startContact(int contactwith);
+            void endContact(int contactwith);
             void setBodyPhysics(b2World& world);
 	    	void updatePhysics_set();
 	    	void updatePhysics_correction();

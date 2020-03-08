@@ -26,7 +26,7 @@ namespace KGB {
 		public:
 
 			Map(MapGraphicsData& data);
-			virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) ;
+			void render(gf::RenderTarget& target, const gf::RenderStates& states) ;
 
 		private:
 
