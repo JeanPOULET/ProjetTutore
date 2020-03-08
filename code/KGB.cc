@@ -159,7 +159,7 @@ int main() {
   	KGB::Map map(data);
 
 	mainEntities.addEntity(map);
-	for(auto ob : objs){
+	for(auto& ob : objs){
 		mainEntities.addEntity(ob);
 	}
 
